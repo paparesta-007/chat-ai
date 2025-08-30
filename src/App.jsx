@@ -6,6 +6,7 @@ import { createClient } from "@supabase/supabase-js";
 import Login from "./Login/Login.jsx";
 
 import supabase from "../src/library/supabaseclient.js";
+import Pricing from "./Pricing/Pricing.jsx";
 function App() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -51,9 +52,9 @@ function App() {
                     path="/chat"
                     element={user ? <ChatPage /> : <Navigate to="/login" />}
                 />
-
+                <Route path="/pricing" element={<Pricing/>} />
                 {/* Catch-all */}
-                <Route path="*" element={<Navigate to="/" />} />
+                <Route path="*" element={<>Page Not Found</>} />
             </Routes>
         </BrowserRouter>
     );
