@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+:root{
+    --color-primary: #7a7e7d;
+    --background-Primary: #171717;
+    --border-primary: #2c2c2c;
+}
+@media (prefers-color-scheme: dark) {
+    --color-primary: #e0e0e0;
+    --background-Primary: #171717;
+}
+/*--------- Login Page --------- */
+.btnLogin {
+    @apply w-[300px] h-[50px] flex items-center gap-2 text-[var(--color-primary)]  bg-[#242424] px-4 py-1 rounded-xl border border-[var(--border-primary)];
+}
+.popup {
+    @apply fixed bottom-10 right-10 px-4 py-2 rounded-lg text-white bg-[#242424] flex items-center justify-center;
+}
+
+/*--------- Chat Page --------- */
+.chat-container {
+
+}
+.user-container {
+    @apply flex items-center gap-2;
+}
