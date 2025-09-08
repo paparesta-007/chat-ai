@@ -2,20 +2,29 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, } from "react-router";
 import discoverIcon from "../../assets/discover.svg";
 import supabase from "../../library/supabaseclient.js";
+import getAllConversations from "../../services/getConversations.js";
 const Leftbar = () => {
     const [user, setUser] = useState(null);
     const [isSettingOpen, setIsSettingOpen] = useState(false);
+    const [conversations, setConversations] = useState([]);
     const navigate = useNavigate();
     useEffect(() => {
-        supabase.auth.getSession().then(({ data: { session } }) => {
+        const fetchConversations = async () => {
+            const { data: { session } } = await supabase.auth.getSession();
             if (session) {
                 console.log("Session found");
-                setUser(session.user); // salva l'utente nello stato
+                setUser(session.user);
+
+                const convers = await getAllConversations(session.user.id);
+                console.log(`Number of conversations found: ${convers.length}`)
+                setConversations(convers);
             } else {
                 console.log("No session found");
-                setUser(null); // nessun utente loggato
+                setUser(null);
             }
-        });
+        };
+
+        fetchConversations();
     }, []);
 
     const handleLogout = async () => {
@@ -29,7 +38,7 @@ const Leftbar = () => {
     };
 
     return (
-        <div className="h-screen w-[250px] p-2 bg-[var(--background-Primary)] flex flex-col relative">
+        <div className="h-screen text-white max-w-[200px] p-2 bg-[var(--background-Primary)] flex flex-col relative">
 
         <div>
             <h2>Chat AI</h2>
@@ -37,15 +46,11 @@ const Leftbar = () => {
         </div>
            <div className="chat-container">
 
-            <button>Conversazioneeee</button>
-            <button>Conversazioneeee</button>
-            <button>Conversazioneeee</button>
-            <button>Conversazioneeee</button>
-            <button>Conversazioneeee</button>
-            <button>Conversazioneeee</button>
-            <button>Conversazioneeee</button>
-            <button>Conversazioneeee</button>
-            <button>Conversazioneeee</button>
+               {conversations.length > 0 ? (
+                   conversations.map((conversation) => (
+                       <button key={conversation.id} className=" text-left p-2 border border-transparent cursor-pointer hover:border-[var(--border-primary)] rounded-lg bg-[var(--background-Secondary)]">{conversation.title}</button>
+                   ))
+               ) : <p>No conversations found</p>}
            </div>
            <div className="user-container "
            onClick={() => setIsSettingOpen(!isSettingOpen)}>

@@ -23,7 +23,7 @@
 
 /*--------- Chat Page --------- */
 .chat-container {
-    @apply flex-1 overflow-y-auto; /* riempie lo spazio centrale e scrolla se serve */
+    @apply flex flex-col gap-1  overflow-y-auto; /* riempie lo spazio centrale e scrolla se serve */
 }
 
 .user-container {
