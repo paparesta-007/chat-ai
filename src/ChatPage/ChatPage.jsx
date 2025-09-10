@@ -48,17 +48,24 @@ function ChatPage() {
         try {
             let convId = conversation_id;
 
-
             if (isNewChat) {
                 const titlePrompt = `Write a short title 5-10 word about, return 1 concise phrase, avoid markdown styling : ${prompt}`;
                 const rawTitle = await runChat(titlePrompt);
                 const chatTitle = safeToString(rawTitle);
 
                 const conversation = await createConversation(user_id, chatTitle);
-                convId = conversation?.[0]?.id ?? conversation?.id ?? convId;
-                setConversation_id(convId);
-                console.log("Conversation id: " + convId);
+                console.log("Conversation created?", conversation);
+                // Prendi sempre l'id ritornato dal backend
+                convId = conversation?.[0]?.id ?? conversation?.id;
+
+                if (!convId) {
+                    console.error("❌ createConversation non ha ritornato un id valido:", conversation);
+                    return;
+                }
+
+                setConversation_id(convId); // aggiorna lo stato per le chiamate future
                 setIsNewChat(false);
+                console.log("✅ Nuova conversazione creata con id:", convId);
             }
 
             // Ora convId è sicuro
@@ -94,6 +101,7 @@ function ChatPage() {
 
 
 
+
     const handleSelectConversation = async (conversationId) => {
         // 1) Cambia id conversazione
         setConversation_id(conversationId);
@@ -101,17 +109,14 @@ function ChatPage() {
         // 2) Pulisce il contenitore
         setMessages([]);
 
-        // 3) Carica i messaggi
+        // 3) Imposta flag isNewChat su false, perché stiamo aprendo una conversazione esistente
+        setIsNewChat(false);
+
+        // 4) Carica i messaggi
         const messages = await getMessages(conversationId);
-        if(messages.length===0){
-            console.error("No messages found for conversation id: " + conversationId);
-            return;
-        }
-        setMessages(messages);
-
-
-
+        setMessages(messages || []);
     };
+
 
     const MarkdownRenderer = ({ text }) => {
         const safe = safeToString(text);
@@ -160,7 +165,7 @@ function ChatPage() {
                     ))}
 
                     <button
-                        className="bg-red-500 border-none p-2 rounded-md"
+                        className="bg-red-500 fixed bottom-4 right-4 border  border-red-400 cursor-pointer p-2 rounded-md"
                         onClick={() => handleSendMessageTest()}
                     >
                         Messaggio Test

@@ -1,4 +1,4 @@
-import  supabase  from "../library/supabaseclient.js"
+import supabase from "../library/supabaseclient.js"
 
 const createConversation = async (uuid, title) => {
     const { data, error } = await supabase
@@ -8,16 +8,14 @@ const createConversation = async (uuid, title) => {
             title: title,
             created_at: new Date(),
             updated_at: new Date(),
-        });
+        })
+        .select(); // ← ritorna l’oggetto appena creato con id
 
     if (error) {
-        console.error("Error fetching conversations:", error);
+        console.error("Error creating conversation:", error);
         return [];
     }
-    return data;
+    return data; // data sarà un array [{ id: ..., title: ... }]
 }
 
 export default createConversation;
-
-
-

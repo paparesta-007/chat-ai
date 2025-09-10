@@ -4,7 +4,7 @@ const getAllMessages = async (conversationId) => {
     const {data,error} = await supabase
         .from("messages")
         .select("*")
-        .order("created_at", { ascending: false })
+        .order("created_at", { ascending: true })
         .eq("conversation_id", conversationId);
 
     if (error) {
