@@ -7,6 +7,7 @@ import Login from "./Login/Login.jsx";
 
 import supabase from "../src/library/supabaseclient.js";
 import Pricing from "./Pricing/Pricing.jsx";
+import LandingPage from "./LandingPage/LandingPage.jsx";
 function App() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -39,7 +40,7 @@ function App() {
         <BrowserRouter>
             <Routes>
                 {/* Landing page pubblica */}
-                <Route path="/" element={<><h1>Landing Page</h1></>} />
+                <Route path="/" element={<LandingPage/>} />
 
                 {/* Login */}
                 <Route

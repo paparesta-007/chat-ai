@@ -1,9 +1,12 @@
 @import "tailwindcss";
-
+*{
+    font-family: 'Arial', sans-serif !important;
+}
 :root{
     --color-primary: #7a7e7d;
     --background-Primary: #171717;
     --background-Secondary: #242424;
+    --color-Tertiary: #2ed992;
     --background-Tertiary: #006239;
     --border-primary: #2c2c2c;
     --border-secondary: #363636;
@@ -22,8 +25,9 @@
 }
 
 /*--------- Chat Page --------- */
+
 .chat-container {
-    @apply flex flex-col gap-1  overflow-y-auto; /* riempie lo spazio centrale e scrolla se serve */
+    @apply flex flex-col gap-1  overflow-y-auto ; /* riempie lo spazio centrale e scrolla se serve */
 }
 
 .user-container {
@@ -43,7 +47,12 @@
 .settings button {
     @apply w-full px-2 py-1 rounded-lg text-white flex items-start justify-center;
 }
-
+.actionBtn{
+    @apply text-white items-center hover:bg-[var(--background-Secondary)] rounded-lg py-2 px-1 text-lg flex gap-2
+}
+td,tr{
+    @apply  border-b border-[var(--border-secondary)] p-2
+}
 
 
 /*--------- Pricing Page --------- */
@@ -51,3 +60,5 @@
     @apply bg-[var(--background-Secondary)] border border-[var(--border-secondary)]
     rounded-2xl p-4 flex flex-col items-start gap-2 hover:shadow-[0_0_5px_#006239] hover:border-[var(--border-Tertiary)] transition duration-150;
 }
+
+

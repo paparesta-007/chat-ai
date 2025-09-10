@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import pricingPlans from '../library/pricingplans.js';
-
+import {useNavigate} from "react-router";
 
 const Pricing = () => {
     const [isIndividual, setIsIndividual] = useState(true);
     const plans = pricingPlans[0];
     const selectedPlans = isIndividual ? plans.individual : plans.team;
-
+    const navigate = useNavigate();
     return (
-        <div className="bg-[var(--background-Primary)] p-10 h-screen w-screen overflow-y-auto flex flex-col items-center">
+        <div className="bg-[var(--background-Primary)] relative p-10 h-screen w-screen overflow-y-auto flex flex-col items-center">
 
             <h1 className="text-3xl font-semibold text-white text-center">
                 Choose the plan that best fits your needs
@@ -73,7 +73,31 @@ const Pricing = () => {
                 ))}
             </div>
             <small className="text-[var(--color-primary)]">*22% VAT not included</small>
+            <h2 className="text-2xl font-semibold text-white text-center mt-10">Compare plans</h2>
+            <table className="sm:w-[80%] w-full mt-6 bg-transparent text-white border-collapse">
+                <thead>
+                <tr className="border-b border-gray-600">
+                    <th className="text-left px-4 py-2">Plan</th>
+                    <th className="text-left px-4 py-2">Individual</th>
+                    <th className="text-left px-4 py-2">Team</th>
+                </tr>
+                </thead>
+                <tbody>
+                {/* Rows will go here */}
+                <tr className="border-b border-gray-700">
+                    <td className="px-4 py-2">Basic</td>
+                    <td className="px-4 py-2">✔</td>
+                    <td className="px-4 py-2">✔</td>
+                </tr>
+                <tr className="border-b border-gray-700">
+                    <td className="px-4 py-2">Pro</td>
+                    <td className="px-4 py-2">✔</td>
+                    <td className="px-4 py-2">✔</td>
+                </tr>
+                </tbody>
+            </table>
 
+            <div className="absolute top-2 right-2 cursor-pointer text-white" onClick={() => navigate(-1)}>X</div>
         </div>
     );
 };

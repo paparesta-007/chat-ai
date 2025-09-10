@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
 import googleLogo from "../assets/icons8-logo-di-google.svg";
 import appleLogo from "../assets/icons8-mac-os.svg";
 import microsoftLogo from "../assets/icons8-microsoft.svg";
@@ -83,12 +83,12 @@ const Login = () => {
     return (
         <div className="flex flex-col h-screen bg-[var(--background-Primary)]">
             {/* HEADER */}
-            <header className="p-4 text-2xl text-[var(--color-primary)] font-bold">
-                Chat AI
+            <header className="p-4  text-2xl text-[var(--color-primary)] font-semibold tracking-tight">
+                <Link to="/">Chat AI</Link>
             </header>
 
             {/* MAIN / FORM */}
-            <main className="flex-1 flex justify-center items-center">
+            <main className="flex-1 flex justify-center  items-center">
                 <form
                     className="flex flex-col gap-4 justify-center items-center"
                     onSubmit={handleSubmit}
