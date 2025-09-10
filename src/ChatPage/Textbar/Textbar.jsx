@@ -8,7 +8,7 @@ const TextBar = ( {handleSend,setPrompt} ) => {
                         type="text"
                         placeholder="Type your message"
 
-                        className="px-4 py-2 flex-grow outline-none placeholder:text-[#7a7e7d] "
+                        className="px-4 py-2 flex-grow outline-none text-white placeholder:text-[#7a7e7d] "
                         onChange={(e)=>setPrompt(e.target.value)}
                     />
                     <button onClick={handleSend} className=" p-1.5 bg-[var(--background-Tertiary)] text-white border border-[var(--border-Tertiary)] rounded">

@@ -1,75 +1,174 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Leftbar from "./Leftbar/Leftbar";
 import runChat from "../../api/gemini-generate.js";
 import TextBar from "./Textbar/Textbar.jsx";
 import supabase from "../../src/library/supabaseclient.js";
-import createConversation from "../services/createConversation.js"
+import { marked } from "marked";
+import createMessage from "../services/createMessage.js";
+import createConversation from "../services/createConversation.js";
+import getMessages from "../services/getMessages.js";
+
 function ChatPage() {
     const [prompt, setPrompt] = useState("");
     const [messages, setMessages] = useState([]);
     const [isNewChat, setIsNewChat] = useState(true);
-    const [user_id, setUser_id] = useState(1);
-
+    const [user_id, setUser_id] = useState(null);
+    const [conversation_id, setConversation_id] = useState(null);
+    const messagesEndRef = useRef(null);
     useEffect(() => {
-        getUser()
+        getUser();
     }, []);
 
+    useEffect(() => {
+        console.log("Conversation id: " + conversation_id);
+    }, [conversation_id]);
+
     const getUser = async () => {
-        const { data: { user } } = await supabase.auth.getUser()
-        setUser_id(user.id)
-    }
+        try {
+            const { data: { user } = {} } = await supabase.auth.getUser();
+            if (user?.id) setUser_id(user.id);
+        } catch (err) {
+            console.error("getUser error:", err);
+        }
+    };
+
+    const safeToString = (val) => {
+        if (val == null) return "";
+        if (typeof val === "string") return val;
+        if (typeof val === "object") {
+            // cerca proprietà comuni
+            return val?.text ?? val?.message ?? JSON.stringify(val);
+        }
+        return String(val);
+    };
+
     const handleSend = async () => {
-        if (prompt !== "") {
-            // 1. Aggiungo messaggio utente
-            setMessages((prev) => [...prev, { role: "user", text: prompt }]);
+        if (!prompt || !prompt.trim()) return;
 
-            // 2. Chiamata API
-            const reply = await runChat(prompt);
+        try {
+            let convId = conversation_id;
 
-            // 3. Aggiungo messaggio modello
-            setMessages((prev) => [...prev, { role: "model", text: reply }]);
 
-            // 4. Se è una nuova chat, crea titolo e conversazione
             if (isNewChat) {
-                // Usa direttamente il prompt appena inviato
-                const titlePrompt = `Write a short title (max 5/10 words) that summarizes this message avoid styling, bold, italic, etc : ${prompt}`;
-                const chatTitle = await runChat(titlePrompt);
+                const titlePrompt = `Write a short title 5-10 word about, return 1 concise phrase, avoid markdown styling : ${prompt}`;
+                const rawTitle = await runChat(titlePrompt);
+                const chatTitle = safeToString(rawTitle);
 
-                await createConversation(user_id, chatTitle);
-
+                const conversation = await createConversation(user_id, chatTitle);
+                convId = conversation?.[0]?.id ?? conversation?.id ?? convId;
+                setConversation_id(convId);
+                console.log("Conversation id: " + convId);
                 setIsNewChat(false);
-                alert("Nuova chat creata");
             }
 
-            // 5. Reset input
+            // Ora convId è sicuro
+            const userMessage = {
+                sender: prompt,
+                content: "",
+                conversation_id: convId,
+            };
+
+            // Mostra subito messaggio utente
+            setMessages((prev) => [...prev, userMessage]);
             setPrompt("");
+
+            // Ottieni risposta AI
+            const rawReply = await runChat(prompt);
+            const reply = safeToString(rawReply);
+
+            // Aggiorna l'ultimo messaggio con la risposta AI
+            setMessages((prev) =>
+                prev.map((m, idx) =>
+                    idx === prev.length - 1
+                        ? { ...m, content: reply, conversation_id: convId }
+                        : m
+                )
+            );
+
+            // Salva messaggi sul DB
+            await createMessage(userMessage.sender, reply, convId);
+        } catch (err) {
+            console.error("handleSend error:", err);
         }
     };
 
 
+
+    const handleSelectConversation = async (conversationId) => {
+        // 1) Cambia id conversazione
+        setConversation_id(conversationId);
+
+        // 2) Pulisce il contenitore
+        setMessages([]);
+
+        // 3) Carica i messaggi
+        const messages = await getMessages(conversationId);
+        if(messages.length===0){
+            console.error("No messages found for conversation id: " + conversationId);
+            return;
+        }
+        setMessages(messages);
+
+
+
+    };
+
+    const MarkdownRenderer = ({ text }) => {
+        const safe = safeToString(text);
+        // marked può avere API .parse in alcune versioni, ma marked(safe) funziona generalmente
+        const html = marked(safe || "");
+        return <div dangerouslySetInnerHTML={{ __html: html }} />;
+    };
+
+    const handleSendMessageTest = async () => {
+        if (conversation_id === null) return;
+        console.log(conversation_id);
+        await createMessage(
+            "Chi è Cristiano Ronaldo",
+            "Cristiano Ronaldo è un giocatore di calcio",
+            conversation_id
+        );
+        console.log("Messaggio inviato");
+    };
+
     return (
         <div className="flex bg-black gap-2">
-            <Leftbar />
-            <div className="w-full relative bg-[var(--background-Primary)] overflow-auto flex flex-col px-[20%]">
+            <Leftbar onSelectConversation={handleSelectConversation} />
+            <div className="w-full relative bg-[var(--background-Primary)] overflow-auto flex flex-col sm:px-[5%] md:px-[10%] lg:px-[10%] px-[5%]">
                 {/* sezione messaggi */}
-                <div className="flex-1 overflow-y-auto border overflow-auto h-screen border-red-500 p-4 flex flex-col">
+                <div className="overflow-y current-chat overflow-auto h-screen pb-40 p-4 flex flex-col" ref={messagesEndRef}>
                     {messages.map((m, i) => (
-                        <div
-                            key={i}
-                            className={`mb-2 max-w-[100%] text-white p-2 rounded-xl 
-                             ${m.role === "user"
-                                ? "bg-[var(--background-Tertiary)] border border-[var(--border-Tertiary)] px-4 text-white self-end text-right"
-                                : "tracking-wider"
-                            }`}
-                        >
-                            {m.text}
+                        <div key={i} className="flex flex-col mb-4">
+                            {m.sender ? (
+                                <div
+                                    className={`max-w-[100%] mb-4 text-gray-200 p-2 rounded-xl 
+                    bg-[var(--background-Tertiary)] border border-[var(--border-Tertiary)] px-4 self-end text-right`}
+                                >
+                                    <MarkdownRenderer text={m.sender} />
+                                </div>
+                            ) : null}
+
+                            {m.content ? (
+                                <div
+                                    className={`max-w-[100%] text-gray-200 p-2 rounded-xl 
+                    tracking-wider bg-[var(--background-Secondary)] border border-[var(--border-secondary)] px-4 self-start text-left`}
+                                >
+                                    <MarkdownRenderer text={m.content} />
+                                </div>
+                            ) : null}
                         </div>
                     ))}
+
+                    <button
+                        className="bg-red-500 border-none p-2 rounded-md"
+                        onClick={() => handleSendMessageTest()}
+                    >
+                        Messaggio Test
+                    </button>
                 </div>
 
-
                 {/* barra input */}
-                <TextBar handleSend={handleSend} setPrompt={setPrompt} />
+                <TextBar handleSend={handleSend} setPrompt={setPrompt} prompt={prompt} />
             </div>
         </div>
     );
