@@ -7,6 +7,7 @@ import { marked } from "marked";
 import createMessage from "../services/createMessage.js";
 import createConversation from "../services/createConversation.js";
 import getMessages from "../services/getMessages.js";
+import LandingChat from "./LandingChat/LandingChat.jsx";
 
 function ChatPage() {
     const [prompt, setPrompt] = useState("");
@@ -15,6 +16,7 @@ function ChatPage() {
     const [user_id, setUser_id] = useState(null);
     const [conversation_id, setConversation_id] = useState(null);
     const messagesEndRef = useRef(null);
+    const [isAnswering, setIsAnswering] = useState(false);
     useEffect(() => {
         getUser();
     }, []);
@@ -27,6 +29,7 @@ function ChatPage() {
         try {
             const { data: { user } = {} } = await supabase.auth.getUser();
             if (user?.id) setUser_id(user.id);
+
         } catch (err) {
             console.error("getUser error:", err);
         }
@@ -80,8 +83,10 @@ function ChatPage() {
             setPrompt("");
 
             // Ottieni risposta AI
-            const rawReply = await runChat(prompt);
+            const rawReply = await runChat("You are an helpful assistant, return content in markdown styled with header, bullet list, list, tables if needed prompt:"+prompt);
+            setIsAnswering(true);
             const reply = safeToString(rawReply);
+            setIsAnswering(false);
 
             // Aggiorna l'ultimo messaggio con la risposta AI
             setMessages((prev) =>
@@ -91,6 +96,7 @@ function ChatPage() {
                         : m
                 )
             );
+
 
             // Salva messaggi sul DB
             await createMessage(userMessage.sender, reply, convId);
@@ -122,23 +128,18 @@ function ChatPage() {
         const safe = safeToString(text);
         // marked può avere API .parse in alcune versioni, ma marked(safe) funziona generalmente
         const html = marked(safe || "");
-        return <div dangerouslySetInnerHTML={{ __html: html }} />;
+        console.log(html);
+        return <div className="renderChat" dangerouslySetInnerHTML={{ __html: html }} />;
     };
-
-    const handleSendMessageTest = async () => {
-        if (conversation_id === null) return;
-        console.log(conversation_id);
-        await createMessage(
-            "Chi è Cristiano Ronaldo",
-            "Cristiano Ronaldo è un giocatore di calcio",
-            conversation_id
-        );
-        console.log("Messaggio inviato");
+    const handleNewChat = () => {
+        setIsNewChat(true);
+        setConversation_id(null);
+        setMessages([]);
     };
 
     return (
         <div className="flex bg-black gap-2">
-            <Leftbar onSelectConversation={handleSelectConversation} />
+            <Leftbar onSelectConversation={handleSelectConversation} handleNewChat={handleNewChat} />
             <div className="w-full relative bg-[var(--background-Primary)] overflow-auto flex flex-col sm:px-[5%] md:px-[10%] lg:px-[10%] px-[5%]">
                 {/* sezione messaggi */}
                 <div className="overflow-y current-chat overflow-auto h-screen pb-40 p-4 flex flex-col" ref={messagesEndRef}>
@@ -156,20 +157,22 @@ function ChatPage() {
                             {m.content ? (
                                 <div
                                     className={`max-w-[100%] text-gray-200 p-2 rounded-xl 
-                    tracking-wider bg-[var(--background-Secondary)] border border-[var(--border-secondary)] px-4 self-start text-left`}
+                    tracking-normal  border border-[var(--border-secondary)] px-4 self-start text-left`}
                                 >
                                     <MarkdownRenderer text={m.content} />
                                 </div>
                             ) : null}
                         </div>
                     ))}
+                    {messages.length===0 && <LandingChat/>}
+                    {isAnswering && (
+                        <div className="max-w-[100%] text-gray-200  p-2 rounded-xl
+                    tracking-normal  border border-[var(--border-secondary)] px-4 self-start text-left">
+                        <MarkdownRenderer text="" />
+                    </div>
+                    )}
 
-                    <button
-                        className="bg-red-500 fixed bottom-4 right-4 border  border-red-400 cursor-pointer p-2 rounded-md"
-                        onClick={() => handleSendMessageTest()}
-                    >
-                        Messaggio Test
-                    </button>
+
                 </div>
 
                 {/* barra input */}
