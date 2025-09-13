@@ -170,7 +170,7 @@ const Login = () => {
             </main>
 
             {/* FOOTER */}
-            <footer className="p-4 text-center">
+            <footer className="p-4 text-center text-[var(--color-primary)]">
                 <small>Chat AI &copy; 2025</small>
             </footer>
 

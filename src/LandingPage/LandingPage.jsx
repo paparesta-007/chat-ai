@@ -22,9 +22,11 @@ const LandingPage = () => {
             setUser(session?.user ?? null);
 
         });
+
     }, []);
+
     return (
-        <div className="bg-gray-900 h-full  ">
+        <div className="bg-gray-950 h-full ">
             <header className="absolute inset-x-0 top-0 z-50">
                 <nav aria-label="Global" className="flex items-center justify-between p-6 lg:px-8">
                     {/* Logo on the left */}
@@ -151,7 +153,7 @@ const LandingPage = () => {
                         <div className="mt-10 flex items-center justify-center gap-x-6">
                             <a
                                 href="#"
-                                className="rounded-md bg-[var(--background-Tertiary)] border border-[var(--border-Tertiary)] px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                                className="rounded-md bg-[var(--background-Tertiary)] border border-[var(--border-Tertiary)] px-3.5 py-2.5 ho text-sm font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
                             >
                                 Get started
                             </a>

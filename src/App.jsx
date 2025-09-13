@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import ChatPage from "./ChatPage/ChatPage";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router";
-import { createClient } from "@supabase/supabase-js";
+
 import Login from "./Login/Login.jsx";
 
 import supabase from "../src/library/supabaseclient.js";
@@ -11,7 +11,7 @@ import LandingPage from "./LandingPage/LandingPage.jsx";
 function App() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-
+    
     useEffect(() => {
         // Recupera subito la sessione
         supabase.auth.getSession().then(({ data: { session } }) => {
