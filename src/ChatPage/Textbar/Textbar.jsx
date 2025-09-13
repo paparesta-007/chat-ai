@@ -2,7 +2,7 @@ import React from 'react';
 
 const TextBar = ( {handleSend,setPrompt} ) => {
     return(
-            <div className="flex flex-col items-center absolute bottom-5 left-[50%] translate-x-[-50%] p-2 justify-center bg-[var(--background-Secondary)] w-[550px] rounded-2xl">
+            <div className="flex flex-col shadow-2xl 950 items-center absolute bottom-5 left-[50%] translate-x-[-50%] p-2 justify-center bg-[var(--background-Secondary)] w-[550px] rounded-2xl">
                 <div className="flex w-full">
                     <input
                         type="text"

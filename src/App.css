@@ -1,21 +1,91 @@
 @import "tailwindcss";
 *{
-    font-family: 'Arial', sans-serif !important;
+    font-family: "Roboto Light", sans-serif ;
 }
-:root{
+:root {
     --color-primary: #7a7e7d;
     --background-Primary: #171717;
     --background-Secondary: #242424;
     --color-Tertiary: #2ed992;
+    --color-chat-primary: #a9a9a9;   /* softer than #cccaca */
+    --color-chat-secondary: #8d8d8d; /* for less important text */
+    --color-chat-muted: #6f6f6f;     /* for timestamps / metadata */
     --background-Tertiary: #006239;
     --border-primary: #2c2c2c;
     --border-secondary: #363636;
     --border-Tertiary: #138253;
 }
+
 @media (prefers-color-scheme: dark) {
     --color-primary: #e0e0e0;
     --background-Primary: #171717;
 }
+
+/* Chat specific */
+.renderChat ul {
+    color: var(--color-chat-primary);
+    list-style-type: disc;
+    list-style-position: outside;
+    margin-left: 20px;
+}
+
+.renderChat ol {
+    list-style-type: decimal;
+    list-style-position: outside;
+    margin-left: 20px;
+}
+
+.renderChat p {
+    color: var(--color-chat-primary) !important;
+    margin-bottom: 15px !important;
+}
+
+.renderChat h1 {
+    font-size: 1.8rem !important;
+    color: var(--color-Tertiary);
+
+}
+
+.renderChat h2 {
+    font-size: 1.6rem !important;
+    color: #44b455;
+}
+
+.renderChat h3 {
+    font-size: 1.4rem !important;
+    color: var(--color-Tertiary);
+}
+
+.renderChat table {
+    color: var(--color-chat-primary);
+    border-collapse: collapse !important;
+    width: 100% !important;
+    margin: 20px 0 !important;
+}
+
+/* Optional improvements */
+.renderChat small,
+.renderChat time,
+.renderChat .meta {
+    color: var(--color-chat-muted);
+    font-size: 0.8rem;
+}
+.renderChat code{
+    font-family: "Fira Code", monospace;
+    font-size: 0.9rem;
+    color: #a4a463;
+    background-color: var(--background-Secondary);
+    padding: 3px;
+    border-radius: 5px;
+
+}
+.renderChat pre{
+    background-color: var(--background-Secondary);
+    width: auto;
+    padding: 8px;
+    border-radius: 10px;
+}
+
 /*--------- Login Page --------- */
 .btnLogin {
     @apply w-[300px] h-[50px] flex items-center gap-2 text-[var(--color-primary)]  bg-[#242424] px-4 py-1 rounded-xl border border-[var(--border-primary)];
@@ -61,4 +131,21 @@ td,tr{
     rounded-2xl p-4 flex flex-col items-start gap-2 hover:shadow-[0_0_5px_#006239] hover:border-[var(--border-Tertiary)] transition duration-150;
 }
 
+/* dimensione */
+::-webkit-scrollbar {
+    width: 10px; /* verticale */
+    height: 10px; /* orizzontale */
+}
+
+/* track = sfondo */
+::-webkit-scrollbar-track {
+    background: var(--background-Secondary);
+}
+
+/* thumb = parte scorrevole */
+::-webkit-scrollbar-thumb {
+    background-color: var(--color-primary);
+    border-radius: 8px;
+    border: 2px solid var(--background-Secondary); /* spazio intorno */
+}
 

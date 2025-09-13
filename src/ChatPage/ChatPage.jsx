@@ -125,10 +125,14 @@ function ChatPage() {
 
 
     const MarkdownRenderer = ({ text }) => {
-        const safe = safeToString(text);
-        // marked può avere API .parse in alcune versioni, ma marked(safe) funziona generalmente
-        const html = marked(safe || "");
-        console.log(html);
+        const safe = text || "";
+
+        // Converti Markdown in HTML
+        let html = marked(safe);
+
+        // Avvolgi ogni <code> che non è già in <pre>
+
+
         return <div className="renderChat" dangerouslySetInnerHTML={{ __html: html }} />;
     };
     const handleNewChat = () => {
@@ -150,7 +154,7 @@ function ChatPage() {
                                     className={`max-w-[100%] mb-4 text-gray-200 p-2 rounded-xl 
                     bg-[var(--background-Tertiary)] border border-[var(--border-Tertiary)] px-4 self-end text-right`}
                                 >
-                                    <MarkdownRenderer text={m.sender} />
+                                    {m.sender}
                                 </div>
                             ) : null}
 
