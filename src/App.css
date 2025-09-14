@@ -35,9 +35,9 @@
     margin-left: 20px;
 }
 
-.renderChat p {
+.renderChat p,li,ul,ol {
     color: var(--color-chat-primary) !important;
-    margin-bottom: 15px !important;
+    /*margin-bottom: 15px !important;*/
 }
 
 .renderChat h1 {
@@ -48,7 +48,7 @@
 
 .renderChat h2 {
     font-size: 1.6rem !important;
-    color: #44b455;
+    color: var(--color-Tertiary);
 }
 
 .renderChat h3 {
@@ -62,7 +62,11 @@
     width: 100% !important;
     margin: 20px 0 !important;
 }
+.renderChat th{
+    background-color: var(--background-Secondary);
+    padding: 8px;
 
+}
 /* Optional improvements */
 .renderChat small,
 .renderChat time,
@@ -78,6 +82,9 @@
     padding: 3px;
     border-radius: 5px;
 
+}
+.renderChat strong{
+    color: var(--color-Tertiary);
 }
 .renderChat pre{
     background-color: var(--background-Secondary);
