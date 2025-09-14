@@ -82,11 +82,10 @@ function ChatPage() {
             setMessages((prev) => [...prev, userMessage]);
             setPrompt("");
 
-            // Ottieni risposta AI
-            const rawReply = await runChat("You are an helpful assistant, return content in markdown styled with header, bullet list, list, tables if needed prompt:"+prompt);
             setIsAnswering(true);
+            const rawReply = await runChat("You are an helpful assistant, return content in markdown styled with header, bullet list, list, tables if needed prompt:"+prompt);
+
             const reply = safeToString(rawReply);
-            setIsAnswering(false);
 
             // Aggiorna l'ultimo messaggio con la risposta AI
             setMessages((prev) =>
@@ -98,6 +97,8 @@ function ChatPage() {
             );
 
 
+            setIsAnswering(false);
+            setPrompt("");
             // Salva messaggi sul DB
             await createMessage(userMessage.sender, reply, convId);
         } catch (err) {
@@ -180,7 +181,7 @@ function ChatPage() {
                 </div>
 
                 {/* barra input */}
-                <TextBar handleSend={handleSend} setPrompt={setPrompt} prompt={prompt} />
+                <TextBar handleSend={handleSend} setPrompt={setPrompt} prompt={prompt} isAnswering={isAnswering} />
             </div>
         </div>
     );

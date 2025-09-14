@@ -1,17 +1,23 @@
 import React from 'react';
 
-const TextBar = ( {handleSend,setPrompt} ) => {
+const TextBar = ( {handleSend,setPrompt,isAnswering,prompt} ) => {
+    const onKeyDown = (e) => {
+        if (e.key === "Enter" && !isAnswering) {
+            handleSend();
+        }
+    };
     return(
             <div className="flex flex-col shadow-2xl 950 items-center absolute bottom-5 left-[50%] translate-x-[-50%] p-2 justify-center bg-[var(--background-Secondary)] w-[550px] rounded-2xl">
                 <div className="flex w-full">
                     <input
                         type="text"
                         placeholder="Type your message"
+                        value={prompt}
 
                         className="px-4 py-2 flex-grow outline-none text-white placeholder:text-[#7a7e7d] "
                         onChange={(e)=>setPrompt(e.target.value)}
                     />
-                    <button onClick={handleSend} className=" p-1.5 bg-[var(--background-Tertiary)] text-white border border-[var(--border-Tertiary)] rounded">
+                    <button onClick={()=>{handleSend();setPrompt("")}} onKeyDown={onKeyDown} disabled={isAnswering} className={isAnswering ? "p-1.5 bg-[var(--background-Tertiary)] cursor-not-allowed text-white border border-[var(--border-Tertiary)] rounded" : "p-1.5 bg-[var(--background-Tertiary)] cursor-pointer text-white border border-[var(--border-Tertiary)] rounded"}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                              className="bi bi-send-fill" viewBox="0 0 16 16">
                             <path
