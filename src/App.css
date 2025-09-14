@@ -35,10 +35,13 @@
     margin-left: 20px;
 }
 
-.renderChat p,li,ul,ol {
+.renderChat p,
+.renderChat li,
+.renderChat ul,
+.renderChat ol {
     color: var(--color-chat-primary) !important;
-    /*margin-bottom: 15px !important;*/
 }
+
 
 .renderChat h1 {
     font-size: 1.8rem !important;

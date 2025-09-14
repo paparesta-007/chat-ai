@@ -8,6 +8,10 @@ import Login from "./Login/Login.jsx";
 import supabase from "../src/library/supabaseclient.js";
 import Pricing from "./Pricing/Pricing.jsx";
 import LandingPage from "./LandingPage/LandingPage.jsx";
+import Settings from "./Settings/Setting.jsx";
+import GeneralSettings from "./Settings/General/General.jsx";
+import AccountSettings from "./Settings/Account/Account.jsx";
+import CustomizationSettings from "./Settings/Customization/Customization.jsx";
 function App() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -54,6 +58,12 @@ function App() {
                     element={user ? <ChatPage /> : <Navigate to="/login" />}
                 />
                 <Route path="/pricing" element={<Pricing/>} />
+                <Route path="/settings" element={<Settings/>} >
+                    <Route path="general" element={<GeneralSettings/>} />
+                    <Route path="account" element={<AccountSettings/>} />
+                    <Route path="customization" element={<CustomizationSettings/>} />
+                </Route>
+
                 {/* Catch-all */}
                 <Route path="*" element={<>Page Not Found</>} />
             </Routes>

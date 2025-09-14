@@ -77,7 +77,7 @@ const Leftbar = ({ onSelectConversation, handleNewChat }) => {
                     conversations.map((conversation) => (
                         <div
                             key={conversation.id}
-                            className="relative group flex items-center justify-between p-2 border border-transparent rounded-lg bg-[var(--background-Secondary)] hover:border-[var(--border-primary)]"
+                            className="relative group  flex items-center justify-between p-2 border border-transparent rounded-lg bg-[var(--background-Secondary)] hover:border-[var(--border-primary)]"
                         >
                             {/* titolo cliccabile */}
                             <button
@@ -87,7 +87,7 @@ const Leftbar = ({ onSelectConversation, handleNewChat }) => {
                                 {conversation.title}
                             </button>
 
-                            <svg className="ml-2 w-5 h-5 text-gray-400 hover:text-white cursor-pointer"
+                            <svg className="ml-2 w-5 h-5 hidden group-hover:block text-gray-400 hover:text-white cursor-pointer"
                                  onClick={(e) => {
                                      e.stopPropagation(); // evita apertura conversazione
                                      setMenuOpen(menuOpen === conversation.id ? null : conversation.id);
@@ -142,7 +142,7 @@ const Leftbar = ({ onSelectConversation, handleNewChat }) => {
                             Pro
                         </small>
                     </button>
-                    <button>Settings</button>
+                    <button onClick={() => navigate("/settings")}>Settings</button>
                     <button onClick={handleLogout}>Logout</button>
                 </div>
             )}

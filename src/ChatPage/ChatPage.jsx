@@ -52,7 +52,7 @@ function ChatPage() {
             let convId = conversation_id;
 
             if (isNewChat) {
-                const titlePrompt = `Write a short title 5-10 word about, return 1 concise phrase, avoid markdown styling : ${prompt}`;
+                const titlePrompt = `Write a short title 4-8 word about, return 1 concise phrase, avoid markdown styling : ${prompt}`;
                 const rawTitle = await runChat(titlePrompt);
                 const chatTitle = safeToString(rawTitle);
 
@@ -134,7 +134,7 @@ function ChatPage() {
         // Avvolgi ogni <code> che non è già in <pre>
 
 
-        return <div className="renderChat" dangerouslySetInnerHTML={{ __html: html }} />;
+        return <div  className="renderChat"  dangerouslySetInnerHTML={{ __html: html }} />;
     };
     const handleNewChat = () => {
         setIsNewChat(true);
@@ -164,7 +164,7 @@ function ChatPage() {
                                     className={`max-w-[100%] text-gray-200 p-2 rounded-xl 
                     tracking-normal  border border-[var(--border-secondary)] px-4 self-start text-left`}
                                 >
-                                    <MarkdownRenderer text={m.content} />
+                                    <MarkdownRenderer  text={m.content} />
                                 </div>
                             ) : null}
                         </div>
