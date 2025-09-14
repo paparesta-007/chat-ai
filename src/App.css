@@ -111,7 +111,7 @@
 }
 
 .user-container {
-    @apply flex items-center font-semibold gap-2 px-4 py-2 rounded-2xl
+    @apply flex items-center font-semibold gap-2 px-4 py-2 rounded-xl
     text-white bg-[var(--background-Secondary)] border
     border-[var(--border-secondary)] cursor-pointer mt-auto;
     /* mt-auto = lo spinge in fondo nella colonna */
@@ -128,7 +128,7 @@
     @apply w-full px-2 py-1 rounded-lg text-white flex items-start justify-center;
 }
 .actionBtn{
-    @apply text-white items-center hover:bg-[var(--background-Secondary)] rounded-lg py-2 px-1 text-lg flex gap-2
+    @apply items-center hover:bg-[var(--background-Secondary)] text-sm rounded-lg py-2 px-1 text-gray-200 flex gap-2
 }
 td,tr{
     @apply  border-b border-[var(--border-secondary)] p-2

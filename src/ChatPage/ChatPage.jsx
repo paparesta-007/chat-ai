@@ -140,10 +140,11 @@ function ChatPage() {
         setIsNewChat(true);
         setConversation_id(null);
         setMessages([]);
+
     };
 
     return (
-        <div className="flex bg-black gap-2">
+        <div className="flex bg-[var(--background-Primary)] gap-2">
             <Leftbar onSelectConversation={handleSelectConversation} handleNewChat={handleNewChat} />
             <div className="w-full relative bg-[var(--background-Primary)] overflow-auto flex flex-col sm:px-[5%] md:px-[10%] lg:px-[10%] px-[5%]">
                 {/* sezione messaggi */}
