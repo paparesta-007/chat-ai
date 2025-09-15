@@ -84,14 +84,14 @@ const Leftbar = ({ onSelectConversation, handleNewChat }) => {
                             {/* titolo cliccabile */}
                             <button
                                 onClick={() => onSelectConversation(conversation.id)}
-                                className=" text-left text-gray-200 truncate max-w-[200px]"
+                                className=" text-left text-[var(--color-primary)] truncate max-w-[200px]"
                                 title={conversation.title} // mostra il titolo completo al hover
                             >
                                 {conversation.title}
                             </button>
 
 
-                            <svg className="ml-2 w-5 h-5 group-hover:opacity-100 opacity-0 text-gray-400 hover:text-white cursor-pointer"
+                            <svg className="ml-2 w-5 h-5 group-hover:opacity-100 opacity-0 text-gray-400 hover:text-[var(--color-primary)] cursor-pointer"
                                  onClick={(e) => {
                                      e.stopPropagation(); // evita apertura conversazione
                                      setMenuOpen(menuOpen === conversation.id ? null : conversation.id);

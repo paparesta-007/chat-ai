@@ -35,11 +35,11 @@ const LandingChat = () => {
     }
     return (
         <div className="h-full w-full flex flex-col items-center justify-center">
-            <h1 className="text-3xl font-semibold text-white">{greeting} {user?.email} </h1>
+            <h1 className="text-3xl font-semibold text-[var(--color-primary)]">{greeting} {user?.email} </h1>
             <div className="flex mt-10 gap-x-4">
                 {quickFunction.map((item,index)=>{
                     return(
-                        <div key={index} className="bg-[var(--background-Secondary)] text-white  p-4 rounded-2xl cursor-pointer border border-[var(--border-secondary)]">
+                        <div key={index} className="bg-[var(--background-Secondary)] text-[var(--color-third)]  p-4 rounded-2xl cursor-pointer border border-[var(--border-secondary)]">
                             <h2 className="text-sm ">{item.title}</h2>
 
                         </div>
