@@ -10,16 +10,16 @@ const Pricing = () => {
     return (
         <div className="bg-[var(--background-Primary)] relative p-10 h-screen w-screen overflow-y-auto flex flex-col items-center">
 
-            <h1 className="text-3xl font-semibold text-white text-center">
+            <h1 className="text-3xl font-semibold text-[var(--color-primary)] text-center">
                 Choose the plan that best fits your needs
             </h1>
 
             {/* Toggle */}
-            <div className="bg-black mt-10 flex gap-2 p-1 rounded-full">
+            <div className="bg-[var(--background-Secondary)] mt-10 flex gap-2 p-1 rounded-full">
                 <button
                     className={
-                        "text-white cursor-pointer w-[150px] py-2 rounded-full transition " +
-                        (isIndividual ? "bg-[var(--background-Secondary)]" : "bg-transparent")
+                        "text-[var(--color-primary)] cursor-pointer w-[150px] py-2 rounded-full transition " +
+                        (isIndividual ? "bg-[var(--background-Primary)]" : "bg-transparent")
                     }
                     onClick={() => setIsIndividual(true)}
                 >
@@ -27,8 +27,8 @@ const Pricing = () => {
                 </button>
                 <button
                     className={
-                        "text-white cursor-pointer w-[150px] py-2 rounded-full transition " +
-                        (!isIndividual ? "bg-[var(--background-Secondary)]" : "bg-transparent")
+                        "text-[var(--color-primary)] cursor-pointer w-[150px] py-2 rounded-full transition " +
+                        (!isIndividual ? "bg-[var(--background-Primary)]" : "bg-transparent")
                     }
                     onClick={() => setIsIndividual(false)}
                 >
@@ -36,11 +36,11 @@ const Pricing = () => {
                 </button>
             </div>
 
-            <div className="mt-10 text-white flex gap-4 flex-wrap justify-center">
+            <div className="mt-10 text-[var(--color-primary)] flex gap-4 flex-wrap justify-center">
                 {selectedPlans.map((plan) => (
                     <div
                         key={plan.name}
-                        className="pricing-card bg-[var(--background-Secondary)] cursor-pointer  p-6 rounded-2xl w-[350px] h-[500px] flex flex-col justify-between"
+                        className="pricing-card bg-[var(--background-Secondary)]  p-6 rounded-2xl w-[350px] h-[500px] flex flex-col justify-between"
                     >
                         {/* Titolo */}
                         <div>
@@ -65,7 +65,7 @@ const Pricing = () => {
 
                         {/* Bottone in basso */}
                         <div className="mt-4">
-                            <button className="bg-[var(--background-Tertiary)] cursor-pointer w-full font-semibold border px-2 py-2 rounded-xl border-[var(--border-Tertiary)]">
+                            <button className="bg-[var(--background-Tertiary)] text-[var(--color-secondary)] cursor-pointer w-full   px-2 py-2 rounded-xl ">
                                 {plan.buttonText || "Select Plan"}
                             </button>
                         </div>
@@ -73,8 +73,8 @@ const Pricing = () => {
                 ))}
             </div>
             <small className="text-[var(--color-primary)]">*22% VAT not included</small>
-            <h2 className="text-2xl font-semibold text-white text-center mt-10">Compare plans</h2>
-            <table className="sm:w-[80%] w-full mt-6 bg-transparent text-white border-collapse">
+            <h2 className="text-2xl font-semibold text-[var(--color-primary)] text-center mt-10">Compare plans</h2>
+            <table className="sm:w-[80%] w-full mt-6 bg-transparent text-[var(--color-primary)] border-collapse">
                 <thead>
                 <tr className="border-b border-gray-600">
                     <th className="text-left px-4 py-2">Plan</th>
@@ -84,12 +84,12 @@ const Pricing = () => {
                 </thead>
                 <tbody>
                 {/* Rows will go here */}
-                <tr className="border-b border-gray-700">
+                <tr className="border-b border-gray-700 text-[var(--color-third)]">
                     <td className="px-4 py-2">Basic</td>
                     <td className="px-4 py-2">✔</td>
                     <td className="px-4 py-2">✔</td>
                 </tr>
-                <tr className="border-b border-gray-700">
+                <tr className="border-b border-gray-700 text-[var(--color-third)]">
                     <td className="px-4 py-2">Pro</td>
                     <td className="px-4 py-2">✔</td>
                     <td className="px-4 py-2">✔</td>
@@ -97,7 +97,7 @@ const Pricing = () => {
                 </tbody>
             </table>
 
-            <div className="absolute top-2 right-2 cursor-pointer text-white" onClick={() => navigate(-1)}>X</div>
+            <div className="absolute top-2 right-2 cursor-pointer text-[var(--color-primary)]" onClick={() => navigate(-1)}>X</div>
         </div>
     );
 };

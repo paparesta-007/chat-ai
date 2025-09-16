@@ -14,7 +14,7 @@ const TextBar = ( {handleSend,setPrompt,isAnswering,prompt} ) => {
                         placeholder="Type your message"
                         value={prompt}
 
-                        className="px-4 py-2 flex-grow outline-none text-white placeholder:text-[#7a7e7d] "
+                        className="px-4 py-2 flex-grow outline-none text-[var(--color-primary)] placeholder:text-[#7a7e7d] "
                         onChange={(e)=>setPrompt(e.target.value)}
                     />
                     <button onClick={()=>{handleSend();setPrompt("")}} onKeyDown={onKeyDown} disabled={isAnswering} className={isAnswering ? "p-1.5 bg-[var(--background-Tertiary)] cursor-not-allowed text-white border border-[var(--border-Tertiary)] rounded" : "p-1.5 bg-[var(--background-Tertiary)] cursor-pointer text-white border border-[var(--border-Tertiary)] rounded"}>

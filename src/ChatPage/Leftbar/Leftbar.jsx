@@ -40,9 +40,9 @@ const Leftbar = ({ onSelectConversation, handleNewChat }) => {
 
     };
     return (
-        <div className="h-screen w-[300px] text-[var(--color-primary)] p-2 bg-[var(--background-Primary)] flex flex-col gap-2 relative">
+        <div className="h-screen w-[300px] text-[var(--color-primary)] bg-[var(--background-Secondary)]  p-2  flex flex-col gap-2 relative">
             {/* header */}
-            <div className="flex flex-col bg-[var(--background-Secondary)] border border-[var(--border-secondary)] rounded-xl ">
+            <div className="flex flex-col ">
                 <h2
                     onClick={() => navigate("/")}
                     className="flex cursor-pointer rounded-lg py-2 px-1 text-lg gap-2"
@@ -50,7 +50,7 @@ const Leftbar = ({ onSelectConversation, handleNewChat }) => {
                     <span className="text-[#2ed992]">ChatAI</span>
                 </h2>
                 <button className="actionBtn" onClick={handleNewChat}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
                          stroke="currentColor" stroke-width="2" strokeLinecap="round" stroke-linejoin="round"
                          className="lucide lucide-square-pen-icon lucide-square-pen">
                         <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
@@ -60,7 +60,7 @@ const Leftbar = ({ onSelectConversation, handleNewChat }) => {
                     New Chat
                 </button>
                 <button className="actionBtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
                          stroke="currentColor" strokeWidth="2" strokeLinecap="round" stroke-linejoin="round"
                          className="lucide lucide-compass-icon lucide-compass">
                         <path
@@ -73,18 +73,18 @@ const Leftbar = ({ onSelectConversation, handleNewChat }) => {
 
             {/* lista chat */}
 
-            <div className="chat-container  h-full  border bg-[var(--background-Secondary)]  rounded-xl border-[var(--border-secondary)]">
-                <h4 className="text-[var(--color-Tertiary)] mt-2 text-xl items-center flex gap-2  px-1"><MessageCircle size={20}/>Chat</h4>
+            <div className="chat-container  h-full  ">
+                <h4 className="text-[var(--color-primary)] mt-2 text-xl items-center flex   px-1">Chat</h4>
                 {conversations.length > 0 ? (
                     conversations.map((conversation) => (
                         <div
                             key={conversation.id}
-                            className="relative group hover:bg-[var(--background-Tertiary)] hover:border-[var(--border-Tertiary)] transition duration-150 flex items-center justify-between px-1 py-2 border border-transparent rounded-md "
+                            className="relative group transition hover:bg-[rgba(0,0,0,0.1)] flex items-center justify-between px-1 py-1 border border-transparent rounded-md "
                         >
                             {/* titolo cliccabile */}
                             <button
                                 onClick={() => onSelectConversation(conversation.id)}
-                                className=" text-left text-[var(--color-primary)] truncate max-w-[200px]"
+                                className=" text-left text-[var(--color-third)] group-hover:text-[var(--color-primary)]  truncate max-w-[200px]"
                                 title={conversation.title} // mostra il titolo completo al hover
                             >
                                 {conversation.title}
