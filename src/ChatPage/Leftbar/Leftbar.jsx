@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router";
 import supabase from "../../library/supabaseclient.js";
-import getAllConversations from "../../services/getConversations.js";
-import deleteConversation from "../../services/deleteConversation.js";
+import getAllConversations from "../../services/conversations/getConversations.js";
+import deleteConversation from "../../services/conversations/deleteConversation.js";
 import {MessageCircle} from "lucide-react";
 
 const Leftbar = ({ onSelectConversation, handleNewChat }) => {

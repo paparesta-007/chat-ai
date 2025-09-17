@@ -1,4 +1,4 @@
-import supabase from "../library/supabaseclient.js"
+import supabase from "../../library/supabaseclient.js"
 
 const deleteConversation = async (uuid) => {
     const { dataM , errorM  } = await supabase

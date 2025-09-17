@@ -4,9 +4,9 @@ import runChat from "../../api/gemini-generate.js";
 import TextBar from "./Textbar/Textbar.jsx";
 import supabase from "../../src/library/supabaseclient.js";
 import { marked } from "marked";
-import createMessage from "../services/createMessage.js";
-import createConversation from "../services/createConversation.js";
-import getMessages from "../services/getMessages.js";
+import createMessage from "../services/conversations/createMessage.js";
+import createConversation from "../services/conversations/createConversation.js";
+import getMessages from "../services/conversations/getMessages.js";
 import LandingChat from "./LandingChat/LandingChat.jsx";
 
 function ChatPage() {
@@ -146,7 +146,7 @@ function ChatPage() {
     return (
         <div className="flex bg-[var(--background-Primary)] gap-2">
             <Leftbar onSelectConversation={handleSelectConversation} handleNewChat={handleNewChat} />
-            <div className="w-full relative bg-[var(--background-Primary)] overflow-auto flex flex-col sm:px-[5%] md:px-[10%] lg:px-[10%] px-[5%]">
+            <div className="w-full relative bg-[var(--background-Primary)] overflow-auto flex flex-col sm:px-[5%] md:px-[5%] lg:px-[10%] px-[5%]">
                 {/* sezione messaggi */}
                 <div className="overflow-y current-chat overflow-auto h-screen pb-40 p-4 flex flex-col" ref={messagesEndRef}>
                     {messages.map((m, i) => (

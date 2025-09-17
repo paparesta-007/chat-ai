@@ -1,4 +1,4 @@
-import supabase from "../library/supabaseclient.js"
+import supabase from "../../library/supabaseclient.js"
 
 const getAllMessages = async (conversationId) => {
     const {data,error} = await supabase

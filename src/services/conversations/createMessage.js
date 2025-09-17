@@ -1,4 +1,4 @@
-import  supabase  from "../library/supabaseclient.js"
+import  supabase  from "../../library/supabaseclient.js"
 
 const createMessage = async (sender, content, conversation_id) => {
     const { data, error } = await supabase

@@ -9,7 +9,7 @@
     --color-third: #818181;
     --background-Primary: #ffffff;
     --background-Secondary: #efefef;
-    --color-Tertiary: #006239;
+    --color-Tertiary: #0075de;
     --color-chat-primary: #333333;
     --color-chat-secondary: #555555;
     --color-chat-muted: #777777;
@@ -20,40 +20,53 @@
     --border-Tertiary: #0075de;
 }
 
-/*!* Dark theme (preferred if system is dark) *!*/
-/*@media (prefers-color-scheme: dark) {*/
-/*    :root {*/
-/*        --color-primary: #7a7e7d;*/
-/*        --background-Primary: #171717;*/
-/*        --background-Secondary: #242424;*/
-/*        --color-Tertiary: #2ed992;*/
-/*        --color-chat-primary: #a9a9a9;   !* softer than #cccaca *!*/
-/*        --color-chat-secondary: #8d8d8d; !* for less important text *!*/
-/*        --color-chat-muted: #6f6f6f;     !* for timestamps / metadata *!*/
-/*        --background-Tertiary: #006239;*/
-/*        --border-primary: #2c2c2c;*/
-/*        --border-secondary: #363636;*/
-/*        --border-Tertiary: #138253;*/
-/*    }*/
-/*}*/
 
 @media (prefers-color-scheme: dark) {
-    --color-primary: #e0e0e0;
-    --background-Primary: #171717;
+    :root {
+        --color-primary: #ffffff;       /* Text primary on dark background */
+        --color-secondary: #cccccc;     /* Secondary text */
+        --color-third: #999999;         /* Tertiary text */
+
+        --background-Primary: #191918;  /* Main background */
+        --background-Secondary: #1f1f1f;/* Secondary background areas */
+
+        --color-Tertiary: #00a0ff;      /* Accent color */
+
+        --color-chat-primary: #cecccc;  /* Chat main text */
+        --color-chat-secondary: #b0b0b0;/* Chat secondary text */
+        --color-chat-muted: #888888;    /* Muted chat text */
+
+        --background-Tertiary: #0075de;     /* Accent background (kept similar) */
+        --background-Quaternary: #003f6b;   /* Light accent background for contrast */
+
+        --border-primary: #333333;       /* Primary border */
+        --border-secondary: #444444;     /* Secondary border */
+        --border-Tertiary: #00a0ff;      /* Accent border */
+    }
 }
 
-/* Chat specific */
+
 .renderChat ul {
     color: var(--color-chat-primary);
-    list-style-type: disc;
-    list-style-position: outside;
-    margin-left: 20px;
+    /* rimuove il bullet di default */
+    padding-left: 20px;
+    list-style: circle inside;
+    /*border: 1px solid red;*/
+}
+.renderChat h1,
+.renderChat h2,
+.renderChat h3,
+.renderChat h4{
+    margin: 20px 0 0px 0 !important;
+}
+.renderChat ul li {
+    /*border: 1px solid red;*/
 }
 
 .renderChat ol {
     list-style-type: decimal;
     list-style-position: outside;
-    margin-left: 20px;
+    margin-left: 40px;
 }
 
 .renderChat p,
@@ -61,27 +74,30 @@
 .renderChat ul,
 .renderChat ol {
     color: var(--color-chat-primary) !important;
+
+
 }
 
 
 .renderChat h1 {
     font-size: 1.8rem !important;
     color: var(--color-Tertiary);
-
+    font-weight: 500;
 }
 
 .renderChat h2 {
-    font-size: 1.6rem !important;
-    color: var(--color-Tertiary);
+    font-size: 1.5rem !important;
+    color: var(--color-chat-primary) !important;
+    font-family: "SansSerif", serif;
 }
 
 .renderChat h3 {
-    font-size: 1.4rem !important;
-    color: var(--color-Tertiary);
+    font-size: 1.3rem !important;
+    color: var(--color-chat-primary) !important;
 }
 
 .renderChat table {
-    color: var(--color-chat-primary);
+    color: var(--color-chat-primary) !important;
     border-collapse: collapse !important;
     width: 100% !important;
     margin: 20px 0 !important;
@@ -108,7 +124,7 @@
 
 }
 .renderChat strong{
-    color: var(--color-Tertiary);
+    color: var(--color-chat-primary) !important;
 }
 .renderChat pre{
     background-color: var(--background-Secondary);
@@ -179,4 +195,21 @@ td,tr{
     border-radius: 8px;
     border: 2px solid var(--background-Secondary); /* spazio intorno */
 }
+/* HTML: <div class="loader"></div> */
+.loader {
+    width: 50px;
+    padding: 8px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--color-primary);
+    --_m:
+            conic-gradient(#0000 10%,#000),
+            linear-gradient(#000 0 0) content-box;
+    -webkit-mask: var(--_m);
+    mask: var(--_m);
+    -webkit-mask-composite: source-out;
+    mask-composite: subtract;
+    animation: l3 1s infinite linear;
+}
+@keyframes l3 {to{transform: rotate(1turn)}}
 

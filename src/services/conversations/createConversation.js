@@ -1,4 +1,4 @@
-import supabase from "../library/supabaseclient.js"
+import supabase from "../../library/supabaseclient.js"
 
 const createConversation = async (uuid, title) => {
     const { data, error } = await supabase

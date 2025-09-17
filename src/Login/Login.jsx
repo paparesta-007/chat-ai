@@ -126,7 +126,7 @@ const Login = () => {
                     )}
 
                     <button
-                        className="bg-[#006239] cursor-pointer border border-[#138253] w-[300px] h-[50px] text-white p-2 rounded-full"
+                        className="bg-[var(--background-Tertiary)] cursor-pointer  w-[300px] h-[50px] text-white p-2 rounded-full"
                         type="submit"
                     >
                         {isSignUp ? "Sign Up" : "Sign In"}
@@ -138,7 +138,7 @@ const Login = () => {
                             e.preventDefault();
                             toggleMode();
                         }}
-                        className="text-[#006239] hover:underline cursor-pointer"
+                        className="text-[var(--color-primary)] text-sm hover:underline cursor-pointer"
                     >
                         {isSignUp
                             ? "Already have an account? Sign In"

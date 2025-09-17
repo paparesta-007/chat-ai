@@ -37,7 +37,7 @@ function App() {
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>; // spinner o skeleton
+        return <div className="loader"></div>; // spinner o skeleton
     }
 
     return (

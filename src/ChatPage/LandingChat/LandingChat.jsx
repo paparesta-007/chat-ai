@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import { useState } from 'react';
 import supabase from '../../library/supabaseclient.js';
 import chatQuickFunction from '../../library/chatQuickFunction.js';
+import {Database, Lightbulb, Play, TextAlignJustifyIcon, CircleQuestionMarkIcon} from "lucide-react";
 const LandingChat = () => {
     const [user, setUser] = useState(null);
     const date=new Date()
@@ -33,13 +34,16 @@ const LandingChat = () => {
         }
         return greeting
     }
+
     return (
         <div className="h-full w-full flex flex-col items-center justify-center">
             <h1 className="text-3xl font-semibold text-[var(--color-primary)]">{greeting} {user?.email} </h1>
-            <div className="flex mt-10 gap-x-4">
+            <div className="flex md:flex-row flex-col mt-10 gap-4">
                 {quickFunction.map((item,index)=>{
+                    const Icon=item.icon;
                     return(
-                        <div key={index} className="bg-[var(--background-Secondary)] text-[var(--color-third)]  p-4 rounded-2xl cursor-pointer border border-[var(--border-secondary)]">
+                        <div key={index}  className="bg-[var(--background-Secondary)] max-w-[250px] flex  gap-2 text-[var(--color-third)]  p-4 rounded-2xl cursor-pointer border border-[var(--border-secondary)]">
+                            <Icon className="w-8 h-8 text-amber-300" />
                             <h2 className="text-sm ">{item.title}</h2>
 
                         </div>
