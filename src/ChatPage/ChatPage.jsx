@@ -8,7 +8,8 @@ import createMessage from "../services/conversations/createMessage.js";
 import createConversation from "../services/conversations/createConversation.js";
 import getMessages from "../services/conversations/getMessages.js";
 import LandingChat from "./LandingChat/LandingChat.jsx";
-
+import avaibleModels from "../library/avaibleModels.js";
+import { useNavigate } from "react-router";
 function ChatPage() {
     const [prompt, setPrompt] = useState("");
     const [messages, setMessages] = useState([]);
@@ -17,6 +18,10 @@ function ChatPage() {
     const [conversation_id, setConversation_id] = useState(null);
     const messagesEndRef = useRef(null);
     const [isAnswering, setIsAnswering] = useState(false);
+    const [selectedPhraseQuick, setSelectedPhraseQuick] = useState("");
+    const [model, setModel] = useState(avaibleModels[2]);
+    const [isUpgradeToProPopUpOpen, setIsUpgradeToProPopUpOpen] = useState(false);
+    const navigate = useNavigate();
     useEffect(() => {
         getUser();
     }, []);
@@ -34,6 +39,10 @@ function ChatPage() {
             console.error("getUser error:", err);
         }
     };
+    const handleSelectQuickPhrase = (text) => {
+
+        setPrompt(text); // aggiorna la TextBar
+    };
 
     const safeToString = (val) => {
         if (val == null) return "";
@@ -48,12 +57,17 @@ function ChatPage() {
     const handleSend = async () => {
         if (!prompt || !prompt.trim()) return;
 
+        if(model.id===avaibleModels[0].id){
+            setIsUpgradeToProPopUpOpen(true);
+            return;
+        }
         try {
             let convId = conversation_id;
 
             if (isNewChat) {
                 const titlePrompt = `Write a short title 4-8 word about, return 1 concise phrase, avoid markdown styling : ${prompt}`;
-                const rawTitle = await runChat(titlePrompt);
+
+                const rawTitle = await runChat(titlePrompt, model.id );
                 const chatTitle = safeToString(rawTitle);
 
                 const conversation = await createConversation(user_id, chatTitle);
@@ -83,7 +97,7 @@ function ChatPage() {
             setPrompt("");
 
             setIsAnswering(true);
-            const rawReply = await runChat("You are an helpful assistant, return content in markdown styled with header, bullet list, list, tables if needed prompt:"+prompt);
+            const rawReply = await runChat("You are an helpful assistant, return content in markdown styled with header, bullet list, list, tables if needed prompt:"+prompt, model.id);
 
             const reply = safeToString(rawReply);
 
@@ -106,7 +120,10 @@ function ChatPage() {
         }
     };
 
-
+    const handleUpgradeToProPopUp=()=>{
+        setIsUpgradeToProPopUpOpen(false);
+        navigate("/pricing");
+    }
 
 
     const handleSelectConversation = async (conversationId) => {
@@ -145,44 +162,52 @@ function ChatPage() {
 
     return (
         <div className="flex bg-[var(--background-Primary)] gap-2">
+
             <Leftbar onSelectConversation={handleSelectConversation} handleNewChat={handleNewChat} />
             <div className="w-full relative bg-[var(--background-Primary)] overflow-auto flex flex-col sm:px-[5%] md:px-[5%] lg:px-[10%] px-[5%]">
                 {/* sezione messaggi */}
                 <div className="overflow-y current-chat overflow-auto h-screen pb-40 p-4 flex flex-col" ref={messagesEndRef}>
                     {messages.map((m, i) => (
                         <div key={i} className="flex flex-col mb-4">
-                            {m.sender ? (
-                                <div
-                                    className={`max-w-[100%] mb-4 text-gray-200 p-2 rounded-xl 
-                    bg-[var(--background-Tertiary)] border border-[var(--border-Tertiary)] px-4 self-end text-right`}
-                                >
+                            {m.sender && (
+                                <div className="max-w-[100%] mb-4 p-2 text-gray-200  rounded-xl bg-[var(--background-Tertiary)] border border-[var(--border-Tertiary)] px-4 self-end text-right">
                                     {m.sender}
                                 </div>
-                            ) : null}
-
-                            {m.content ? (
-                                <div
-                                    className={`max-w-[100%] text-gray-200 p-2 rounded-xl 
-                    tracking-normal  border border-[var(--border-secondary)] px-4 self-start text-left`}
-                                >
-                                    <MarkdownRenderer  text={m.content} />
+                            )}
+                            {m.content && (
+                                <div className="max-w-[100%] text-gray-200 p-2 rounded-xl border border-[var(--border-secondary)] px-4 self-start text-left">
+                                    <MarkdownRenderer text={m.content} />
                                 </div>
-                            ) : null}
+                            )}
                         </div>
                     ))}
-                    {messages.length===0 && <LandingChat/>}
-                    {isAnswering && (
-                        <div className="max-w-[100%] text-gray-200  p-2 rounded-xl
-                    tracking-normal  border border-[var(--border-secondary)] px-4 self-start text-left">
-                        <MarkdownRenderer text="" />
-                    </div>
+
+                    {messages.length === 0 && !isAnswering && (
+                        <LandingChat selectedPhrase={handleSelectQuickPhrase} />
                     )}
 
-
+                    {/* Loader AI */}
+                    {isAnswering && (
+                        <div className=" text-gray-200  self-start text-left">
+                            <div className="loader"></div>
+                        </div>
+                    )}
                 </div>
-
+                {isUpgradeToProPopUpOpen && (
+                    <div className="fixed animate-slideUp  bottom-5  right-5 bg-[var(--background-Secondary)]  z-50 shadow-lg rounded-md border border-[var(--border-secondary)] p-2">
+                        <h2 className="text-[var(--color-primary)] text-xl">Upgrade to Pro </h2>
+                        <ul className="list-disc ml-5 text-[var(--color-third)] my-4">
+                            <li>Access to Gemini Pro</li>
+                            <li>Connect your api from other AI </li>
+                            <li>Preview of new features</li>
+                            <li>And more...</li>
+                        </ul>
+                        <button onClick={handleUpgradeToProPopUp} className="bg-[var(--background-Tertiary)] text-white px-2 py-1 rounded-md">Upgrade to Pro</button>
+                        <button className="absolute top-2 right-2 cursor-pointer text-[var(--color-primary)]" onClick={()=>setIsUpgradeToProPopUpOpen(false)}>X</button>
+                    </div>
+                )}
                 {/* barra input */}
-                <TextBar handleSend={handleSend} setPrompt={setPrompt} prompt={prompt} isAnswering={isAnswering} />
+                <TextBar handleSend={handleSend} setModel={setModel} selectedPhraseQuick={selectedPhraseQuick} setPrompt={setPrompt} prompt={prompt} isAnswering={isAnswering} />
             </div>
         </div>
     );
