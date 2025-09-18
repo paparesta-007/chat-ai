@@ -1,4 +1,4 @@
-import { Database, Lightbulb, Play, TextAlignJustifyIcon, CircleQuestionMarkIcon } from "lucide-react";
+import {Database, Lightbulb, Play, TextAlignJustifyIcon, CircleQuestionMarkIcon} from "lucide-react";
 
 const chatQuickFunction = [
     {

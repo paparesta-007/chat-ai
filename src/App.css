@@ -143,10 +143,12 @@
     from {
         transform: translateY(10px);
         opacity: 0;
+
     }
     to {
         transform: translateY(0);
         opacity: 1;
+
     }
 }
 /*--------- Login Page --------- */
@@ -164,21 +166,21 @@
 }
 
 .user-container {
-    @apply flex items-center font-semibold gap-2 px-4 py-2 rounded-xl
-    text-[var(--color-primary)] bg-[var(--background-Secondary)] border
-    border-[var(--border-secondary)] cursor-pointer mt-auto;
+    @apply flex items-center font-semibold p-2 gap-2 text-sm rounded-xl select-none
+    text-[var(--color-primary)] bg-[var(--background-Secondary)] cursor-pointer mt-auto;
     /* mt-auto = lo spinge in fondo nella colonna */
 }
 
 .settings {
-    @apply absolute bottom-[70px] left-2 flex flex-col items-start
+    @apply absolute bottom-[70px] left-2 flex flex-col text-left
     bg-[var(--background-Secondary)] border shadow-lg border-[var(--border-secondary)]
-    rounded-2xl gap-2 p-2 select-none;
+    rounded-lg w-[95%] text-sm select-none
+     ;
     /* absolute invece di fixed → relativa alla sidebar */
 }
 
 .settings button {
-    @apply w-full px-2 py-1 rounded-lg text-[var(--color-primary)] flex items-start justify-center;
+    @apply w-full px-2 py-1 rounded-lg text-left text-[var(--color-third)] hover:bg-[var(--background-Primary)] ;
 }
 .actionBtn{
     @apply items-center hover:bg-[var(--background-Secondary)] text-sm rounded-lg py-2 px-1 text-[var(--color-third)] flex gap-2
