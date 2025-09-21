@@ -178,7 +178,32 @@
      ;
     /* absolute invece di fixed → relativa alla sidebar */
 }
-
+.animate-leftbarClose{
+    animation: leftbarClose 0.5s ease-in-out forwards ;
+}
+.animate-leftbarOpen{
+    animation: leftbarOpen 0.5s ease-in-out forwards ;
+}
+@keyframes leftbarClose {
+    from {
+        display: block;
+        transform: translateX(0);
+    }
+    to {
+        display: none;
+        transform: translateX(-100%);
+    }
+}
+@keyframes leftbarOpen {
+    from {
+        display: none;
+        transform: translateX(-100%);
+    }
+    to {
+        display: block;
+        transform: translateX(0);
+    }
+}
 .settings button {
     @apply w-full px-2 py-1 rounded-lg text-left text-[var(--color-third)] hover:bg-[var(--background-Primary)] ;
 }
