@@ -12,6 +12,7 @@ import avaibleModels from "../library/avaibleModels.js";
 import {useNavigate} from "react-router";
 
 import PlanPopUp from "./PlanPopUp/PlanPopUp.jsx";
+import {ArrowRightToLine} from "lucide-react";
 
 function ChatPage() {
     const [prompt, setPrompt] = useState("");
@@ -25,6 +26,7 @@ function ChatPage() {
     const [model, setModel] = useState(avaibleModels[2]);
     const [isUpgradeToProPopUpOpen, setIsUpgradeToProPopUpOpen] = useState(false);
     const navigate = useNavigate();
+    const [isMinimized, setIsMinimized] = useState(false);
     useEffect(() => {
         getUser();
     }, []);
@@ -164,13 +166,15 @@ function ChatPage() {
     };
 
     return (
-        <div className="flex bg-[var(--background-Primary)] gap-2">
+        <div className="flex overflow-hidden bg-[var(--background-Primary)]">
 
-            <Leftbar onSelectConversation={handleSelectConversation} handleNewChat={handleNewChat}/>
+            <Leftbar onSelectConversation={handleSelectConversation} handleNewChat={handleNewChat} isMinimized={isMinimized} setIsMinimized={setIsMinimized}/>
+
             <div
                 className="w-full relative bg-[var(--background-Primary)] overflow-auto flex flex-col sm:px-[5%] md:px-[5%] lg:px-[10%] px-[5%]">
                 {/* sezione messaggi */}
-                <div className="overflow-y current-chat overflow-auto h-screen pb-40 p-4 flex flex-col"
+                {isMinimized && <div><ArrowRightToLine className="w-5 text-[var(--color-secondary)] ml-1 absolute top-3 cursor-pointer left-0 h-5" onClick={() => setIsMinimized(!isMinimized)} /></div>}
+               <div className="overflow-y  overflow-auto h-full pb-40 md:p-4 p-0 flex flex-col"
                      ref={messagesEndRef}>
                     {messages.map((m, i) => (
                         <div key={i} className="flex flex-col mb-4">

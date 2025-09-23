@@ -15,7 +15,8 @@ const TextBar = ( {handleSend,setPrompt,isAnswering,prompt,setModel} ) => {
     };
 
     return(
-            <div className="flex flex-col shadow-2xl 950 border border-[var(--border-secondary)] items-center absolute bottom-5 left-[50%] translate-x-[-50%] p-2 justify-center bg-[var(--background-Secondary)] w-[550px] rounded-2xl">
+            <div className="flex flex-col shadow-2xl 950 border border-[var(--border-secondary)] items-center absolute bottom-5 left-[50%] translate-x-[-50%] p-2
+             justify-center bg-[var(--background-Secondary)] md:w-[500px] w-[90%] rounded-2xl">
                 <div className="flex w-full">
                     <input
                         type="text"
@@ -30,7 +31,7 @@ const TextBar = ( {handleSend,setPrompt,isAnswering,prompt,setModel} ) => {
                             }
                         }}
                     />
-                    <button onClick={()=>{handleSend();setPrompt("")}} onKeyDown={onKeyDown} disabled={isAnswering} className={isAnswering ? "p-1.5 bg-[var(--background-Tertiary)] cursor-not-allowed text-white border border-[var(--border-Tertiary)] rounded" : "p-1.5 bg-[var(--background-Tertiary)] cursor-pointer text-white border border-[var(--border-Tertiary)] rounded"}>
+                    <button onClick={()=>{handleSend();setPrompt("")}} onKeyDown={onKeyDown} disabled={isAnswering} className={isAnswering ? "sendBtn cursor-not-allowed" : "sendBtn cursor-pointer"}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                              className="bi bi-send-fill" viewBox="0 0 16 16">
                             <path
@@ -60,7 +61,7 @@ const TextBar = ( {handleSend,setPrompt,isAnswering,prompt,setModel} ) => {
                                 d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
                         </svg>
                     </button>
-                    <select onChange={handleModelChange} className=" p-1.5 rounded-lg bg-[var(--background-Secondary)] text-xs text-[var(--color-third)] outline-none rounded">
+                    <select onChange={handleModelChange} className=" p-1.5  bg-[var(--background-Secondary)] text-xs text-[var(--color-third)] outline-none rounded">
                        {availableModels.map((model,index)=>{
                             return(
                                 <option key={model.id} selected={index===2} value={model.id}>{model.name}</option>
