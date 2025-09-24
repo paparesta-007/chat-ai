@@ -1,4 +1,4 @@
-import {useState, useEffect, useRef} from "react";
+import {useState, useEffect, useRef, } from "react";
 import Leftbar from "./Leftbar/Leftbar";
 import runChat from "../../api/gemini-generate.js";
 import TextBar from "./Textbar/Textbar.jsx";
@@ -9,12 +9,13 @@ import createConversation from "../services/conversations/createConversation.js"
 import getMessages from "../services/conversations/getMessages.js";
 import LandingChat from "./LandingChat/LandingChat.jsx";
 import avaibleModels from "../library/avaibleModels.js";
-import {useNavigate} from "react-router";
+import {useNavigate, useParams} from "react-router";
 
 import PlanPopUp from "./PlanPopUp/PlanPopUp.jsx";
 import {ArrowRightToLine} from "lucide-react";
 
 function ChatPage() {
+    const {chatId} = useParams();
     const [prompt, setPrompt] = useState("");
     const [messages, setMessages] = useState([]);
     const [isNewChat, setIsNewChat] = useState(true);
@@ -32,13 +33,29 @@ function ChatPage() {
     }, []);
 
     useEffect(() => {
+        if (!chatId) {
+            //Se non c'è chatId, creazione nuova chat o anche quando clicco new chat
+            setIsNewChat(true);
+            setConversation_id(null);
+            setMessages([]);
+        } else {
+            // Chat esistente
+            setIsNewChat(false);
+            handleSelectConversation(chatId);
+        }
+    }, [chatId]);
+
+
+    useEffect(() => {
         console.log("Conversation id: " + conversation_id);
+
     }, [conversation_id]);
 
     const getUser = async () => {
         try {
             const {data: {user} = {}} = await supabase.auth.getUser();
-            if (user?.id) setUser_id(user.id);
+            if (user?.id) setUser_id(user.id)
+
 
         } catch (err) {
             console.error("getUser error:", err);
@@ -88,6 +105,7 @@ function ChatPage() {
                 setConversation_id(convId); // aggiorna lo stato per le chiamate future
                 setIsNewChat(false);
                 console.log("✅ Nuova conversazione creata con id:", convId);
+                navigate(`/chat/${convId}`);
             }
 
             // Ora convId è sicuro
@@ -132,19 +150,20 @@ function ChatPage() {
 
 
     const handleSelectConversation = async (conversationId) => {
-        // 1) Cambia id conversazione
+        // Cambia URL dinamicamente
+        navigate(`/chat/${conversationId}`);
+
+        // Aggiorna lo stato locale
         setConversation_id(conversationId);
-
-        // 2) Pulisce il contenitore
         setMessages([]);
-
-        // 3) Imposta flag isNewChat su false, perché stiamo aprendo una conversazione esistente
         setIsNewChat(false);
 
-        // 4) Carica i messaggi
+        // Carica messaggi
         const messages = await getMessages(conversationId);
+        // All'onload prendo i messaggi e li mostro
         setMessages(messages || []);
     };
+
 
 
     const MarkdownRenderer = ({text}) => {
@@ -162,16 +181,17 @@ function ChatPage() {
         setIsNewChat(true);
         setConversation_id(null);
         setMessages([]);
+        navigate(`/newchat`);
 
     };
 
     return (
-        <div className="flex overflow-hidden bg-[var(--background-Primary)]">
+        <div className="flex  bg-[var(--background-Primary)]">
 
             <Leftbar onSelectConversation={handleSelectConversation} handleNewChat={handleNewChat} isMinimized={isMinimized} setIsMinimized={setIsMinimized}/>
 
             <div
-                className="w-full relative bg-[var(--background-Primary)] overflow-auto flex flex-col sm:px-[5%] md:px-[5%] lg:px-[10%] px-[5%]">
+                className="w-full relative bg-[var(--background-Primary)] h-screen overflow-auto flex flex-col sm:px-[5%] md:px-[5%] lg:px-[10%] px-[5%]">
                 {/* sezione messaggi */}
                 {isMinimized && <div><ArrowRightToLine className="w-5 text-[var(--color-secondary)] ml-1 absolute top-3 cursor-pointer left-0 h-5" onClick={() => setIsMinimized(!isMinimized)} /></div>}
                <div className="overflow-y  overflow-auto h-full pb-40 md:p-4 p-0 flex flex-col"
