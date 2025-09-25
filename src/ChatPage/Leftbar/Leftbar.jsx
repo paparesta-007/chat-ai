@@ -5,6 +5,7 @@ import getAllConversations from "../../services/conversations/getConversations.j
 import deleteConversation from "../../services/conversations/deleteConversation.js";
 import {ArrowRightToLine, LayoutGrid, Compass, Plus, Command, ArrowBigUpDash} from "lucide-react";
 
+
 const Leftbar = ({
                      onSelectConversation, handleNewChat, isMinimized, setIsMinimized,
                      conversation_id, conversations, setConversations, isConversationLoading
@@ -28,6 +29,21 @@ const Leftbar = ({
             }
         };
         fetchUser();
+    }, []);
+    useEffect(() => {
+        const handleNewChatShortcut = (event) => {
+            // Ctrl + ,
+            if (event.ctrlKey && event.key === ',') {
+                event.preventDefault();
+                handleNewChat();
+            }
+        };
+
+        window.addEventListener("keydown", handleNewChatShortcut);
+
+        return () => {
+            window.removeEventListener("keydown", handleNewChatShortcut);
+        };
     }, []);
 
     useEffect(() => {
@@ -90,15 +106,21 @@ const Leftbar = ({
                         </h2>
                         <button className="actionBtn group" onClick={handleNewChat}>
                             <Plus className="w-5 h-5"/>
-                            <span className="flex w-full justify-between items-center ">New Chat <kbd className="hidden text-sm items-center group-hover:flex gap-1"><Command className="h-4 w-4"/>+\</kbd></span>
+                            <span className="flex w-full justify-between items-center ">New Chat <kbd
+                                className="hidden text-sm items-center group-hover:flex gap-1"><Command
+                                className="h-4 w-4"/>+,</kbd></span>
                         </button>
                         <button className="actionBtn group">
                             <Compass className="w-5 h-5"/>
-                            <span className="flex w-full justify-between items-center ">Explore <kbd className="hidden text-sm items-center group-hover:flex gap-1"><Command className="h-4 w-4"/>+\</kbd></span>
+                            <span className="flex w-full justify-between items-center ">Explore <kbd
+                                className="hidden text-sm items-center group-hover:flex gap-1"><Command
+                                className="h-4 w-4"/>+\</kbd></span>
                         </button>
                         <button className="actionBtn group">
                             <LayoutGrid className="w-5 h-5"/>
-                            <span className="flex w-full justify-between items-center ">Connections <kbd className="hidden text-sm items-center group-hover:flex gap-1"><Command className="h-4 w-4"/>+<ArrowBigUpDash className="h-4 w-4"/>+/</kbd></span>
+                            <span className="flex w-full justify-between items-center ">Connections <kbd
+                                className="hidden text-sm items-center group-hover:flex gap-1"><Command
+                                className="h-4 w-4"/>+<ArrowBigUpDash className="h-4 w-4"/>+/</kbd></span>
                         </button>
                     </div>
 
@@ -124,7 +146,7 @@ const Leftbar = ({
                                         </button>
 
                                         <svg
-                                            className="ml-2 w-5 h-5 group-hover:opacity-100 opacity-0 text-gray-400 hover:text-[var(--color-primary)] cursor-pointer"
+                                            className="ml-2 w-5 h-5 group-hover:opacity-100 opacity-0 text-[var(--color-third)] hover:text-[var(--color-primary)] cursor-pointer"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 setMenuOpen(menuOpen === conversation.id ? null : conversation.id);

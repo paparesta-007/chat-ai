@@ -44,54 +44,43 @@
 }
 
 
-.renderChat ul {
+.renderChat ul,
+.renderChat ol {
     color: var(--color-chat-primary);
-    /* rimuove il bullet di default */
     padding-left: 20px;
-    list-style: circle inside;
-    /*border: 1px solid red;*/
+    margin: 10px 0; /* spazio sopra e sotto */
+    list-style-position: inside;
 }
+
+.renderChat ul li,
+.renderChat ol li {
+    margin-bottom: 6px; /* spazio tra gli elementi della lista */
+    line-height: 1.6; /* migliora leggibilità */
+}
+
+.renderChat p {
+    color: var(--color-chat-primary) !important;
+    margin: 10px 0;
+    line-height: 1.6;
+}
+
 .renderChat h1,
 .renderChat h2,
 .renderChat h3,
-.renderChat h4{
-    margin: 20px 0 0px 0 !important;
-}
-.renderChat ul li {
-    /*border: 1px solid red;*/
+.renderChat h4 {
+    margin: 16px 0 12px 0;
+    line-height: 1.3;
 }
 
-.renderChat ol {
-    list-style-type: decimal;
-    list-style-position: outside;
-    margin-left: 40px;
-}
-
-.renderChat p,
-.renderChat li,
-.renderChat ul,
-.renderChat ol {
-    color: var(--color-chat-primary) !important;
-    /*font-size: 10px;*/
-
-
-
-}
-
-.renderChat hr{
-    border: 1px solid var(--border-secondary);
-    margin: 20px 0 !important;
-}
 .renderChat h1 {
     font-size: 1.8rem !important;
-    color: var(--color-Tertiary);
+    color: var(--color-primary);
     font-weight: 500;
 }
 
 .renderChat h2 {
     font-size: 1.5rem !important;
     color: var(--color-chat-primary) !important;
-    font-family: "SansSerif", serif;
 }
 
 .renderChat h3 {
@@ -104,36 +93,57 @@
     border-collapse: collapse !important;
     width: 100% !important;
     margin: 20px 0 !important;
+    table-layout: auto;
+    overflow-x: auto;
 }
-.renderChat th{
-    background-color: var(--background-Secondary);
-    padding: 8px;
 
+.renderChat th {
+    background-color: var(--background-Secondary);
+    padding: 10px 12px;
+    text-align: left;
 }
-/* Optional improvements */
+
+.renderChat td {
+    padding: 10px 12px;
+    color: var(--color-chat-primary);
+}
+
+.renderChat hr {
+    border: 1px solid var(--border-secondary);
+    margin: 24px 0 !important;
+}
+
 .renderChat small,
 .renderChat time,
 .renderChat .meta {
     color: var(--color-chat-muted);
     font-size: 0.8rem;
+    display: inline-block;
+    margin-top: 2px;
 }
-.renderChat code{
+
+.renderChat code {
     font-family: "Fira Code", monospace;
     font-size: 0.9rem;
     color: #a4a463;
     background-color: var(--background-Secondary);
-    padding: 3px;
+    padding: 3px 5px;
     border-radius: 5px;
-
+    line-height: 1.5;
+    word-break: break-word;
 }
-.renderChat strong{
+
+.renderChat strong {
     color: var(--color-chat-primary) !important;
 }
-.renderChat pre{
+
+.renderChat pre {
     background-color: var(--background-Secondary);
     width: auto;
-    padding: 8px;
+    padding: 12px;
     border-radius: 10px;
+    line-height: 1.5;
+    word-break: break-word;
 }
 
 .animate-slideUp{
@@ -142,6 +152,21 @@
 @keyframes slideUp {
     from {
         transform: translateY(10px);
+        opacity: 0;
+
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+
+    }
+}
+.animate-slideDown{
+    animation: slideDown 0.2s ease-in-out;
+}
+@keyframes slideDown {
+    from {
+        transform: translateY(-10px);
         opacity: 0;
 
     }

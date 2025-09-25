@@ -24,7 +24,7 @@ function ChatPage() {
     const [conversation_id, setConversation_id] = useState(null);
     const messagesEndRef = useRef(null);
     const [isAnswering, setIsAnswering] = useState(false);
-    const [selectedPhraseQuick, setSelectedPhraseQuick] = useState("");
+
     const [model, setModel] = useState(avaibleModels[2]);
     const [isUpgradeToProPopUpOpen, setIsUpgradeToProPopUpOpen] = useState(false);
     const navigate = useNavigate();
@@ -43,8 +43,6 @@ function ChatPage() {
                 setConversations(convers);
 
                 setIsConversationLoading(false);
-            } else {
-
             }
         };
 
@@ -223,10 +221,11 @@ function ChatPage() {
             <Leftbar onSelectConversation={handleSelectConversation} conversations={conversations}
                      setConversations={setConversations}
                      conversation_id={conversation_id} isConversationLoading={isConversationLoading}
-                     handleNewChat={handleNewChat} isMinimized={isMinimized} setIsMinimized={setIsMinimized}/>
+                     handleNewChat={handleNewChat} isMinimized={isMinimized} setIsMinimized={setIsMinimized}
+                     />
 
             <div
-                className="w-full relative bg-[var(--background-Primary)] h-screen overflow-auto flex flex-col sm:px-[5%] md:px-[5%] lg:px-[10%] px-[5%]">
+                className="w-full relative bg-[var(--background-Primary)] h-screen overflow-auto flex flex-col items-center justify-center">
                 {/* sezione messaggi */}
                 {isMinimized && <div><ArrowRightToLine
                     className="w-5 text-[var(--color-secondary)] ml-1 absolute top-3 cursor-pointer left-0 h-5"
@@ -234,7 +233,7 @@ function ChatPage() {
                 <div className="overflow-y  overflow-auto h-full pb-40 md:p-4 p-0 flex flex-col"
                      ref={messagesEndRef}>
                     {messages.map((m, i) => (
-                        <div key={i} className="flex flex-col mb-4">
+                        <div key={i} className="flex flex-col mb-4 lg:w-[750px] w-[500px] ">
                             {m.sender && (
                                 <div
                                     className="max-w-[100%] mb-4 p-2 text-gray-200  rounded-xl bg-[var(--background-Tertiary)] border border-[var(--border-Tertiary)] px-4 self-end text-right">
@@ -243,7 +242,7 @@ function ChatPage() {
                             )}
                             {m.content && (
                                 <div
-                                    className="max-w-[100%] text-gray-200 p-2 rounded-xl border border-[var(--border-secondary)] px-4 self-start text-left">
+                                    className="max-w-[100%] text-gray-200 p-2 rounded-xl  px-4 self-start text-left">
                                     <MarkdownRenderer text={m.content}/>
                                 </div>
                             )}
@@ -267,7 +266,7 @@ function ChatPage() {
 
                 )}
                 {/* barra input */}
-                <TextBar handleSend={handleSend} setModel={setModel} selectedPhraseQuick={selectedPhraseQuick}
+                <TextBar handleSend={handleSend} setModel={setModel}
                          setPrompt={setPrompt} prompt={prompt} isAnswering={isAnswering}/>
             </div>
         </div>
