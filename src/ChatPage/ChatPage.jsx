@@ -1,4 +1,4 @@
-import {useState, useEffect, useRef, } from "react";
+import {useState, useEffect, useRef,} from "react";
 import Leftbar from "./Leftbar/Leftbar";
 import runChat from "../../api/gemini-generate.js";
 import TextBar from "./Textbar/Textbar.jsx";
@@ -13,6 +13,7 @@ import {useNavigate, useParams} from "react-router";
 
 import PlanPopUp from "./PlanPopUp/PlanPopUp.jsx";
 import {ArrowRightToLine} from "lucide-react";
+import getAllConversations from "../services/conversations/getConversations.js";
 
 function ChatPage() {
     const {chatId} = useParams();
@@ -29,9 +30,27 @@ function ChatPage() {
     const navigate = useNavigate();
     const [isMinimized, setIsMinimized] = useState(false);
     const [justCreatedChat, setJustCreatedChat] = useState(false);
+    const [conversations, setConversations] = useState([]);
+    const [isConversationLoading, setIsConversationLoading] = useState(false);
     useEffect(() => {
         getUser();
+        const fetchConversations = async () => {
+            const {data: {session}} = await supabase.auth.getSession();
+            if (session) {
+                setIsConversationLoading(true);
+
+                const convers = await getAllConversations(session.user.id);
+                setConversations(convers);
+
+                setIsConversationLoading(false);
+            } else {
+
+            }
+        };
+
+        fetchConversations();
     }, []);
+
 
     useEffect(() => {
         const loadChat = async () => {
@@ -43,21 +62,18 @@ function ChatPage() {
             try {
                 const msgs = await getMessages(chatId);
                 if (!msgs || msgs.length === 0) {
-                    navigate("/404", { replace: true });
+                    navigate("/404", {replace: true});
                 } else {
                     setMessages(msgs);
                     setConversation_id(chatId);
                     setIsNewChat(false);
                 }
             } catch {
-                navigate("/404", { replace: true });
+                navigate("/404", {replace: true});
             }
         };
         loadChat();
     }, [chatId, conversation_id, justCreatedChat]);
-
-
-
 
 
     useEffect(() => {
@@ -113,7 +129,6 @@ function ChatPage() {
                 setJustCreatedChat(true);
 
                 console.log("Conversation created?", conversation);
-
 
 
                 if (!convId) {
@@ -183,7 +198,6 @@ function ChatPage() {
     };
 
 
-
     const MarkdownRenderer = ({text}) => {
         const safe = text || "";
 
@@ -199,21 +213,25 @@ function ChatPage() {
         setIsNewChat(true);
         setConversation_id(null);
         setMessages([]);
-
         navigate(`/newchat`);
-
     };
+
 
     return (
         <div className="flex  bg-[var(--background-Primary)]">
 
-            <Leftbar  onSelectConversation={handleSelectConversation} conversation_id={conversation_id} handleNewChat={handleNewChat} isMinimized={isMinimized} setIsMinimized={setIsMinimized}/>
+            <Leftbar onSelectConversation={handleSelectConversation} conversations={conversations}
+                     setConversations={setConversations}
+                     conversation_id={conversation_id} isConversationLoading={isConversationLoading}
+                     handleNewChat={handleNewChat} isMinimized={isMinimized} setIsMinimized={setIsMinimized}/>
 
             <div
                 className="w-full relative bg-[var(--background-Primary)] h-screen overflow-auto flex flex-col sm:px-[5%] md:px-[5%] lg:px-[10%] px-[5%]">
                 {/* sezione messaggi */}
-                {isMinimized && <div><ArrowRightToLine className="w-5 text-[var(--color-secondary)] ml-1 absolute top-3 cursor-pointer left-0 h-5" onClick={() => setIsMinimized(!isMinimized)} /></div>}
-               <div className="overflow-y  overflow-auto h-full pb-40 md:p-4 p-0 flex flex-col"
+                {isMinimized && <div><ArrowRightToLine
+                    className="w-5 text-[var(--color-secondary)] ml-1 absolute top-3 cursor-pointer left-0 h-5"
+                    onClick={() => setIsMinimized(!isMinimized)}/></div>}
+                <div className="overflow-y  overflow-auto h-full pb-40 md:p-4 p-0 flex flex-col"
                      ref={messagesEndRef}>
                     {messages.map((m, i) => (
                         <div key={i} className="flex flex-col mb-4">
@@ -244,7 +262,8 @@ function ChatPage() {
                     )}
                 </div>
                 {isUpgradeToProPopUpOpen && (
-                    <PlanPopUp handleUpgradeToProPopUp={handleUpgradeToProPopUp} setIsUpgradeToProPopUpOpen={setIsUpgradeToProPopUpOpen}/>
+                    <PlanPopUp handleUpgradeToProPopUp={handleUpgradeToProPopUp}
+                               setIsUpgradeToProPopUpOpen={setIsUpgradeToProPopUpOpen}/>
 
                 )}
                 {/* barra input */}

@@ -3,32 +3,35 @@ import {useNavigate} from "react-router";
 import supabase from "../../library/supabaseclient.js";
 import getAllConversations from "../../services/conversations/getConversations.js";
 import deleteConversation from "../../services/conversations/deleteConversation.js";
-import { ArrowRightToLine,} from "lucide-react";
+import {ArrowRightToLine, LayoutGrid, Compass, Plus, Command, ArrowBigUpDash} from "lucide-react";
 
-const Leftbar = ({onSelectConversation, handleNewChat,isMinimized,setIsMinimized,conversation_id}) => {
+const Leftbar = ({
+                     onSelectConversation, handleNewChat, isMinimized, setIsMinimized,
+                     conversation_id, conversations, setConversations, isConversationLoading
+                 }) => {
     const [user, setUser] = useState(null);
     const [isSettingOpen, setIsSettingOpen] = useState(false);
-    const [conversations, setConversations] = useState([]);
+
     const [menuOpen, setMenuOpen] = useState(null); // id conversazione aperta
     const navigate = useNavigate();
 
-    const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
-        const fetchConversations = async () => {
-            const {data: {session}} = await supabase.auth.getSession();
-            if (session) {
-                setUser(session.user);
-                const convers = await getAllConversations(session.user.id);
-                setConversations(convers);
-                setIsLoading(false);
-            } else {
-                setUser(null);
+        const fetchUser = async () => {
+            try {
+                const {data, error} = await supabase.auth.getUser();
+                if (error) throw error;
+                if (data?.user) {
+                    setUser(data.user); // metti l’intero oggetto user
+                }
+            } catch (err) {
+                console.error("getUser error:", err);
             }
         };
-
-        fetchConversations();
+        fetchUser();
     }, []);
+
     useEffect(() => {
+
         const handleMinimizedShortcut = (event) => {
             // Ctrl + Enter
             if (event.ctrlKey && event.key === "\\") {
@@ -42,6 +45,7 @@ const Leftbar = ({onSelectConversation, handleNewChat,isMinimized,setIsMinimized
 
         return () => {
             window.removeEventListener("keydown", handleMinimizedShortcut);
+
         };
     }, []); // attenzione: [] così si aggiunge solo una volta
 
@@ -51,7 +55,7 @@ const Leftbar = ({onSelectConversation, handleNewChat,isMinimized,setIsMinimized
     };
     const handleDeleteConversation = async (conversationId) => {
         console.log(conversationId);
-          await deleteConversation(conversationId);
+        await deleteConversation(conversationId);
         const convers = await getAllConversations(user.id);
         setConversations(convers);
         setMenuOpen(null);
@@ -59,164 +63,159 @@ const Leftbar = ({onSelectConversation, handleNewChat,isMinimized,setIsMinimized
 
     };
     return (
-        <div className={`h-screen text-[var(--color-primary)] border border-[var(--border-primary)] select-none bg-[var(--background-Secondary)]  flex flex-col gap-2 relative transition-all duration-300 ${
-            isMinimized ? "w-0 border-0" : "md:w-[250px] w-screen "} `}>
+        <div
+            className={`h-screen text-[var(--color-primary)] border border-[var(--border-primary)] select-none bg-[var(--background-Secondary)]  flex flex-col gap-2 relative transition-all duration-300 ${
+                isMinimized ? "w-0 border-0" : "md:w-[250px] w-screen "} `}>
             {/* header */}
 
-            {menuOpen && <div className="absolute top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.5)] opacity-50 z-10" onClick={() => setMenuOpen(null)}></div>}
+            {menuOpen && <div className="absolute top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.5)] opacity-50 z-10"
+                              onClick={() => setMenuOpen(null)}></div>}
             {isMinimized ? null : (
                 <>
-                <div className="flex flex-col ">
-                <h2
+                    <div className="flex flex-col ">
+                        <h2
 
-                    className="flex cursor-pointer justify-between rounded-lg py-2 px-1 text-lg gap-2"
-                >
-                    <span className="text-[#2ed992] " onClick={() => navigate("/")}>Chat AI </span>
+                            className="flex cursor-pointer justify-between rounded-lg py-2 px-1 text-lg gap-2"
+                        >
+                            <span className="text-[#2ed992] " onClick={() => navigate("/")}>Chat AI </span>
 
-                    <span className="text-[var(--color-third)] text-xs flex items-center  gap-2">
+                            <span className="text-[var(--color-third)] text-xs flex items-center  gap-2">
                         {/*<span className="text-sm flex  gap-1"><Command className="h- w-4" /> + \</span>*/}
-                        <ArrowRightToLine
-                            className={isMinimized ? "text-[var(--color-third)] w-5 h-5" : "text-[var(--color-third)] rotate-180 x w-5 h-5"}
-                            onClick={() => { setIsMinimized(!isMinimized)}}/>
+                                <ArrowRightToLine
+                                    className={isMinimized ? "text-[var(--color-third)] w-5 h-5" : "text-[var(--color-third)] rotate-180 x w-5 h-5"}
+                                    onClick={() => {
+                                        setIsMinimized(!isMinimized)
+                                    }}/>
                     </span>
-                </h2>
-                <button className="actionBtn" onClick={handleNewChat}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                         stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                         className="lucide lucide-square-pen-icon lucide-square-pen">
-                        <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                        <path
-                            d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/>
-                    </svg>
-                    {isMinimized ? "s" : "New Chat"}
-                </button>
-                <button className="actionBtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                         stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                         className="lucide lucide-compass-icon lucide-compass">
-                        <path
-                            d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/>
-                        <circle cx="12" cy="12" r="10"/>
-                    </svg>
-                    {isMinimized ? "s" : "Explore"}
-                </button>
-            </div>
+                        </h2>
+                        <button className="actionBtn group" onClick={handleNewChat}>
+                            <Plus className="w-5 h-5"/>
+                            <span className="flex w-full justify-between items-center ">New Chat <kbd className="hidden text-sm items-center group-hover:flex gap-1"><Command className="h-4 w-4"/>+\</kbd></span>
+                        </button>
+                        <button className="actionBtn group">
+                            <Compass className="w-5 h-5"/>
+                            <span className="flex w-full justify-between items-center ">Explore <kbd className="hidden text-sm items-center group-hover:flex gap-1"><Command className="h-4 w-4"/>+\</kbd></span>
+                        </button>
+                        <button className="actionBtn group">
+                            <LayoutGrid className="w-5 h-5"/>
+                            <span className="flex w-full justify-between items-center ">Connections <kbd className="hidden text-sm items-center group-hover:flex gap-1"><Command className="h-4 w-4"/>+<ArrowBigUpDash className="h-4 w-4"/>+/</kbd></span>
+                        </button>
+                    </div>
 
 
-
-            {isMinimized ? null : (
-                <div className="chat-container w-full h-full">
                     <h4 className="text-[var(--color-primary)] mt-2 text-xl items-center flex  px-1">Chat</h4>
+                    {isMinimized ? null : (
+                        <div className="chat-container w-full h-full">
 
-                    {isLoading ? (
-                        <div className="loader" />
-                    ) : conversations.length > 0 ? (
-                        conversations.map((conversation) => (
-                            <div
-                                key={conversation.id}
-                                className={conversation.id === conversation_id ? "conversationDiv group bg-[rgba(0,0,0,0.25)] border border-red-500  " : "conversationDiv group hover:bg-[rgba(0,0,0,0.20)]" }
-                            >
-                                <button
-                                    onClick={() => onSelectConversation(conversation.id)}
-                                    className={conversation.id === conversation_id ? "text-[var(--color-primary)] truncate w-full text-left ":"w-full text-left  group-hover:text-[var(--color-primary)] truncate"}
-                                    title={conversation.title}
-                                >
-                                    {conversation.title}
-                                </button>
-
-                                <svg
-                                    className="ml-2 w-5 h-5 group-hover:opacity-100 opacity-0 text-gray-400 hover:text-[var(--color-primary)] cursor-pointer"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setMenuOpen(menuOpen === conversation.id ? null : conversation.id);
-                                    }}
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                >
-                                    <circle cx="12" cy="12" r="1" />
-                                    <circle cx="12" cy="5" r="1" />
-                                    <circle cx="12" cy="19" r="1" />
-                                </svg>
-
-                                {/* menu */}
-                                {menuOpen === conversation.id && (
+                            {isConversationLoading ? (
+                                <div className="loader"/>
+                            ) : conversations.length > 0 ? (
+                                conversations.map((conversation) => (
                                     <div
-                                        className="absolute top-10 right-0
+                                        key={conversation.id}
+                                        className={conversation.id === conversation_id ? "conversationDiv group bg-[rgba(0,0,0,0.25)] border border-red-500  " : "conversationDiv group hover:bg-[rgba(0,0,0,0.20)]"}
+                                    >
+                                        <button
+                                            onClick={() => onSelectConversation(conversation.id)}
+                                            className={conversation.id === conversation_id ? "text-[var(--color-primary)] truncate w-full text-left " : "w-full text-left  group-hover:text-[var(--color-primary)] truncate"}
+                                            title={conversation.title}
+                                        >
+                                            {conversation.title}
+                                        </button>
+
+                                        <svg
+                                            className="ml-2 w-5 h-5 group-hover:opacity-100 opacity-0 text-gray-400 hover:text-[var(--color-primary)] cursor-pointer"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setMenuOpen(menuOpen === conversation.id ? null : conversation.id);
+                                            }}
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="24"
+                                            height="24"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                        >
+                                            <circle cx="12" cy="12" r="1"/>
+                                            <circle cx="12" cy="5" r="1"/>
+                                            <circle cx="12" cy="19" r="1"/>
+                                        </svg>
+
+                                        {/* menu */}
+                                        {menuOpen === conversation.id && (
+                                            <div
+                                                className="absolute top-10 right-0
                                           overflow-hidden
                                           bg-[var(--background-Secondary)]
                                           rounded-lg shadow-lg z-10 border border-[var(--border-primary)]
                                           transition-all duration-300 ease-in-out select-none"
-                                    >
-                                        <button
-                                            className="w-full text-left px-4 py-2 hover:bg-[var(--background-Tertiary)] rounded-t-lg"
-                                        >
-                                            ✏️ Rinomina
-                                        </button>
-                                        <button
-                                            onClick={() => handleDeleteConversation(conversation.id)}
-                                            className="w-full flex gap-2 text-left px-4 py-2 hover:bg-red-800 rounded-b-lg"
-                                        >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="20"
-                                                height="20"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth="2"
-                                                className="lucide lucide-trash-icon lucide-trash"
                                             >
-                                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
-                                                <path d="M3 6h18" />
-                                                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                                            </svg>
-                                            Elimina
-                                        </button>
+                                                <button
+                                                    className="w-full text-left px-4 py-2 hover:bg-[var(--background-Tertiary)] rounded-t-lg"
+                                                >
+                                                    ✏️ Rinomina
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDeleteConversation(conversation.id)}
+                                                    className="w-full flex gap-2 text-left px-4 py-2 hover:bg-red-800 rounded-b-lg"
+                                                >
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        width="20"
+                                                        height="20"
+                                                        viewBox="0 0 24 24"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        strokeWidth="2"
+                                                        className="lucide lucide-trash-icon lucide-trash"
+                                                    >
+                                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
+                                                        <path d="M3 6h18"/>
+                                                        <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                                    </svg>
+                                                    Elimina
+                                                </button>
+                                            </div>
+                                        )}
                                     </div>
-                                )}
-                            </div>
-                        ))
-                    ) : (
-                        <p className="text-[var(--color-third)] text-sm px-1">No conversations found</p>
+                                ))
+                            ) : (
+                                <p className="text-[var(--color-third)] text-sm px-1">No conversations found</p>
+                            )}
+                        </div>
+
                     )}
-                </div>
 
-            )}
+                    {/* utente */}
+                    <div
+                        className="user-container"
+                        onClick={() => setIsSettingOpen(!isSettingOpen)}
+                    >
+                        <img
+                            src="https://upload.wikimedia.org/wikipedia/it/6/69/Il_Bambino_%28Guerre_stellari%29.png"
+                            className="w-10 h-10 rounded-full object-cover"
+                            alt=""
+                        />
+                        {isMinimized ? null : (<h3>Tommaso</h3>)}
+                    </div>
 
-            {/* utente */}
-            <div
-                className="user-container"
-                onClick={() => setIsSettingOpen(!isSettingOpen)}
-            >
-                <img
-                    src="https://upload.wikimedia.org/wikipedia/it/6/69/Il_Bambino_%28Guerre_stellari%29.png"
-                    className="w-10 h-10 rounded-full object-cover"
-                    alt=""
-                />
-                {isMinimized ? null : (<h3>Tommaso</h3>)}
-            </div>
-
-            {/* settings */}
-            {isSettingOpen && (
-                <div className="settings animate-slideUp">
-                    <button onClick={() => navigate("/pricing")}>
-                        Upgrade plan{" "}
-                        <small className="bg-violet-900 border border-violet-500 text-white px-2 rounded-lg">
-                            Pro
-                        </small>
-                    </button>
-                    <button onClick={() => navigate("/settings")}>Settings</button>
-                    <button onClick={handleLogout}>Logout</button>
-                </div>
-            )}
-                </>) }
+                    {/* settings */}
+                    {isSettingOpen && (
+                        <div className="settings animate-slideUp">
+                            <button onClick={() => navigate("/pricing")}>
+                                Upgrade plan{" "}
+                                <small className="bg-violet-900 border border-violet-500 text-white px-2 rounded-lg">
+                                    Pro
+                                </small>
+                            </button>
+                            <button onClick={() => navigate("/settings")}>Settings</button>
+                            <button onClick={handleLogout}>Logout</button>
+                        </div>
+                    )}
+                </>)}
         </div>
     );
 };
