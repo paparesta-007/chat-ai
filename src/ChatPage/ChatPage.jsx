@@ -28,22 +28,36 @@ function ChatPage() {
     const [isUpgradeToProPopUpOpen, setIsUpgradeToProPopUpOpen] = useState(false);
     const navigate = useNavigate();
     const [isMinimized, setIsMinimized] = useState(false);
+    const [justCreatedChat, setJustCreatedChat] = useState(false);
     useEffect(() => {
         getUser();
     }, []);
 
     useEffect(() => {
-        if (!chatId) {
-            //Se non c'è chatId, creazione nuova chat o anche quando clicco new chat
-            setIsNewChat(true);
-            setConversation_id(null);
-            setMessages([]);
-        } else {
-            // Chat esistente
-            setIsNewChat(false);
-            handleSelectConversation(chatId);
-        }
-    }, [chatId]);
+        const loadChat = async () => {
+            if (!chatId) return setIsNewChat(true);
+
+            // Se la chat è appena stata creata, non fare redirect
+            if (justCreatedChat && chatId === conversation_id) return setJustCreatedChat(false);
+
+            try {
+                const msgs = await getMessages(chatId);
+                if (!msgs || msgs.length === 0) {
+                    navigate("/404", { replace: true });
+                } else {
+                    setMessages(msgs);
+                    setConversation_id(chatId);
+                    setIsNewChat(false);
+                }
+            } catch {
+                navigate("/404", { replace: true });
+            }
+        };
+        loadChat();
+    }, [chatId, conversation_id, justCreatedChat]);
+
+
+
 
 
     useEffect(() => {
@@ -87,28 +101,30 @@ function ChatPage() {
             let convId = conversation_id;
 
             if (isNewChat) {
+
                 const titlePrompt = `Write a short title 4-8 word about, return 1 concise phrase, avoid markdown styling : ${prompt}`;
 
                 const rawTitle = await runChat(titlePrompt, model.id);
                 const chatTitle = safeToString(rawTitle);
-
                 const conversation = await createConversation(user_id, chatTitle);
-                console.log("Conversation created?", conversation);
-                // Prendi sempre l'id ritornato dal backend
                 convId = conversation?.[0]?.id ?? conversation?.id;
+                setConversation_id(convId);
+                setIsNewChat(false); // <- molto importante!
+                setJustCreatedChat(true);
+
+                console.log("Conversation created?", conversation);
+
+
 
                 if (!convId) {
                     console.error("❌ createConversation non ha ritornato un id valido:", conversation);
                     return;
                 }
 
-                setConversation_id(convId); // aggiorna lo stato per le chiamate future
-                setIsNewChat(false);
                 console.log("✅ Nuova conversazione creata con id:", convId);
-                navigate(`/chat/${convId}`);
             }
 
-            // Ora convId è sicuro
+
             const userMessage = {
                 sender: prompt,
                 content: "",
@@ -138,6 +154,7 @@ function ChatPage() {
             setPrompt("");
             // Salva messaggi sul DB
             await createMessage(userMessage.sender, reply, convId);
+            navigate(`/chat/${convId}`);
         } catch (err) {
             console.error("handleSend error:", err);
         }
@@ -150,7 +167,7 @@ function ChatPage() {
 
 
     const handleSelectConversation = async (conversationId) => {
-        // Cambia URL dinamicamente
+        setIsAnswering(true);
         navigate(`/chat/${conversationId}`);
 
         // Aggiorna lo stato locale
@@ -162,6 +179,7 @@ function ChatPage() {
         const messages = await getMessages(conversationId);
         // All'onload prendo i messaggi e li mostro
         setMessages(messages || []);
+        setIsAnswering(false);
     };
 
 
@@ -181,6 +199,7 @@ function ChatPage() {
         setIsNewChat(true);
         setConversation_id(null);
         setMessages([]);
+
         navigate(`/newchat`);
 
     };
@@ -188,7 +207,7 @@ function ChatPage() {
     return (
         <div className="flex  bg-[var(--background-Primary)]">
 
-            <Leftbar onSelectConversation={handleSelectConversation} handleNewChat={handleNewChat} isMinimized={isMinimized} setIsMinimized={setIsMinimized}/>
+            <Leftbar  onSelectConversation={handleSelectConversation} conversation_id={conversation_id} handleNewChat={handleNewChat} isMinimized={isMinimized} setIsMinimized={setIsMinimized}/>
 
             <div
                 className="w-full relative bg-[var(--background-Primary)] h-screen overflow-auto flex flex-col sm:px-[5%] md:px-[5%] lg:px-[10%] px-[5%]">
@@ -219,7 +238,7 @@ function ChatPage() {
 
                     {/* Loader AI */}
                     {isAnswering && (
-                        <div className=" text-gray-200  self-start text-left">
+                        <div className=" text-gray-200 absolute top-[50%] left-[50%] self-start text-left">
                             <div className="loader"></div>
                         </div>
                     )}

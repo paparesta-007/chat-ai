@@ -5,7 +5,7 @@ import getAllConversations from "../../services/conversations/getConversations.j
 import deleteConversation from "../../services/conversations/deleteConversation.js";
 import { ArrowRightToLine,} from "lucide-react";
 
-const Leftbar = ({onSelectConversation, handleNewChat,isMinimized,setIsMinimized}) => {
+const Leftbar = ({onSelectConversation, handleNewChat,isMinimized,setIsMinimized,conversation_id}) => {
     const [user, setUser] = useState(null);
     const [isSettingOpen, setIsSettingOpen] = useState(false);
     const [conversations, setConversations] = useState([]);
@@ -59,8 +59,8 @@ const Leftbar = ({onSelectConversation, handleNewChat,isMinimized,setIsMinimized
 
     };
     return (
-        <div className={`h-screen text-[var(--color-primary)]  select-none bg-[var(--background-Secondary)]  flex flex-col gap-2 relative transition-all duration-300 ${
-            isMinimized ? "w-0" : "md:w-[250px] w-screen "} `}>
+        <div className={`h-screen text-[var(--color-primary)] border border-[var(--border-primary)] select-none bg-[var(--background-Secondary)]  flex flex-col gap-2 relative transition-all duration-300 ${
+            isMinimized ? "w-0 border-0" : "md:w-[250px] w-screen "} `}>
             {/* header */}
 
             {menuOpen && <div className="absolute top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.5)] opacity-50 z-10" onClick={() => setMenuOpen(null)}></div>}
@@ -105,8 +105,8 @@ const Leftbar = ({onSelectConversation, handleNewChat,isMinimized,setIsMinimized
 
 
             {isMinimized ? null : (
-                <div className="chat-container h-full">
-                    <h4 className="text-[var(--color-primary)] mt-2 text-xl items-center flex px-1">Chat</h4>
+                <div className="chat-container w-full h-full">
+                    <h4 className="text-[var(--color-primary)] mt-2 text-xl items-center flex  px-1">Chat</h4>
 
                     {isLoading ? (
                         <div className="loader" />
@@ -114,11 +114,11 @@ const Leftbar = ({onSelectConversation, handleNewChat,isMinimized,setIsMinimized
                         conversations.map((conversation) => (
                             <div
                                 key={conversation.id}
-                                className="relative group transition w-full hover:bg-[rgba(0,0,0,0.1)] flex items-center justify-between px-1 py-1 border border-transparent rounded-md "
+                                className={conversation.id === conversation_id ? "conversationDiv group bg-[rgba(0,0,0,0.25)] border border-red-500  " : "conversationDiv group hover:bg-[rgba(0,0,0,0.20)]" }
                             >
                                 <button
                                     onClick={() => onSelectConversation(conversation.id)}
-                                    className="w-full text-left text-[var(--color-third)] group-hover:text-[var(--color-primary)] truncate"
+                                    className={conversation.id === conversation_id ? "text-[var(--color-primary)] truncate w-full text-left ":"w-full text-left  group-hover:text-[var(--color-primary)] truncate"}
                                     title={conversation.title}
                                 >
                                     {conversation.title}
