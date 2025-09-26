@@ -12,6 +12,8 @@ import Settings from "./Settings/Setting.jsx";
 import GeneralSettings from "./Settings/General/General.jsx";
 import AccountSettings from "./Settings/Account/Account.jsx";
 import CustomizationSettings from "./Settings/Customization/Customization.jsx";
+import ReleaseNotes from "./ReleaseNotes/ReleaseNotes.jsx";
+import PageNotFound from "./404Page/404page.jsx";
 function App() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -63,8 +65,9 @@ function App() {
                     <Route path="customization" element={<CustomizationSettings/>} />
                 </Route>
 
+                <Route path="/release-notes" element={<ReleaseNotes/>} />
                 {/* Catch-all */}
-                <Route path="*" element={<>Page Not Found</>} />
+                <Route path="*" element={<PageNotFound/>} />
             </Routes>
         </BrowserRouter>
     );

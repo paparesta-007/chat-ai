@@ -6,7 +6,7 @@ const Settings = () => {
     return (
         <div className="flex">
             {/* Sidebar */}
-            <div className="h-screen w-[250px] text-white p-2 bg-[var(--background-Primary)] flex flex-col relative">
+            <div className="h-screen w-[250px] text-[var(--color-primary)] p-2 bg-[var(--background-Primary)] flex flex-col relative">
                 <ul className="flex flex-col gap-4">
                     <li>
                         <NavLink to="general" className="flex items-center gap-2 hover:text-[var(--color-Tertiary)]">
@@ -30,7 +30,7 @@ const Settings = () => {
             <div className="w-[calc(100%-250px)] h-screen bg-[var(--background-Secondary)] p-4 overflow-auto">
                 <Outlet /> {/* Qui React Router inserisce la pagina giusta */}
             </div>
-            <Link to="/chat" className="fixed top-4 right-4  text-white ">X</Link>
+            <Link to="/chat" className="fixed top-4 right-4  text-[var(--color-primary)] ">X</Link>
         </div>
     );
 };

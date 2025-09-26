@@ -127,7 +127,7 @@ const Leftbar = ({
                     </div>
 
 
-                    <h4 className="text-[var(--color-secondary)] mt-2 text-md items-center flex  px-1">Chat</h4>
+                    <h4 className="text-[var(--color-Primary)] mt-2 text-md items-center flex  px-1">Chat</h4>
                     {isMinimized ? null : (
                         <div className="chat-container w-full h-full">
 

@@ -246,7 +246,7 @@ function ChatPage() {
                 className="w-full relative bg-[var(--background-Primary)] h-screen overflow-auto flex flex-col items-center justify-center">
                 {/* sezione messaggi */}
                 {isMinimized && <div><ArrowRightToLine
-                    className="w-5 text-[var(--color-secondary)] ml-1 absolute top-3 cursor-pointer left-0 h-5"
+                    className="w-5 text-[var(--color-Secondary)] ml-1 absolute top-3 cursor-pointer left-0 h-5"
                     onClick={() => setIsMinimized(!isMinimized)}/></div>}
                 <div className="overflow-y  overflow-auto h-full pb-40 md:p-4 p-0 flex flex-col"
                      ref={messagesEndRef}>

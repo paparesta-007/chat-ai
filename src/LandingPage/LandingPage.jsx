@@ -5,7 +5,7 @@ import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import landingVoices from "../library/LandingPagesVoices.js";
 import supabase from "../library/supabaseclient.js";
-
+import {Links} from "react-router";
 import {ArrowRight, ChevronDown} from "lucide-react";
 
 const navigation = [
@@ -38,7 +38,7 @@ const LandingPage = () => {
             <header className=" w-full">
                 <div className="w-full h-10 flex  text-[var(--color-primary)] items-center bg-[var(--background-Secondary)] justify-center p-6 lg:px-8 gap-2">
                     <span>ChatAI v.1.0.0 just released. </span>
-                    <a href="#" className="flex font-bold  group hover:underline items-center gap-1"> Learn more <ArrowRight className="group-hover:translate-x-1 transition"/></a>
+                    <a onClick={() => window.location.href = "/release-notes"} className="flex font-bold  group hover:underline items-center gap-1" > Learn more <ArrowRight className="group-hover:translate-x-1 transition"/></a>
                 </div>
                 <nav aria-label="Global" className="flex items-center justify-between p-6 lg:px-8">
                     {/* Logo on the left */}
