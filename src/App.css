@@ -22,32 +22,33 @@
     --font-times-new-roman: "Times New Roman", serif;
     --font-comic-sans: "Comic Sans MS", cursive;
     --font-roboto: "Roboto", sans-serif;
+    --font-new-york: "New York", serif;
 }
 
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --color-primary: #ffffff;       /* Text primary on dark background */
-        --color-secondary: #cccccc;     /* Secondary text */
-        --color-third: #999999;         /* Tertiary text */
+/*@media (prefers-color-scheme: dark) {*/
+/*    :root {*/
+/*        --color-primary: #ffffff;       !* Text primary on dark background *!*/
+/*        --color-secondary: #cccccc;     !* Secondary text *!*/
+/*        --color-third: #999999;         !* Tertiary text *!*/
 
-        --background-Primary: #191918;  /* Main background */
-        --background-Secondary: #1f1f1f;/* Secondary background areas */
+/*        --background-Primary: #191918;  !* Main background *!*/
+/*        --background-Secondary: #1f1f1f;!* Secondary background areas *!*/
 
-        --color-Tertiary: #00a0ff;      /* Accent color */
+/*        --color-Tertiary: #00a0ff;      !* Accent color *!*/
 
-        --color-chat-primary: #cecccc;  /* Chat main text */
-        --color-chat-secondary: #b0b0b0;/* Chat secondary text */
-        --color-chat-muted: #888888;    /* Muted chat text */
+/*        --color-chat-primary: #cecccc;  !* Chat main text *!*/
+/*        --color-chat-secondary: #b0b0b0;!* Chat secondary text *!*/
+/*        --color-chat-muted: #888888;    !* Muted chat text *!*/
 
-        --background-Tertiary: #0075de;     /* Accent background (kept similar) */
-        --background-Quaternary: #003f6b;   /* Light accent background for contrast */
+/*        --background-Tertiary: #0075de;     !* Accent background (kept similar) *!*/
+/*        --background-Quaternary: #003f6b;   !* Light accent background for contrast *!*/
 
-        --border-primary: #333333;       /* Primary border */
-        --border-secondary: #444444;     /* Secondary border */
-        --border-Tertiary: #00a0ff;      /* Accent border */
-    }
-}
+/*        --border-primary: #333333;       !* Primary border *!*/
+/*        --border-secondary: #444444;     !* Secondary border *!*/
+/*        --border-Tertiary: #00a0ff;      !* Accent border *!*/
+/*    }*/
+/*}*/
 .times-new-roman{
     font-family: var(--font-times-new-roman), serif;
 }
@@ -56,6 +57,9 @@
 }
 .roboto{
     font-family: var(--font-roboto), sans-serif;
+}
+.new-york{
+    font-family: var(--font-new-york), serif;
 }
 .default{
     font-family: var(--font-default), sans-serif;
@@ -87,6 +91,7 @@
 .renderChat h4 {
     margin: 16px 0 12px 0;
     line-height: 1.3;
+    color: var(--color-primary);
 }
 
 .renderChat h1 {
@@ -97,12 +102,10 @@
 
 .renderChat h2 {
     font-size: 1.5rem !important;
-    color: var(--color-chat-primary) !important;
 }
 
 .renderChat h3 {
     font-size: 1.3rem !important;
-    color: var(--color-chat-primary) !important;
 }
 
 .renderChat table {
@@ -285,6 +288,17 @@ td,tr{
     background-color: var(--color-third);
     border-radius: 8px;
     border: 0 solid transparent; /* spazio intorno */
+}
+::selection {
+    background: rgb(186, 192, 138);
+    color: black;
+    text-shadow: none;
+}
+
+::-moz-selection {
+    background: rgb(186, 192, 138);
+    color: black;
+    text-shadow: none;
 }
 /* HTML: <div class="loader"></div> */
 .loader {

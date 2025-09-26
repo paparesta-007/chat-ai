@@ -3,10 +3,10 @@
 import { useState, useEffect } from 'react'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-
+import landingVoices from "../library/LandingPagesVoices.js";
 import supabase from "../library/supabaseclient.js";
-import Hoverheader from "./Hoverheader.jsx";
-import {ArrowRightToLine, ChevronDown} from "lucide-react";
+
+import {ArrowRight, ChevronDown} from "lucide-react";
 
 const navigation = [
     { name: 'Products', href: '#', dropdown: true },
@@ -36,9 +36,9 @@ const LandingPage = () => {
     return (
         <div className="bg-[var(--background-Primary)] h-full flex flex-col items-center justify-center ">
             <header className=" w-full">
-                <div className="w-full h-16 flex text-[var(--color-primary)] items-center bg-[var(--background-Secondary)] justify-center p-6 lg:px-8">
-                    <span>ChatAI v.0.0.1 just released. </span>
-                    <a href="#" className="flex font-bold items-center gap-1"> Learn more <ArrowRightToLine></ArrowRightToLine></a>
+                <div className="w-full h-10 flex  text-[var(--color-primary)] items-center bg-[var(--background-Secondary)] justify-center p-6 lg:px-8 gap-2">
+                    <span>ChatAI v.1.0.0 just released. </span>
+                    <a href="#" className="flex font-bold  group hover:underline items-center gap-1"> Learn more <ArrowRight className="group-hover:translate-x-1 transition"/></a>
                 </div>
                 <nav aria-label="Global" className="flex items-center justify-between p-6 lg:px-8">
                     {/* Logo on the left */}
@@ -54,22 +54,39 @@ const LandingPage = () => {
                     <div className="flex-1 flex  justify-center lg:justify-center">
                         <div className="hidden lg:flex lg:gap-x-10">
                             {navigation.map((item) => (
-                                <a
-                                    key={item.name}
-                                    href={item.href}
-                                    onClick={() => {
-                                        setLiName(item.name);
-                                        setIsLiOpen(!isLiOpen); // open hover on mouse enter
-                                    }}
+                                <div key={item.name} className="relative">
+                                    <a
+                                        href={item.href}
+                                        onClick={() => {
+                                            setLiName(item.name);
+                                            setIsLiOpen(!isLiOpen); // toggle dropdown
+                                        }}
+                                        className="text-sm/6  flex gap-2 transition duration-150 font-semibold text-[var(--color-primary)]"
+                                    >
+                                        {item.name} {item.dropdown && <ChevronDown />}
+                                    </a>
 
-
-
-                                    className="text-sm/6 flex gap-2 transition duration-150  font-semibold text-[var(--color-primary)]"
-                                >
-                                    {item.name} {item.dropdown && <ChevronDown />}
-                                </a>
+                                    {/* Dropdown menu */}
+                                    {item.dropdown && isLiOpen && liName === item.name && (
+                                        <div className="absolute animate-slideDown font-semibold top-full mt-2 w-48 bg-white shadow-lg rounded-md z-10">
+                                            {landingVoices[item.name]?.map((subItem, index) => (
+                                                <a
+                                                    key={index}
+                                                    href="#"
+                                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                >
+                                                    {subItem.title}
+                                                    {subItem.description && (
+                                                        <p className="text-xs text-gray-500">{subItem.description}</p>
+                                                    )}
+                                                </a>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
                             ))}
                         </div>
+
                     </div>
 
                     <div className="flex-shrink-0 hidden lg:flex w-[200px] gap-x-2">
@@ -98,7 +115,7 @@ const LandingPage = () => {
                         </button>
                     </div>
                 </nav>
-                {isLiOpen && <Hoverheader liName={liName} />}
+
                 <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
                     <div className="fixed inset-0 z-50" />
                     <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-gray-900 p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-100/10">
@@ -120,24 +137,7 @@ const LandingPage = () => {
                                 <XMarkIcon aria-hidden="true" className="size-6" />
                             </button>
                         </div>
-                        <div className="mt-6 flow-root">
-                            <div className="-my-6 divide-y divide-white/10">
-                                <div className="space-y-2 py-6">
-                                    {navigation.map((item) => (
-                                        <a
-                                            key={item.name}
-                                            href={item.href}
-                                            className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold  hover:bg-white/5"
-                                        >
-                                            {item.name}
-                                        </a>
-                                    ))}
-                                </div>
-                                <div className="py-6">
 
-                                </div>
-                            </div>
-                        </div>
                     </DialogPanel>
                 </Dialog>
             </header>
