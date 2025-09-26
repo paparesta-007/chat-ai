@@ -11,15 +11,17 @@ const TextBar = ({handleSend, setPrompt, isAnswering, prompt, setModel}) => {
     };
     const handleModelChange = (e) => {
         const selectedId = e.target.value;
-        const selectedModel = availableModels.find(model => model.id === selectedId);
-        if (selectedModel) {
-            setModel(selectedModel);
+        const model = availableModels.find(model => model.id === selectedId);
+        if (model) {
+            setSelectedModel(selectedId); // Aggiorna lo stato locale
+            setModel(model); // Aggiorna il modello nel genitore
         }
     };
 
+
     return (
-        <div className="flex flex-col shadow-2xl 950 border border-[var(--border-secondary)] items-center absolute bottom-5 left-[50%] translate-x-[-50%] p-2
-             justify-center bg-[var(--background-Secondary)] md:w-[500px] w-[90%] rounded-2xl">
+        <div className="flex flex-col shadow-2xl 950 border mt-2 mb-2 border-[var(--border-secondary)] items-center  p-2
+             justify-center bg-[var(--background-Secondary)] md:w-[600px] w-[90%] rounded-2xl">
             <div className="flex w-full">
                 <input
                     type="text"

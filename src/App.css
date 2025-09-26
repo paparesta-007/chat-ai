@@ -16,6 +16,12 @@
     --border-primary: #dcdcdc;
     --border-secondary: #cccccc;
     --border-Tertiary: #0075de;
+
+
+    --font-default: "Arial", sans-serif;
+    --font-times-new-roman: "Times New Roman", serif;
+    --font-comic-sans: "Comic Sans MS", cursive;
+    --font-roboto: "Roboto", sans-serif;
 }
 
 
@@ -42,7 +48,18 @@
         --border-Tertiary: #00a0ff;      /* Accent border */
     }
 }
-
+.times-new-roman{
+    font-family: var(--font-times-new-roman), serif;
+}
+.comic-sans{
+    font-family: var(--font-comic-sans), cursive;
+}
+.roboto{
+    font-family: var(--font-roboto), sans-serif;
+}
+.default{
+    font-family: var(--font-default), sans-serif;
+}
 
 .renderChat ul,
 .renderChat ol {

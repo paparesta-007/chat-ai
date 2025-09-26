@@ -80,7 +80,7 @@ const Leftbar = ({
     };
     return (
         <div
-            className={`h-screen text-[var(--color-primary)] border border-[var(--border-primary)] select-none bg-[var(--background-Secondary)]  flex flex-col gap-2 relative transition-all duration-300 ${
+            className={`h-screen text-[var(--color-primary)]  border border-[var(--border-primary)] select-none bg-[var(--background-Secondary)]  flex flex-col gap-2 relative transition-all duration-300 ${
                 isMinimized ? "w-0 border-0" : "md:w-[250px] w-screen "} `}>
             {/* header */}
 
@@ -98,10 +98,12 @@ const Leftbar = ({
                             <span className="text-[var(--color-third)] text-xs flex items-center  gap-2">
                         {/*<span className="text-sm flex  gap-1"><Command className="h- w-4" /> + \</span>*/}
                                 <ArrowRightToLine
-                                    className={isMinimized ? "text-[var(--color-third)] w-5 h-5" : "text-[var(--color-third)] rotate-180 x w-5 h-5"}
+                                    className={isMinimized ? "text-[var(--color-third)] w-5 h-5 group relative" : "text-[var(--color-third)] group relative rotate-180 x w-5 h-5"}
                                     onClick={() => {
                                         setIsMinimized(!isMinimized)
-                                    }}/>
+                                    }}>
+
+                                </ArrowRightToLine>
                     </span>
                         </h2>
                         <button className="actionBtn group" onClick={handleNewChat}>
@@ -125,7 +127,7 @@ const Leftbar = ({
                     </div>
 
 
-                    <h4 className="text-[var(--color-primary)] mt-2 text-xl items-center flex  px-1">Chat</h4>
+                    <h4 className="text-[var(--color-secondary)] mt-2 text-md items-center flex  px-1">Chat</h4>
                     {isMinimized ? null : (
                         <div className="chat-container w-full h-full">
 

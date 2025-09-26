@@ -14,6 +14,7 @@ import {useNavigate, useParams} from "react-router";
 import PlanPopUp from "./PlanPopUp/PlanPopUp.jsx";
 import {ArrowRightToLine} from "lucide-react";
 import getAllConversations from "../services/conversations/getConversations.js";
+import getUserPreferences from "../services/userSettings/getUserPreferences.js";
 
 function ChatPage() {
     const {chatId} = useParams();
@@ -32,6 +33,9 @@ function ChatPage() {
     const [justCreatedChat, setJustCreatedChat] = useState(false);
     const [conversations, setConversations] = useState([]);
     const [isConversationLoading, setIsConversationLoading] = useState(false);
+    const [style, setStyle] = useState(null);
+    const [currentFontFamily, setCurrentFontFamily] = useState(null);
+    const [currentTheme, setCurrentTheme] = useState(null);
     useEffect(() => {
         getUser();
         const fetchConversations = async () => {
@@ -45,10 +49,19 @@ function ChatPage() {
                 setIsConversationLoading(false);
             }
         };
-
         fetchConversations();
+
     }, []);
 
+    useEffect(() => {
+        if (style) {
+
+            setCurrentFontFamily(style["fontFamily"]);
+            setCurrentTheme(style.theme);
+            console.log(style.theme,style.fontFamily)
+
+        }
+    }, [style]);
 
     useEffect(() => {
         const loadChat = async () => {
@@ -83,7 +96,12 @@ function ChatPage() {
         try {
             const {data: {user} = {}} = await supabase.auth.getUser();
             if (user?.id) setUser_id(user.id)
+            console.log(user.id);
+            const prefs = await getUserPreferences(user.id);
 
+            const rawStyle = prefs.preferences?.style[0];
+            console.log("rawStyle",rawStyle);
+            setStyle(rawStyle);
 
         } catch (err) {
             console.error("getUser error:", err);
@@ -216,7 +234,7 @@ function ChatPage() {
 
 
     return (
-        <div className="flex  bg-[var(--background-Primary)]">
+        <div className={`flex  bg-[var(--background-Primary)] ${currentFontFamily}`}>
 
             <Leftbar onSelectConversation={handleSelectConversation} conversations={conversations}
                      setConversations={setConversations}

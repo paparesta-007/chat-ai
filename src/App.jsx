@@ -41,7 +41,7 @@ function App() {
     }
 
     return (
-        <BrowserRouter>
+        <BrowserRouter >
             <Routes>
                 {/* Landing page pubblica */}
                 <Route path="/" element={<LandingPage/>} />

@@ -6,7 +6,7 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 
 import supabase from "../library/supabaseclient.js";
 import Hoverheader from "./Hoverheader.jsx";
-import {ChevronDown} from "lucide-react";
+import {ArrowRightToLine, ChevronDown} from "lucide-react";
 
 const navigation = [
     { name: 'Products', href: '#', dropdown: true },
@@ -36,6 +36,10 @@ const LandingPage = () => {
     return (
         <div className="bg-[var(--background-Primary)] h-full flex flex-col items-center justify-center ">
             <header className=" w-full">
+                <div className="w-full h-16 flex text-[var(--color-primary)] items-center bg-[var(--background-Secondary)] justify-center p-6 lg:px-8">
+                    <span>ChatAI v.0.0.1 just released. </span>
+                    <a href="#" className="flex font-bold items-center gap-1"> Learn more <ArrowRightToLine></ArrowRightToLine></a>
+                </div>
                 <nav aria-label="Global" className="flex items-center justify-between p-6 lg:px-8">
                     {/* Logo on the left */}
                     <div className="flex-shrink-0 w-[200px] ">
