@@ -11,7 +11,7 @@ import LandingPage from "./LandingPage/LandingPage.jsx";
 import Settings from "./Settings/Setting.jsx";
 import GeneralSettings from "./Settings/General/General.jsx";
 import AccountSettings from "./Settings/Account/Account.jsx";
-import CustomizationSettings from "./Settings/Customization/Customization.jsx";
+import CustomizationSettings from "./Settings/Customization/Customization.tsx";
 import ReleaseNotes from "./ReleaseNotes/ReleaseNotes.jsx";
 import PageNotFound from "./404Page/404page.jsx";
 function App() {
