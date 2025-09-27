@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import ChatPage from "./ChatPage/ChatPage";
+import ChatPage from "./ChatPage/ChatPage.js";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 
 import Login from "./Login/Login.jsx";

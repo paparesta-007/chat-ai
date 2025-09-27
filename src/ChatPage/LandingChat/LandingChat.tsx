@@ -7,11 +7,22 @@ import iconNotion from "../../../public/img/workspaceIcons/icons8-notion.png"
 import iconGmail from "../../../public/img/workspaceIcons/icons8-gmail.svg"
 import iconTeams from "../../../public/img/workspaceIcons/icons8-microsoft-teams.png"
 import iconGithub from "../../../public/img/workspaceIcons/icons8-github.svg"
-import {Database, Lightbulb, Play, TextAlignJustifyIcon, CircleQuestionMarkIcon, X} from "lucide-react";
+import {LucideProps, X} from "lucide-react";
 import {Link} from "react-router";
+import type {User} from '@supabase/supabase-js';
+import { Dispatch, SetStateAction } from "react";
+type QuickFunction = {
+    title: string;
+    icon: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>;
+    link?: string;
+    prompt: string;
 
-const LandingChat = ({selectedPhrase}) => {
-    const [user, setUser] = useState(null);
+}
+interface LandingChatProps{
+    selectedPhrase: (text: string) => void
+}
+const LandingChat: React.FC<LandingChatProps> = ({selectedPhrase}) => {
+    const [user, setUser] = useState<User | null>(null);
     const [isUpgradeConnectionsPopUpOpen, setIsUpgradeConnectionsPopUpOpen] = useState(true);
     const iconList = [
         {
@@ -40,18 +51,18 @@ const LandingChat = ({selectedPhrase}) => {
             link: "https://github.com"
         }
     ];
-    const date = new Date()
-    const hours = date.getHours();
-    let greeting = getGreeting();
-    const [quickFunction, setQuickFunction] = useState([]);
+    const date: Date = new Date()
+    const hours: number = date.getHours();
+    let greeting: string = getGreeting();
+    const [quickFunction, setQuickFunction] = useState<QuickFunction[]>([]);
     useEffect(() => {
 
-        const fetchUser = async () => {
+        const fetchUser = async (): Promise<void> => {
             const {data: {user} = {}} = await supabase.auth.getUser();
             if (user?.id) setUser(user);
 
         }
-        const getRandomQuickFunction = () => {
+        const getRandomQuickFunction = (): QuickFunction[] => {
             const functionNumber = 3;
             return chatQuickFunction.sort(() => Math.random() - 0.5).slice(0, functionNumber);
 
@@ -60,7 +71,7 @@ const LandingChat = ({selectedPhrase}) => {
         fetchUser();
     }, [])
 
-    function getGreeting() {
+    function getGreeting(): string {
         let greeting;
         if (hours >= 0 && hours < 12) {
             greeting = 'Good Morning';
@@ -76,8 +87,8 @@ const LandingChat = ({selectedPhrase}) => {
         <div className="h-full w-full gap-8 flex flex-col items-center justify-center">
             <h1 className="text-3xl font-semibold text-center text-[var(--color-primary)]">{greeting} {user?.email} </h1>
             <div className="flex md:flex-row flex-col gap-4">
-                {quickFunction.map((item, index) => {
-                    const Icon = item.icon;
+                {quickFunction.map((item:QuickFunction, index:number) => {
+                    const Icon:React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>> = item.icon;
                     return (
                         <div key={index} onClick={() => {
                             selectedPhrase(item.prompt)

@@ -3,26 +3,44 @@ import {useNavigate} from "react-router";
 import supabase from "../../library/supabaseclient.js";
 import getAllConversations from "../../services/conversations/getConversations.js";
 import deleteConversation from "../../services/conversations/deleteConversation.js";
-import {ArrowRightToLine, LayoutGrid, Compass, Plus, Command, ArrowBigUpDash} from "lucide-react";
+import {ArrowRightToLine, LayoutGrid, Compass, Plus, Command, ArrowBigUpDash, RefreshCw} from "lucide-react";
+import type {User} from '@supabase/supabase-js';
+import { Dispatch, SetStateAction } from "react";
+type Conversation = {
+    id: string;
+    title: string;
+    created_at: string;
+}
 
-
-const Leftbar = ({
+interface LeftbarProps {
+    onSelectConversation: (conversationId: string) => Promise<void> | void;
+    handleNewChat: () => void;
+    isMinimized: boolean;
+    setIsMinimized: Dispatch<SetStateAction<boolean>>;
+    conversation_id: string;
+    fetchConversations: () => void;
+    conversations: Conversation[];
+    setConversations: Dispatch<SetStateAction<Conversation[]>>;
+    isConversationLoading: boolean;
+}
+const Leftbar: React.FC<LeftbarProps> = ({
                      onSelectConversation, handleNewChat, isMinimized, setIsMinimized,
-                     conversation_id, conversations, setConversations, isConversationLoading
+                     conversation_id, conversations, setConversations, isConversationLoading, fetchConversations
                  }) => {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState<User | null>(null);
     const [isSettingOpen, setIsSettingOpen] = useState(false);
 
-    const [menuOpen, setMenuOpen] = useState(null); // id conversazione aperta
+    const [menuOpen, setMenuOpen] = useState<string | null>(null); // id conversazione aperta
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchUser = async () => {
+        const fetchUser = async (): Promise<void> => {
             try {
                 const {data, error} = await supabase.auth.getUser();
                 if (error) throw error;
-                if (data?.user) {
-                    setUser(data.user); // metti l’intero oggetto user
+                const user: User | null = data?.user ?? null;
+                if (user) {
+                    console.log(user.id);
                 }
             } catch (err) {
                 console.error("getUser error:", err);
@@ -30,8 +48,9 @@ const Leftbar = ({
         };
         fetchUser();
     }, []);
+
     useEffect(() => {
-        const handleNewChatShortcut = (event) => {
+        const handleNewChatShortcut = (event: KeyboardEvent): void => {
             // Ctrl + ,
             if (event.ctrlKey && event.key === ',') {
                 event.preventDefault();
@@ -48,7 +67,7 @@ const Leftbar = ({
 
     useEffect(() => {
 
-        const handleMinimizedShortcut = (event) => {
+        const handleMinimizedShortcut = (event: KeyboardEvent): void => {
             // Ctrl + Enter
             if (event.ctrlKey && event.key === "\\") {
                 event.preventDefault();
@@ -65,18 +84,19 @@ const Leftbar = ({
         };
     }, []); // attenzione: [] così si aggiunge solo una volta
 
-    const handleLogout = async () => {
+    const handleLogout = async (): Promise<void> => {
         const {error} = await supabase.auth.signOut();
         if (!error) navigate("/login");
     };
-    const handleDeleteConversation = async (conversationId) => {
+    const handleDeleteConversation = async (conversationId: string) => {
         console.log(conversationId);
         await deleteConversation(conversationId);
-        const convers = await getAllConversations(user.id);
-        setConversations(convers);
+        setConversations(conversations.filter(conversation => conversation.id !== conversationId));
+
         setMenuOpen(null);
-
-
+    };
+    const handleRefresh = () => {
+      fetchConversations();
     };
     return (
         <div
@@ -127,7 +147,9 @@ const Leftbar = ({
                     </div>
 
 
-                    <h4 className="text-[var(--color-Primary)] mt-2 text-md items-center flex  px-1">Chat</h4>
+                    <h4 className="text-[var(--color-Primary)] mt-2 text-md items-center relative flex justify-between  px-1">Chat
+
+                        <button className="hover:rotate-100 transition-all duration-300  group" onClick={handleRefresh}><RefreshCw className="w-5 h-5"  /></button></h4>
                     {isMinimized ? null : (
                         <div className="chat-container w-full h-full">
 
@@ -137,7 +159,7 @@ const Leftbar = ({
                                 conversations.map((conversation) => (
                                     <div
                                         key={conversation.id}
-                                        className={conversation.id === conversation_id ? "conversationDiv group bg-[rgba(0,0,0,0.25)] border border-red-500  " : "conversationDiv group hover:bg-[rgba(0,0,0,0.20)]"}
+                                        className={conversation.id === conversation_id ? "conversationDiv group bg-[rgba(0,0,0,0.2)] border border-red-500  " : "conversationDiv group hover:bg-[rgba(0,0,0,0.10)]"}
                                     >
                                         <button
                                             onClick={() => onSelectConversation(conversation.id)}

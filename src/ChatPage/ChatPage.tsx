@@ -7,7 +7,7 @@ import {marked} from "marked";
 import createMessage from "../services/conversations/createMessage.js";
 import createConversation from "../services/conversations/createConversation.js";
 import getMessages from "../services/conversations/getMessages.js";
-import LandingChat from "./LandingChat/LandingChat.jsx";
+import LandingChat from "./LandingChat/LandingChat.js";
 import avaibleModels from "../library/avaibleModels.js";
 import {useNavigate, useParams} from "react-router";
 
@@ -15,56 +15,87 @@ import PlanPopUp from "./PlanPopUp/PlanPopUp.jsx";
 import {ArrowRightToLine} from "lucide-react";
 import getAllConversations from "../services/conversations/getConversations.js";
 import getUserPreferences from "../services/userSettings/getUserPreferences.js";
+import type {User} from '@supabase/supabase-js';
+
+import { Dispatch, SetStateAction } from "react";
+
+
+
+
+class Message {
+    sender: string = "";
+
+    content: string = "";
+    conversation_id: string = "";
+    id: string = "";
+    created_at: string = "";
+}
+
+type Style = {
+    theme: string;
+    fontFamily: string;
+}
+
+type Conversation = {
+    id: string;
+    title: string;
+    created_at: string;
+}
+
+type Preferences = {
+    style: Style[];
+}
+
 
 function ChatPage() {
     const {chatId} = useParams();
-    const [prompt, setPrompt] = useState("");
-    const [messages, setMessages] = useState([]);
+    const [prompt, setPrompt] = useState<string>("");
+    const [messages, setMessages] = useState<Message[]>([]);
     const [isNewChat, setIsNewChat] = useState(true);
-    const [user_id, setUser_id] = useState(null);
-    const [conversation_id, setConversation_id] = useState(null);
+    const [user_id, setUser_id] = useState<string | null>(null);
+    const [conversation_id, setConversation_id] = useState<string>("");
     const messagesEndRef = useRef(null);
     const [isAnswering, setIsAnswering] = useState(false);
 
     const [model, setModel] = useState(avaibleModels[2]);
-    const [isUpgradeToProPopUpOpen, setIsUpgradeToProPopUpOpen] = useState(false);
+    const [isUpgradeToProPopUpOpen, setIsUpgradeToProPopUpOpen] = useState<boolean>(false);
     const navigate = useNavigate();
-    const [isMinimized, setIsMinimized] = useState(false);
-    const [justCreatedChat, setJustCreatedChat] = useState(false);
-    const [conversations, setConversations] = useState([]);
-    const [isConversationLoading, setIsConversationLoading] = useState(false);
-    const [style, setStyle] = useState(null);
-    const [currentFontFamily, setCurrentFontFamily] = useState(null);
-    const [currentTheme, setCurrentTheme] = useState(null);
+    const [isMinimized, setIsMinimized] = useState<boolean>(false);
+    const [justCreatedChat, setJustCreatedChat] = useState<boolean>(false);
+    const [conversations, setConversations] = useState<Conversation[]>([]);
+    const [isConversationLoading, setIsConversationLoading] = useState<boolean>(false);
+    const [style, setStyle] = useState<Style>();
+    const [currentFontFamily, setCurrentFontFamily] = useState<string>("");
+    const [currentTheme, setCurrentTheme] = useState<string>("");
     useEffect(() => {
         getUser();
-        const fetchConversations = async () => {
-            const {data: {session}} = await supabase.auth.getSession();
-            if (session) {
-                setIsConversationLoading(true);
 
-                const convers = await getAllConversations(session.user.id);
-                setConversations(convers);
-
-                setIsConversationLoading(false);
-            }
-        };
         fetchConversations();
 
     }, []);
+    const fetchConversations = async () => {
+        const {data: {session}} = await supabase.auth.getSession();
+        if (session) {
+            setIsConversationLoading(true);
 
+            const convers = await getAllConversations(session.user.id);
+            setConversations(convers);
+
+            setIsConversationLoading(false);
+        }
+    };
     useEffect(() => {
         if (style) {
 
             setCurrentFontFamily(style["fontFamily"]);
             setCurrentTheme(style.theme);
-            console.log(style.theme,style.fontFamily)
+            console.log(style.theme, style.fontFamily)
 
         }
     }, [style]);
 
     useEffect(() => {
-        const loadChat = async () => {
+        const loadChat = async (): Promise<void> => {
             if (!chatId) return setIsNewChat(true);
 
             // Se la chat è appena stata creata, non fare redirect
@@ -92,27 +123,32 @@ function ChatPage() {
 
     }, [conversation_id]);
 
-    const getUser = async () => {
+    const getUser = async (): Promise<void> => {
         try {
             const {data: {user} = {}} = await supabase.auth.getUser();
-            if (user?.id) setUser_id(user.id)
-            console.log(user.id);
-            const prefs = await getUserPreferences(user.id);
 
-            const rawStyle = prefs.preferences?.style[0];
-            console.log("rawStyle",rawStyle);
-            setStyle(rawStyle);
+            if (user?.id) {
+                setUser_id(user.id);       // user.id è string
+                console.log(user.id);
+
+                const prefs: any = await getUserPreferences(user.id);
+
+                const rawStyle: Style = prefs.preferences?.style[0];
+                console.log("rawStyle", rawStyle);
+                setStyle(rawStyle);
+            }
 
         } catch (err) {
             console.error("getUser error:", err);
         }
     };
-    const handleSelectQuickPhrase = (text) => {
+
+    const handleSelectQuickPhrase = (text: string) => {
 
         setPrompt(text); // aggiorna la TextBar
     };
 
-    const safeToString = (val) => {
+    const safeToString = (val: any) => {
         if (val == null) return "";
         if (typeof val === "string") return val;
         if (typeof val === "object") {
@@ -138,7 +174,7 @@ function ChatPage() {
 
                 const rawTitle = await runChat(titlePrompt, model.id);
                 const chatTitle = safeToString(rawTitle);
-                const conversation = await createConversation(user_id, chatTitle);
+                const conversation: any = await createConversation(user_id, chatTitle);
                 convId = conversation?.[0]?.id ?? conversation?.id;
                 setConversation_id(convId);
                 setIsNewChat(false); // <- molto importante!
@@ -156,14 +192,15 @@ function ChatPage() {
             }
 
 
-            const userMessage = {
-                sender: prompt,
-                content: "",
-                conversation_id: convId,
-            };
+            const userMessage = new Message();
+            userMessage.sender = prompt;
+            userMessage.content = "";
+            userMessage.conversation_id = convId;
+            userMessage.id = "";
+            userMessage.created_at = "";
 
             // Mostra subito messaggio utente
-            setMessages((prev) => [...prev, userMessage]);
+            setMessages((prev: Message[]) => [...prev, userMessage]);
             setPrompt("");
 
             setIsAnswering(true);
@@ -186,6 +223,7 @@ function ChatPage() {
             // Salva messaggi sul DB
             await createMessage(userMessage.sender, reply, convId);
             navigate(`/chat/${convId}`);
+            await fetchConversations()
         } catch (err) {
             console.error("handleSend error:", err);
         }
@@ -197,7 +235,7 @@ function ChatPage() {
     }
 
 
-    const handleSelectConversation = async (conversationId) => {
+    const handleSelectConversation = async (conversationId: string) => {
         setIsAnswering(true);
         navigate(`/chat/${conversationId}`);
 
@@ -214,7 +252,7 @@ function ChatPage() {
     };
 
 
-    const MarkdownRenderer = ({text}) => {
+    const MarkdownRenderer = ({text}: { text: string }) => {
         const safe = text || "";
 
         // Converti Markdown in HTML
@@ -227,7 +265,7 @@ function ChatPage() {
     };
     const handleNewChat = () => {
         setIsNewChat(true);
-        setConversation_id(null);
+        setConversation_id("");
         setMessages([]);
         navigate(`/newchat`);
     };
@@ -237,10 +275,10 @@ function ChatPage() {
         <div className={`flex  bg-[var(--background-Primary)] ${currentFontFamily}`}>
 
             <Leftbar onSelectConversation={handleSelectConversation} conversations={conversations}
-                     setConversations={setConversations}
+                     setConversations={setConversations} fetchConversations={fetchConversations}
                      conversation_id={conversation_id} isConversationLoading={isConversationLoading}
                      handleNewChat={handleNewChat} isMinimized={isMinimized} setIsMinimized={setIsMinimized}
-                     />
+            />
 
             <div
                 className="w-full relative bg-[var(--background-Primary)] h-screen overflow-auto flex flex-col items-center justify-center">
