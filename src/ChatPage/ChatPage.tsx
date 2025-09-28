@@ -15,9 +15,8 @@ import PlanPopUp from "./PlanPopUp/PlanPopUp.jsx";
 import {ArrowRightToLine} from "lucide-react";
 import getAllConversations from "../services/conversations/getConversations.js";
 import getUserPreferences from "../services/userSettings/getUserPreferences.js";
-import type {User} from '@supabase/supabase-js';
 
-import {Dispatch, SetStateAction} from "react";
+
 
 
 class Message {
@@ -363,20 +362,22 @@ function ChatPage() {
                                     className="max-w-[100%] text-gray-200 p-2 rounded-xl  px-4 self-start text-left">
                                     <MarkdownRenderer text={m.content}/>
                                 </div>
+
                             )}
+
                         </div>
                     ))}
-
+                    {isAnswering && (
+                        <div className=" text-gray-200  self-start text-left">
+                            <div className="loader"></div>
+                        </div>
+                    )}
                     {messages.length === 0 && !isAnswering && (
                         <LandingChat selectedPhrase={handleSelectQuickPhrase}/>
                     )}
 
                     {/* Loader AI */}
-                    {isAnswering && (
-                        <div className=" text-gray-200 absolute top-[50%] left-[50%] self-start text-left">
-                            <div className="loader"></div>
-                        </div>
-                    )}
+
                 </div>
                 {isUpgradeToProPopUpOpen && (
                     <PlanPopUp handleUpgradeToProPopUp={handleUpgradeToProPopUp}

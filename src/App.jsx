@@ -15,6 +15,7 @@ import CustomizationSettings from "./Settings/Customization/Customization.tsx";
 import ReleaseNotes from "./ReleaseNotes/ReleaseNotes.jsx";
 import PageNotFound from "./404Page/404page.jsx";
 import Explore from "./Explore/Explore.jsx";
+import PdfAnalyzer from "./pdfAnalyzer/pdfAnalyzer.jsx";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -26,6 +27,7 @@ function App() {
             setUser(session?.user ?? null);
             setLoading(false);
         });
+
 
         // Listener su login/logout
         const {data: {subscription}} = supabase.auth.onAuthStateChange(
@@ -59,9 +61,9 @@ function App() {
                 <Route path="/newchat" element={<ChatPage/>}/>
                 <Route path="/chat/:chatId" element={<ChatPage/>}/>
                 <Route path="/chat" element={<Navigate to="/newchat"/>}/>
-                <Route path="/provarouting" element={<h2>Routing</h2>}/>
                 <Route path="/pricing" element={<Pricing/>}/>
                 <Route path="/explore" element={<Explore/>}/>
+                <Route path="/pdf" element={<PdfAnalyzer/>}/>
                 <Route path="/settings" element={<Settings/>}>
                     <Route path="general" element={<GeneralSettings/>}/>
                     <Route path="account" element={<AccountSettings/>}/>

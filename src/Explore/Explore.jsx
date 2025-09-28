@@ -22,7 +22,7 @@ const Explore = () => {
             />
 
             {/* Griglia prodotti */}
-            <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 lg:w-[70%] md:w-[90%] w-full gap-6 mt-4">
+            <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 lg:w-[70%] md:w-[90%] w-full gap-6 mt-4 transform transition-all duration-500 ease-in-out">
                 {exploreProducts.filter((product) => product.title.toLowerCase().includes(searchQuery.toLowerCase()
                     || product.description.toLowerCase().includes(searchQuery.toLowerCase()))
                     || product.type.toLowerCase().includes(searchQuery.toLowerCase()))
