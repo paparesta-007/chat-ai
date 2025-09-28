@@ -228,7 +228,9 @@ function ChatPage() {
             setPrompt("");
 
             setIsAnswering(true);
-            const rawReply = await runChat("You are an helpful assistant, return content in markdown styled with header, bullet list, list, tables if needed prompt:" + prompt, model.id);
+            const history = toGeminiHistory(messages);
+            const rawReply = await runChat("You are an helpful assistant, return content in markdown styled with header, bullet list, list, tables if needed prompt:"
+                + prompt, model.id,history);
 
             const reply = safeToString(rawReply);
 
@@ -245,12 +247,33 @@ function ChatPage() {
             setIsAnswering(false);
             setPrompt("");
             // Salva messaggi sul DB
+            if (messagesEndRef.current) {
+                (messagesEndRef.current as any).scrollTop = (messagesEndRef.current as any).scrollHeight;
+            }
             await createMessage(userMessage.sender, reply, convId);
             navigate(`/chat/${convId}`);
             await fetchConversations()
         } catch (err) {
             console.error("handleSend error:", err);
         }
+    };
+    const toGeminiHistory = (messages: Message[]) => {
+        return messages.flatMap((m) => {
+            const historyItems = [];
+            if (m.sender) {
+                historyItems.push({
+                    role: "user",
+                    parts: [{ text: m.sender }]
+                });
+            }
+            if (m.content) {
+                historyItems.push({
+                    role: "model",
+                    parts: [{ text: m.content }]
+                });
+            }
+            return historyItems;
+        });
     };
 
     const handleUpgradeToProPopUp = () => {
@@ -303,11 +326,11 @@ function ChatPage() {
         navigate("/newchat");
     };
 
-    useEffect(() => {
-        if (messagesEndRef.current) {
-            (messagesEndRef.current as any).scrollTop = (messagesEndRef.current as any).scrollHeight;
-        }
-    }, [messages]);
+    // useEffect(() => {
+    //     if (messagesEndRef.current) {
+    //         (messagesEndRef.current as any).scrollTop = (messagesEndRef.current as any).scrollHeight;
+    //     }
+    // }, [messages]);
 
 
     return (
@@ -323,7 +346,7 @@ function ChatPage() {
                 className="w-full relative  bg-[var(--background-Primary)]  h-screen overflow-auto flex flex-col items-center justify-center">
                 {/* sezione messaggi */}
                 {isMinimized && <div><ArrowRightToLine
-                    className="w-5 text-[var(--color-Secondary)] ml-1 absolute top-3 cursor-pointer left-0 h-5"
+                    className="w-5 text-[var(--color-secondary)] ml-1 absolute top-3 cursor-pointer left-0 h-5"
                     onClick={() => setIsMinimized(!isMinimized)}/></div>}
                 <div className="overflow-y  overflow-auto h-full pb-40 md:p-4 p-0 flex flex-col"
                      ref={messagesEndRef}>

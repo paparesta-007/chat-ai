@@ -8,10 +8,9 @@ import {
 } from "@google/generative-ai"
 
 
-const MODEL_NAME = "gemini-2.5-flash-lite";
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
-async function runChat(prompt,modelName) {
+async function runChat(prompt,modelName, history=[]) {
     const genAI = new GoogleGenerativeAI(API_KEY);
     const model = genAI.getGenerativeModel({ model: modelName });
 
@@ -44,8 +43,7 @@ async function runChat(prompt,modelName) {
     const chat = model.startChat({
         generationConfig,
         safetySettings,
-        history: [
-        ],
+        history
     });
 
     const result = await chat.sendMessage(prompt);
