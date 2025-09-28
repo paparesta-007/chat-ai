@@ -8,7 +8,7 @@ import createMessage from "../services/conversations/createMessage.js";
 import createConversation from "../services/conversations/createConversation.js";
 import getMessages from "../services/conversations/getMessages.js";
 import LandingChat from "./LandingChat/LandingChat.js";
-import avaibleModels from "../library/avaibleModels.js";
+import avaibleModels from "../data/avaibleModels.js";
 import {useNavigate, useParams} from "react-router";
 
 import PlanPopUp from "./PlanPopUp/PlanPopUp.jsx";
@@ -230,7 +230,7 @@ function ChatPage() {
             setIsAnswering(true);
             const history = toGeminiHistory(messages);
             const rawReply = await runChat("You are an helpful assistant, return content in markdown styled with header, bullet list, list, tables if needed prompt:"
-                + prompt, model.id,history);
+                + prompt, model.id, history);
 
             const reply = safeToString(rawReply);
 
@@ -263,13 +263,13 @@ function ChatPage() {
             if (m.sender) {
                 historyItems.push({
                     role: "user",
-                    parts: [{ text: m.sender }]
+                    parts: [{text: m.sender}]
                 });
             }
             if (m.content) {
                 historyItems.push({
                     role: "model",
-                    parts: [{ text: m.content }]
+                    parts: [{text: m.content}]
                 });
             }
             return historyItems;

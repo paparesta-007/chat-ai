@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useState} from 'react';
 import supabase from '../../library/supabaseclient.js';
-import chatQuickFunction from '../../library/chatQuickFunction.js';
+import chatQuickFunction from '../../data/chatQuickFunction.js';
 import iconSlack from "../../../public/img/workspaceIcons/icons8-slack.png"
 import iconNotion from "../../../public/img/workspaceIcons/icons8-notion.png"
 import iconGmail from "../../../public/img/workspaceIcons/icons8-gmail.svg"

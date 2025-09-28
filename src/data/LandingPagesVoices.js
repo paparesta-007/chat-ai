@@ -3,7 +3,8 @@ const landingVoices = {
     Products: [
         {
             title: "Quickai",
-            description: ""
+            description: "",
+            to: "/newchat"
         },
         {
             title: "MailAI",
@@ -12,6 +13,11 @@ const landingVoices = {
         {
             title: "JobFinder",
             description: "Your next job in few minutes"
+        },
+        {
+            title: "All products",
+            description: "",
+            to: "/explore"
         }
     ],
     Discover: [

@@ -1,6 +1,6 @@
 import React from 'react';
 import {useState} from 'react';
-import availableModels from '../../library/avaibleModels';
+import availableModels from '../../data/avaibleModels.js';
 
 const TextBar = ({handleSend, setPrompt, isAnswering, prompt, setModel}) => {
     const [selectedModel, setSelectedModel] = useState(availableModels[2]?.id);

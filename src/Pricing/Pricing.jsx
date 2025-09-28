@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import pricingPlans from '../library/pricingplans.js';
+import pricingPlans from '../data/pricingplans.js';
 import {useNavigate} from "react-router";
 
 const Pricing = () => {

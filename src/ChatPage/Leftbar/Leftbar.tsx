@@ -136,7 +136,8 @@ const Leftbar: React.FC<LeftbarProps> = ({
                         </button>
                         <button className="actionBtn group">
                             <Compass className="w-5 h-5"/>
-                            <span className="flex w-full justify-between items-center ">Explore <kbd
+                            <span className="flex w-full justify-between items-center "
+                            onClick={()=>navigate("/explore")}>Explore <kbd
                                 className="hidden text-sm items-center group-hover:flex gap-1"><Command
                                 className="h-4 w-4"/>+\</kbd></span>
                         </button>

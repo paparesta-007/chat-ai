@@ -3,9 +3,9 @@
 import { useState, useEffect } from 'react'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import landingVoices from "../library/LandingPagesVoices.js";
+import landingVoices from "../data/LandingPagesVoices.js";
 import supabase from "../library/supabaseclient.js";
-import {Links} from "react-router";
+import {Links,useNavigate} from "react-router";
 import {ArrowRight, ChevronDown} from "lucide-react";
 
 const navigation = [
@@ -25,6 +25,7 @@ const LandingPage = () => {
     const [user, setUser] = useState(false)
     const [liName, setLiName] = useState("")
     const [isLiOpen, setIsLiOpen] = useState(false)
+    const navigate = useNavigate();
     useEffect(() => {
         supabase.auth.getSession().then(({ data: { session } }) => {
             setUser(session?.user ?? null);
@@ -73,6 +74,7 @@ const LandingPage = () => {
                                                 <a
                                                     key={index}
                                                     href="#"
+                                                    onClick={()=>navigate(subItem.to)}
                                                     className="block hover:bg-[var(--background-Secondary)] px-4 py-2 text-sm text-[var(--color-primary)] "
                                                 >
                                                     {subItem.title}
