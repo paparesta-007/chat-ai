@@ -89,11 +89,13 @@ const Leftbar: React.FC<LeftbarProps> = ({
         if (!error) navigate("/login");
     };
     const handleDeleteConversation = async (conversationId: string) => {
+        
         console.log(conversationId);
         await deleteConversation(conversationId);
         setConversations(conversations.filter(conversation => conversation.id !== conversationId));
 
         setMenuOpen(null);
+        handleNewChat()
     };
     const handleRefresh = () => {
       fetchConversations();

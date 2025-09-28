@@ -2,21 +2,20 @@
 
 /* Default: Light theme */
 :root {
-    --color-primary: #191918;
-    --color-secondary: #ffffff;
-    --color-third: #818181;
-    --background-Primary: #ffffff;
-    --background-Secondary: #efefef;
-    --color-Tertiary: #0075de;
-    --color-chat-primary: #333333;
-    --color-chat-secondary: #555555;
-    --color-chat-muted: #777777;
-    --background-Tertiary: #0075de;
-    --background-Quaternary: #e6f3fe;
-    --border-primary: #dcdcdc;
-    --border-secondary: #cccccc;
-    --border-Tertiary: #0075de;
-
+    --color-primary: #e8e8e8;
+    --color-secondary: #b8b8b8;
+    --color-third: #888888;
+    --background-Primary: #1a1a1a;
+    --background-Secondary: #2a2a2a;
+    --color-Tertiary: #00d4aa;
+    --color-chat-primary: #f0f0f0;
+    --color-chat-secondary: #c0c0c0;
+    --color-chat-muted: #909090;
+    --background-Tertiary: #00d4aa;
+    --background-Quaternary: #1a4a42;
+    --border-primary: #3a3a3a;
+    --border-secondary: #4a4a4a;
+    --border-Tertiary: #00d4aa;
 
     --font-default: "Arial", sans-serif;
     --font-times-new-roman: "Times New Roman", serif;
@@ -25,30 +24,30 @@
     --font-new-york: "New York", serif;
 }
 
-
 @media (prefers-color-scheme: dark) {
     :root {
-        --color-primary: #ffffff;       /* Text primary on dark background */
-        --color-secondary: #cccccc;     /* Secondary text */
-        --color-third: #999999;         /* Tertiary text */
+        --color-primary: #f2f2f2;          /* Bright text on dark background */
+        --color-secondary: #d0d0d0;        /* Secondary text - lighter gray */
+        --color-third: #a0a0a0;            /* Tertiary text - medium gray */
 
-        --background-Primary: #191918;  /* Main background */
-        --background-Secondary: #1f1f1f;/* Secondary background areas */
+        --background-Primary: #0f0f0f;     /* Deep black main background */
+        --background-Secondary: #1e1e1e;   /* Charcoal secondary background */
 
-        --color-Tertiary: #00a0ff;      /* Accent color */
+        --color-Tertiary: #ff6b6b;         /* Vibrant coral red accent */
 
-        --color-chat-primary: #cecccc;  /* Chat main text */
-        --color-chat-secondary: #b0b0b0;/* Chat secondary text */
-        --color-chat-muted: #888888;    /* Muted chat text */
+        --color-chat-primary: #ffffff;     /* Pure white chat text */
+        --color-chat-secondary: #e0e0e0;   /* Light gray chat secondary */
+        --color-chat-muted: #b0b0b0;       /* Muted chat text */
 
-        --background-Tertiary: #0075de;     /* Accent background (kept similar) */
-        --background-Quaternary: #003f6b;   /* Light accent background for contrast */
+        --background-Tertiary: #ff6b6b;    /* Vibrant coral background */
+        --background-Quaternary: #4a1f1f;  /* Dark red background for subtle areas */
 
-        --border-primary: #333333;       /* Primary border */
-        --border-secondary: #444444;     /* Secondary border */
-        --border-Tertiary: #00a0ff;      /* Accent border */
+        --border-primary: #333333;         /* Dark gray border */
+        --border-secondary: #555555;       /* Medium gray border */
+        --border-Tertiary: #ff6b6b;        /* Coral accent border */
     }
 }
+
 .times-new-roman{
     font-family: var(--font-times-new-roman), serif;
 }

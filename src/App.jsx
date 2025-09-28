@@ -57,7 +57,7 @@ function App() {
                 <Route path="/newchat" element={<ChatPage />} />
                 <Route path="/chat/:chatId" element={<ChatPage />} />
                 <Route path="/chat" element={<Navigate to="/newchat" />} />
-
+                <Route path="/provarouting" element={<h2>Routing</h2>}/>
                 <Route path="/pricing" element={<Pricing/>} />
                 <Route path="/settings" element={<Settings/>} >
                     <Route path="general" element={<GeneralSettings/>} />

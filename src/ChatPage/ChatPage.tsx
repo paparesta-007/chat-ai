@@ -17,9 +17,7 @@ import getAllConversations from "../services/conversations/getConversations.js";
 import getUserPreferences from "../services/userSettings/getUserPreferences.js";
 import type {User} from '@supabase/supabase-js';
 
-import { Dispatch, SetStateAction } from "react";
-
-
+import {Dispatch, SetStateAction} from "react";
 
 
 class Message {
@@ -67,13 +65,14 @@ function ChatPage() {
     const [style, setStyle] = useState<Style>();
     const [currentFontFamily, setCurrentFontFamily] = useState<string>("");
     const [currentTheme, setCurrentTheme] = useState<string>("");
+    const fetchIdRef = useRef(0);
+
     useEffect(() => {
         getUser();
-
         fetchConversations();
-
     }, []);
-    const fetchConversations = async () => {
+
+    const fetchConversations: () => Promise<void> = async () => {
         const {data: {session}} = await supabase.auth.getSession();
         if (session) {
             setIsConversationLoading(true);
@@ -96,13 +95,28 @@ function ChatPage() {
 
     useEffect(() => {
         const loadChat = async (): Promise<void> => {
-            if (!chatId) return setIsNewChat(true);
+            // Se non c'è chatId -> siamo in new chat (vuoto)
+            if (!chatId) {
+                setIsNewChat(true);
+                setMessages([]);
+                return;
+            }
 
-            // Se la chat è appena stata creata, non fare redirect
-            if (justCreatedChat && chatId === conversation_id) return setJustCreatedChat(false);
+            // Se la chat url corrisponde già alla conversazione caricata -> niente da fare
+            if (conversation_id === chatId) {
+                setIsNewChat(false);
+                return;
+            }
+
+            // Altrimenti dobbiamo caricare i messaggi della nuova chatId
+            setIsConversationLoading(true);
+            const localFetchId: number = ++fetchIdRef.current;
 
             try {
-                const msgs = await getMessages(chatId);
+                const msgs: Message[] = await getMessages(chatId);
+                // Se nel frattempo è stato fatto un'altra fetch, ignoro questa risposta
+                if (localFetchId !== fetchIdRef.current) return;
+
                 if (!msgs || msgs.length === 0) {
                     navigate("/404", {replace: true});
                 } else {
@@ -110,20 +124,30 @@ function ChatPage() {
                     setConversation_id(chatId);
                     setIsNewChat(false);
                 }
-            } catch {
+            } catch (err) {
+                // Se errore e request non invalidato -> fallback
+                if (localFetchId !== fetchIdRef.current) return;
+                console.error("loadChat error:", err);
                 navigate("/404", {replace: true});
+            } finally {
+                if (localFetchId === fetchIdRef.current) {
+                    setIsConversationLoading(false);
+                }
             }
         };
+
         loadChat();
-    }, [chatId, conversation_id, justCreatedChat]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [chatId]);
 
 
     useEffect(() => {
+
         console.log("Conversation id: " + conversation_id);
 
     }, [conversation_id]);
 
-    const getUser = async (): Promise<void> => {
+    const getUser: () => void = async (): Promise<void> => {
         try {
             const {data: {user} = {}} = await supabase.auth.getUser();
 
@@ -143,7 +167,7 @@ function ChatPage() {
         }
     };
 
-    const handleSelectQuickPhrase = (text: string) => {
+    const handleSelectQuickPhrase: (text: string) => void = (text: string) => {
 
         setPrompt(text); // aggiorna la TextBar
     };
@@ -166,14 +190,14 @@ function ChatPage() {
             return;
         }
         try {
-            let convId = conversation_id;
+            let convId: string = conversation_id;
 
             if (isNewChat) {
 
                 const titlePrompt = `Write a short title 4-8 word about, return 1 concise phrase, avoid markdown styling : ${prompt}`;
 
-                const rawTitle = await runChat(titlePrompt, model.id);
-                const chatTitle = safeToString(rawTitle);
+                const rawTitle: string = await runChat(titlePrompt, model.id);
+                const chatTitle: string = safeToString(rawTitle);
                 const conversation: any = await createConversation(user_id, chatTitle);
                 convId = conversation?.[0]?.id ?? conversation?.id;
                 setConversation_id(convId);
@@ -232,6 +256,7 @@ function ChatPage() {
     const handleUpgradeToProPopUp = () => {
         setIsUpgradeToProPopUpOpen(false);
         navigate("/pricing");
+
     }
 
 
@@ -263,12 +288,26 @@ function ChatPage() {
 
         return <div className="renderChat" dangerouslySetInnerHTML={{__html: html}}/>;
     };
-    const handleNewChat = () => {
+    const handleNewChat: () => void = (): void => {
+        // Invalida richieste pendenti: incrementa fetchId così risposte in arrivo saranno ignorate
+        fetchIdRef.current++;
+
         setIsNewChat(true);
-        setConversation_id("");
         setMessages([]);
-        navigate(`/newchat`);
+        setConversation_id("");
+        setPrompt("");
+        setIsAnswering(false);
+        setJustCreatedChat(true);
+
+        // naviga alla route newchat
+        navigate("/newchat");
     };
+
+    useEffect(() => {
+        if (messagesEndRef.current) {
+            (messagesEndRef.current as any).scrollTop = (messagesEndRef.current as any).scrollHeight;
+        }
+    }, [messages]);
 
 
     return (
@@ -281,7 +320,7 @@ function ChatPage() {
             />
 
             <div
-                className="w-full relative bg-[var(--background-Primary)] h-screen overflow-auto flex flex-col items-center justify-center">
+                className="w-full relative  bg-[var(--background-Primary)]  h-screen overflow-auto flex flex-col items-center justify-center">
                 {/* sezione messaggi */}
                 {isMinimized && <div><ArrowRightToLine
                     className="w-5 text-[var(--color-Secondary)] ml-1 absolute top-3 cursor-pointer left-0 h-5"
