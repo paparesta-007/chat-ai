@@ -1,3 +1,4 @@
+
 const landingVoices = {
     Products: [
         {
@@ -6,11 +7,11 @@ const landingVoices = {
         },
         {
             title: "MailAI",
-            description: "Less time spent on emails"
+            description: "Focus on what matters"
         },
         {
             title: "JobFinder",
-            description: "Find your next job in seconds and apply with AI"
+            description: "Your next job in few minutes"
         }
     ],
     Discover: [

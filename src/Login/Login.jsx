@@ -36,7 +36,7 @@ const Login = () => {
             // Sign Up Mode
             if (password !== confirmPassword) {
                 return showToast("Passwords do not match");
-            }x
+            }
 
             try {
                 const { data, error } = await supabase.auth.signUp({

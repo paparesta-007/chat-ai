@@ -115,7 +115,7 @@ const Leftbar: React.FC<LeftbarProps> = ({
 
                             className="flex cursor-pointer justify-between rounded-lg py-2 px-1 text-lg gap-2"
                         >
-                            <span className="text-[#2ed992] " onClick={() => navigate("/")}>Chat AI </span>
+                            <span className="text-[var(--color-primary)] " onClick={() => navigate("/")}>Chat AI </span>
 
                             <span className="text-[var(--color-third)] text-xs flex items-center  gap-2">
                         {/*<span className="text-sm flex  gap-1"><Command className="h- w-4" /> + \</span>*/}

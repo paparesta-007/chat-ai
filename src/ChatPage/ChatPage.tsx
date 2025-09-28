@@ -326,11 +326,11 @@ function ChatPage() {
         navigate("/newchat");
     };
 
-    // useEffect(() => {
-    //     if (messagesEndRef.current) {
-    //         (messagesEndRef.current as any).scrollTop = (messagesEndRef.current as any).scrollHeight;
-    //     }
-    // }, [messages]);
+    useEffect(() => {
+        if (messagesEndRef.current) {
+            (messagesEndRef.current as any).scrollTop = (messagesEndRef.current as any).scrollHeight;
+        }
+    }, [messages]);
 
 
     return (

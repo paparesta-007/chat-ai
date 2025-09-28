@@ -14,10 +14,11 @@ import AccountSettings from "./Settings/Account/Account.jsx";
 import CustomizationSettings from "./Settings/Customization/Customization.tsx";
 import ReleaseNotes from "./ReleaseNotes/ReleaseNotes.jsx";
 import PageNotFound from "./404Page/404page.jsx";
+import getUserPreferences from "./services/userSettings/getUserPreferences.js";
 function App() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    
+
     useEffect(() => {
         // Recupera subito la sessione
         supabase.auth.getSession().then(({ data: { session } }) => {
