@@ -48,7 +48,7 @@ const Explore = () => {
 
                         {/* Pulsante */}
                         <button
-                            className="mt-2 bg-[var(--background-Tertiary)] text-[var(--color-primary)] cursor-pointer
+                            className="mt-2 bg-[var(--background-Tertiary)] text-[var(--color-secondary)] cursor-pointer
                          px-4 py-2 rounded-xl text-sm font-semibold shadow-sm hover:brightness-110 transition"
                         >
                             {product.buttonText}

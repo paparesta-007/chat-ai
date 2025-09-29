@@ -15,7 +15,7 @@ import CustomizationSettings from "./Settings/Customization/Customization.tsx";
 import ReleaseNotes from "./ReleaseNotes/ReleaseNotes.jsx";
 import PageNotFound from "./404Page/404page.jsx";
 import Explore from "./Explore/Explore.jsx";
-import PdfAnalyzer from "./pdfAnalyzer/pdfAnalyzer.jsx";
+import PdfAnalyzer from "./pdfAnalyzer/pdfAnalyzer.tsx";
 
 function App() {
     const [user, setUser] = useState(null);

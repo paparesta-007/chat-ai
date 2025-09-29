@@ -1,58 +1,57 @@
 @import "tailwindcss";
 
 /* 🌞 Default: Light theme */
+/* 🌞 Default: Light theme */
 :root {
-    --color-primary: #1a1a2e;          /* Testo principale: blu notte scuro */
-    --color-secondary: #16213e;        /* Testo secondario */
-    --color-third: #4e4e50;            /* Testo terziario (grigio neutro) */
+    --color-primary: #1a1a1a;          /* Testo principale (nero profondo) */
+    --color-secondary: #ffffff;        /* Testo secondario (bianco) */
+    --color-third: #555555;            /* Testo terziario (grigio medio) */
 
-    --background-Primary: #f5f7fa;     /* Sfondo principale: grigio chiarissimo */
-    --background-Secondary: #e0e5ec;   /* Sfondo secondario: bianco soft con effetto "card" */
+    --background-Primary: #ffffff;     /* Sfondo principale: bianco */
+    --background-Secondary: #eeecec;   /* Sfondo card: grigio chiaro */
 
-    --color-Tertiary: #6c63ff;         /* Accento: indigo/viola */
+    --color-Tertiary: #222222;         /* Accento scuro */
+    --color-chat-primary: #1a1a1a;     /* Chat testo principale */
+    --color-chat-secondary: #333333;   /* Chat testo secondario */
+    --color-chat-muted: #777777;       /* Chat attenuato */
 
-    --color-chat-primary: #1a1a2e;     /* Chat testo principale */
-    --color-chat-secondary: #4e4e50;   /* Chat secondario */
-    --color-chat-muted: #7f8c8d;       /* Chat testo attenuato */
+    --background-Tertiary: #2093da;    /* Sfondo accento grigio chiaro */
+    --background-Quaternary: #fafafa;  /* Sfondo neutro chiarissimo */
 
-    --background-Tertiary: #6c63ff;    /* Sfondo accento (indigo/viola) */
-    --background-Quaternary: #dcd6f7;  /* Sfondo tenue indaco chiaro */
-
-    --border-primary: #cbd5e0;         /* Bordo chiaro */
-    --border-secondary: #a0aec0;       /* Bordo medio */
-    --border-Tertiary: #6c63ff;        /* Bordo accentato */
+    --border-primary: #e0e0e0;         /* Bordo chiaro */
+    --border-secondary: #b0b0b0;       /* Bordo medio */
+    --border-Tertiary: #2093da;        /* Bordo accentato scuro */
 
     --font-default: "Inter", sans-serif;
     --font-times-new-roman: "Times New Roman", serif;
     --font-comic-sans: "Comic Sans MS", cursive;
     --font-roboto: "Roboto", sans-serif;
-    --font-new-york: "New York", serif;
 }
 
-/* 🌚 Dark theme */
+/* 🌙 Dark theme (auto con prefers-color-scheme) */
 @media (prefers-color-scheme: dark) {
     :root {
-        --color-primary: #f5f7fa;       /* Testo chiaro */
-        --color-secondary: #cbd5e0;     /* Testo secondario */
-        --color-third: #a0aec0;         /* Testo terziario */
+        --color-primary: #f5f5f5;       /* Testo principale (chiaro) */
+        --color-secondary: #cccccc;     /* Testo secondario */
+        --color-third: #aaaaaa;         /* Testo terziario */
 
-        --background-Primary: #0f0f1a;  /* Sfondo principale molto scuro blu/nero */
-        --background-Secondary: #1a1a2e;/* Sfondo secondario blu notte */
+        --background-Primary: #101010;  /* Sfondo principale: nero */
+        --background-Secondary: #1a1a1a;/* Sfondo card: grigio scurissimo */
 
-        --color-Tertiary: #6c63ff;      /* Accento indigo/viola brillante */
+        --color-Tertiary: #e0e0e0;      /* Accento chiaro */
+        --color-chat-primary: #f5f5f5;  /* Chat testo principale */
+        --color-chat-secondary: #cccccc;/* Chat secondario */
+        --color-chat-muted: #888888;    /* Chat attenuato */
 
-        --color-chat-primary: #ffffff;  /* Chat testo principale */
-        --color-chat-secondary: #d1d5db;/* Chat secondario */
-        --color-chat-muted: #9ca3af;    /* Chat attenuato */
+        --background-Tertiary: #2093da; /* Sfondo accento */
+        --background-Quaternary: #121212;/* Sfondo neutro scuro */
 
-        --background-Tertiary: #6c63ff; /* Sfondo accento */
-        --background-Quaternary: #2e2e4f; /* Sfondo indaco scuro */
-
-        --border-primary: #2d3748;      /* Bordo scuro */
-        --border-secondary: #4a5568;    /* Bordo medio */
-        --border-Tertiary: #6c63ff;     /* Bordo accentato */
+        --border-primary: #2c2c2c;      /* Bordo chiaro (dark) */
+        --border-secondary: #555555;    /* Bordo medio */
+        --border-Tertiary: #2093da;     /* Bordo accentato */
     }
 }
+
 
 
 .times-new-roman{

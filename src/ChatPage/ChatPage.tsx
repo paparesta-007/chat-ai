@@ -77,6 +77,7 @@ function ChatPage() {
             setIsConversationLoading(true);
 
             const convers = await getAllConversations(session.user.id);
+
             setConversations(convers);
 
             setIsConversationLoading(false);
@@ -174,10 +175,12 @@ function ChatPage() {
     const safeToString = (val: any) => {
         if (val == null) return "";
         if (typeof val === "string") return val;
+
         if (typeof val === "object") {
             // cerca proprietà comuni
             return val?.text ?? val?.message ?? JSON.stringify(val);
         }
+
         return String(val);
     };
 
@@ -232,6 +235,8 @@ function ChatPage() {
                 + prompt, model.id, history);
 
             const reply = safeToString(rawReply);
+            
+
 
             // Aggiorna l'ultimo messaggio con la risposta AI
             setMessages((prev) =>
@@ -320,6 +325,7 @@ function ChatPage() {
         setPrompt("");
         setIsAnswering(false);
         setJustCreatedChat(true);
+
 
         // naviga alla route newchat
         navigate("/newchat");
