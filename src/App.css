@@ -29,28 +29,28 @@
 }
 
 /* 🌙 Dark theme (auto con prefers-color-scheme) */
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
     :root {
-        --color-primary: #f5f5f5;       /* Testo principale (chiaro) */
-        --color-secondary: #cccccc;     /* Testo secondario */
-        --color-third: #aaaaaa;         /* Testo terziario */
+        --color-primary: #f5f5f5;      
+        --color-secondary: #cccccc;    
+        --color-third: #aaaaaa;        
 
-        --background-Primary: #101010;  /* Sfondo principale: nero */
-        --background-Secondary: #1a1a1a;/* Sfondo card: grigio scurissimo */
+        --background-Primary: #101010;  
+        --background-Secondary: #1a1a1a;
 
-        --color-Tertiary: #e0e0e0;      /* Accento chiaro */
-        --color-chat-primary: #f5f5f5;  /* Chat testo principale */
-        --color-chat-secondary: #cccccc;/* Chat secondario */
-        --color-chat-muted: #888888;    /* Chat attenuato */
+        --color-Tertiary: #e0e0e0;      
+        --color-chat-primary: #f5f5f5;  
+        --color-chat-secondary: #cccccc;
+        --color-chat-muted: #888888;    
 
-        --background-Tertiary: #2093da; /* Sfondo accento */
-        --background-Quaternary: #121212;/* Sfondo neutro scuro */
+        --background-Tertiary: #2093da; 
+        --background-Quaternary: #121212;
 
-        --border-primary: #2c2c2c;      /* Bordo chiaro (dark) */
-        --border-secondary: #555555;    /* Bordo medio */
-        --border-Tertiary: #2093da;     /* Bordo accentato */
+        --border-primary: #2c2c2c;     
+        --border-secondary: #555555;   
+        --border-Tertiary: #2093da;    
     }
-}
+} */
 
 
 
@@ -97,6 +97,7 @@
     margin: 16px 0 12px 0;
     line-height: 1.3;
     color: var(--color-primary);
+    
 }
 
 .renderChat h1 {
@@ -204,6 +205,12 @@
 
     }
 }
+
+/* Classe per Tailwind / CSS personalizzato */
+.animate-tooltip {
+
+}
+
 /*--------- Login Page --------- */
 .btnLogin {
     @apply w-[300px] h-[50px] flex items-center gap-2 text-[var(--color-primary)]  bg-[var(--background-Secondary)]  px-4 py-1 rounded-xl border border-[var(--border-primary)];
