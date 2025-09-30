@@ -6,12 +6,7 @@ import deleteConversation from "../../services/conversations/deleteConversation.
 import {ArrowRightToLine, LayoutGrid, Compass, Plus, Command, ArrowBigUpDash, RefreshCw} from "lucide-react";
 import type {User} from '@supabase/supabase-js';
 import { Dispatch, SetStateAction } from "react";
-type Conversation = {
-    id: string;
-    title: string;
-    created_at: string;
-}
-
+import { Conversation } from '../../types/types.js';
 interface LeftbarProps {
     onSelectConversation: (conversationId: string) => Promise<void> | void;
     handleNewChat: () => void;
@@ -106,7 +101,7 @@ const Leftbar: React.FC<LeftbarProps> = ({
                 isMinimized ? "w-0 border-0" : "md:w-[250px] w-screen "} `}>
             {/* header */}
 
-            {menuOpen && <div className="absolute top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.5)] opacity-50 z-10"
+            {menuOpen && <div className="absolute top-0 left-0 w-full h-full  bg-[rgba(0,0,0,0.5)] opacity-50 z-10"
                               onClick={() => setMenuOpen(null)}></div>}
             {isMinimized ? null : (
                 <>
@@ -148,9 +143,96 @@ const Leftbar: React.FC<LeftbarProps> = ({
                                 className="h-4 w-4"/>+<ArrowBigUpDash className="h-4 w-4"/>+/</kbd></span>
                         </button>
                     </div>
+                    
+                   <h4 className="text-[var(--color-primary)] mt-2 text-sm items-center relative flex justify-between  px-1">Favourite
 
+                        <button className="hover:rotate-100 transition-all duration-300  group" onClick={handleRefresh}><RefreshCw className="w-5 h-5"  /></button></h4>
+                    {isMinimized ? null : (
+                        <div className="chat-container w-full h-64">
 
-                    <h4 className="text-[var(--color-Primary)] mt-2 text-md items-center relative flex justify-between  px-1">Chat
+                            {isConversationLoading ? (
+                                <div className="loader"/>
+                            ) : conversations.length > 0 ? (
+                                conversations.map((conversation) => (
+                                    conversation.favourite ? <div
+                                        key={conversation.id}
+                                        className={conversation.id === conversation_id ? "conversationDiv group bg-[rgba(0,0,0,0.2)] border border-red-500  " : "conversationDiv group hover:bg-[rgba(0,0,0,0.10)]"}
+                                    >
+                                        <button
+                                            onClick={() => onSelectConversation(conversation.id)}
+                                            className={conversation.id === conversation_id ? "text-[var(--color-primary)] truncate w-full text-left " : "w-full text-left  group-hover:text-[var(--color-primary)] truncate"}
+                                            title={conversation.title}
+                                        >
+                                            {conversation.title}
+                                        </button>
+
+                                        <svg
+                                            className="ml-2 w-5 h-5 group-hover:opacity-100 opacity-0 text-[var(--color-third)] hover:text-[var(--color-primary)] cursor-pointer"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setMenuOpen(menuOpen === conversation.id ? null : conversation.id);
+                                            }}
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="24"
+                                            height="24"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                        >
+                                            <circle cx="12" cy="12" r="1"/>
+                                            <circle cx="12" cy="5" r="1"/>
+                                            <circle cx="12" cy="19" r="1"/>
+                                        </svg>
+
+                                        {/* menu */}
+                                        {menuOpen === conversation.id && (
+                                            <div
+                                                className="absolute top-10 right-0
+                                          overflow-hidden
+                                          bg-[var(--background-Secondary)]
+                                          rounded-lg shadow-lg z-10 border border-[var(--border-primary)]
+                                          transition-all duration-300 ease-in-out select-none"
+                                            >
+                                                <button
+                                                    className="w-full text-left px-4 py-2 hover:bg-[var(--background-Tertiary)] rounded-t-lg"
+                                                >
+                                                    ✏️ Rinomina
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDeleteConversation(conversation.id)}
+                                                    className="w-full flex gap-2 text-left px-4 py-2 hover:bg-red-800 rounded-b-lg"
+                                                >
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        width="20"
+                                                        height="20"
+                                                        viewBox="0 0 24 24"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        strokeWidth="2"
+                                                        className="lucide lucide-trash-icon lucide-trash"
+                                                    >
+                                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
+                                                        <path d="M3 6h18"/>
+                                                        <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                                    </svg>
+                                                    Elimina
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div> : null
+                                ))
+                            ) : (
+                                <p className="text-[var(--color-third)] text-sm px-1">No conversations found</p>
+                            )}
+                        </div>
+
+                    )}                         
+
+                    <h4 className="text-[var(--color-Primary)] mt-2 text-sm items-center relative flex justify-between  px-1">All chat
 
                         <button className="hover:rotate-100 transition-all duration-300  group" onClick={handleRefresh}><RefreshCw className="w-5 h-5"  /></button></h4>
                     {isMinimized ? null : (

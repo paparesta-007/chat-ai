@@ -1,51 +1,29 @@
-import {useState, useEffect, useRef,} from "react";
+import { useState, useEffect, useRef, } from "react";
 import Leftbar from "./Leftbar/Leftbar";
 import runChat from "../../api/gemini-generate.js";
 import TextBar from "./Textbar/Textbar.jsx";
 import supabase from "../../src/library/supabaseclient.js";
-import {marked} from "marked";
+import { marked } from "marked";
 import createMessage from "../services/conversations/createMessage.js";
 import createConversation from "../services/conversations/createConversation.js";
 import getMessages from "../services/conversations/getMessages.js";
 import LandingChat from "./LandingChat/LandingChat.js";
 import avaibleModels from "../data/avaibleModels.js";
-import {useNavigate, useParams} from "react-router";
-
+import { useNavigate, useParams } from "react-router";
+import Tooltip from "../Tooltip/tooltip";
 import PlanPopUp from "./PlanPopUp/PlanPopUp.jsx";
-import {ArrowRightToLine} from "lucide-react";
+import { Menu, Star, Ellipsis } from "lucide-react";
 import getAllConversations from "../services/conversations/getConversations.js";
 import getUserPreferences from "../services/userSettings/getUserPreferences.js";
+import favouriteConversation from "../services/conversations/favouriteConversation";
+import  { Message, Conversation, Style } from "../types/types.js";
 
 
 
-
-class Message {
-    sender: string = "";
-
-    content: string = "";
-    conversation_id: string = "";
-    id: string = "";
-    created_at: string = "";
-}
-
-type Style = {
-    theme: string;
-    fontFamily: string;
-}
-
-type Conversation = {
-    id: string;
-    title: string;
-    created_at: string;
-}
-
-type Preferences = {
-    style: Style[];
-}
 
 
 function ChatPage() {
-    const {chatId} = useParams();
+    const { chatId } = useParams();
     const [prompt, setPrompt] = useState<string>("");
     const [messages, setMessages] = useState<Message[]>([]);
     const [isNewChat, setIsNewChat] = useState(true);
@@ -64,6 +42,7 @@ function ChatPage() {
     const [style, setStyle] = useState<Style>();
     const [currentFontFamily, setCurrentFontFamily] = useState<string>("");
     const [currentTheme, setCurrentTheme] = useState<string>("");
+    const [isConversationFavourite, setIsConversationFavourite] = useState<boolean>(false);
     const fetchIdRef = useRef(0);
 
     useEffect(() => {
@@ -72,7 +51,7 @@ function ChatPage() {
     }, []);
 
     const fetchConversations: () => Promise<void> = async () => {
-        const {data: {session}} = await supabase.auth.getSession();
+        const { data: { session } } = await supabase.auth.getSession();
         if (session) {
             setIsConversationLoading(true);
 
@@ -118,7 +97,7 @@ function ChatPage() {
                 if (localFetchId !== fetchIdRef.current) return;
 
                 if (!msgs || msgs.length === 0) {
-                    navigate("/404", {replace: true});
+                    navigate("/404", { replace: true });
                 } else {
                     setMessages(msgs);
                     setConversation_id(chatId);
@@ -128,7 +107,7 @@ function ChatPage() {
                 // Se errore e request non invalidato -> fallback
                 if (localFetchId !== fetchIdRef.current) return;
                 console.error("loadChat error:", err);
-                navigate("/404", {replace: true});
+                navigate("/404", { replace: true });
             } finally {
                 if (localFetchId === fetchIdRef.current) {
                     setIsConversationLoading(false);
@@ -141,15 +120,37 @@ function ChatPage() {
     }, [chatId]);
 
 
+    // Aggiorna lo stato locale e l'array conversations
+    const handleFavouriteConversation = async () => {
+        if (!conversation_id) return;
+
+        const newFavourite = !isConversationFavourite;
+        setIsConversationFavourite(newFavourite);
+
+        // Aggiorna nel DB
+        await favouriteConversation(newFavourite, conversation_id);
+
+        // Aggiorna anche l'array conversations
+        setConversations(prev =>
+            prev.map(c =>
+                c.id === conversation_id ? { ...c, favourite: newFavourite } : c
+            )
+        );
+    };
+
+    // Effetto per aggiornare isConversationFavourite quando cambia conversation_id o conversations
     useEffect(() => {
+        if (!conversation_id || conversations.length === 0) return;
 
-        console.log("Conversation id: " + conversation_id);
+        const conv = conversations.find(c => c.id === conversation_id);
+        setIsConversationFavourite(conv?.favourite ?? false);
+    }, [conversation_id, conversations]);
 
-    }, [conversation_id]);
+
 
     const getUser: () => void = async (): Promise<void> => {
         try {
-            const {data: {user} = {}} = await supabase.auth.getUser();
+            const { data: { user } = {} } = await supabase.auth.getUser();
 
             if (user?.id) {
                 setUser_id(user.id);       // user.id è string
@@ -235,14 +236,14 @@ function ChatPage() {
                 + prompt, model.id, history);
 
             const reply = safeToString(rawReply);
-            
+
 
 
             // Aggiorna l'ultimo messaggio con la risposta AI
             setMessages((prev) =>
                 prev.map((m, idx) =>
                     idx === prev.length - 1
-                        ? {...m, content: reply, conversation_id: convId}
+                        ? { ...m, content: reply, conversation_id: convId }
                         : m
                 )
             );
@@ -267,13 +268,13 @@ function ChatPage() {
             if (m.sender) {
                 historyItems.push({
                     role: "user",
-                    parts: [{text: m.sender}]
+                    parts: [{ text: m.sender }]
                 });
             }
             if (m.content) {
                 historyItems.push({
                     role: "model",
-                    parts: [{text: m.content}]
+                    parts: [{ text: m.content }]
                 });
             }
             return historyItems;
@@ -295,6 +296,7 @@ function ChatPage() {
         setConversation_id(conversationId);
         setMessages([]);
         setIsNewChat(false);
+        setIsConversationFavourite(false);
 
         // Carica messaggi
         const messages = await getMessages(conversationId);
@@ -304,7 +306,7 @@ function ChatPage() {
     };
 
 
-    const MarkdownRenderer = ({text}: { text: string }) => {
+    const MarkdownRenderer = ({ text }: { text: string }) => {
         const safe = text || "";
 
         // Converti Markdown in HTML
@@ -313,7 +315,7 @@ function ChatPage() {
         // Avvolgi ogni <code> che non è già in <pre>
 
 
-        return <div className="renderChat" dangerouslySetInnerHTML={{__html: html}}/>;
+        return <div className="renderChat" dangerouslySetInnerHTML={{ __html: html }} />;
     };
     const handleNewChat: () => void = (): void => {
         // Invalida richieste pendenti: incrementa fetchId così risposte in arrivo saranno ignorate
@@ -325,6 +327,7 @@ function ChatPage() {
         setPrompt("");
         setIsAnswering(false);
         setJustCreatedChat(true);
+        setIsConversationFavourite(false);
 
 
         // naviga alla route newchat
@@ -342,19 +345,42 @@ function ChatPage() {
         <div className={`flex  bg-[var(--background-Primary)] ${currentFontFamily}`}>
 
             <Leftbar onSelectConversation={handleSelectConversation} conversations={conversations}
-                     setConversations={setConversations} fetchConversations={fetchConversations}
-                     conversation_id={conversation_id} isConversationLoading={isConversationLoading}
-                     handleNewChat={handleNewChat} isMinimized={isMinimized} setIsMinimized={setIsMinimized}
+                setConversations={setConversations} fetchConversations={fetchConversations}
+                conversation_id={conversation_id} isConversationLoading={isConversationLoading}
+                handleNewChat={handleNewChat} isMinimized={isMinimized} setIsMinimized={setIsMinimized}
             />
 
             <div
                 className="w-full relative  bg-[var(--background-Primary)]  h-screen overflow-auto flex flex-col items-center justify-center">
                 {/* sezione messaggi */}
-                {isMinimized && <div><ArrowRightToLine
-                    className="w-5 text-[var(--color-secondary)] ml-1 absolute top-3 cursor-pointer left-0 h-5"
-                    onClick={() => setIsMinimized(!isMinimized)}/></div>}
+                
+                <div className="w-full flex items-center justify-between p-2">
+                    {/*Header*/}
+                    <div className="flex items-center gap-2">
+                        {isMinimized && <div><Menu 
+                    className="w-5 text-[var(--color-primary)] cursor-pointer left-0 h-5"
+                    onClick={() => setIsMinimized(!isMinimized)} /></div>}{conversation_id ? conversations.find((c) => c.id === conversation_id)?.title : "New Chat"}</div>
+                    <div className="flex gap-4 text-[var(--color-third)]">
+                        <button className="relative group px-3 py-1 hover:bg-[var(--background-Secondary)] flex items-center text-[var(--color-primary)] rounded-lg">
+                            Share
+
+                            <Tooltip text="Export conversation to pdf" />
+                           
+                            </button>
+
+
+                        <button onClick={handleFavouriteConversation}>
+                            {isConversationFavourite?
+
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fde047" className="bi bi-star-fill" viewBox="0 0 16 16">
+                             <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg> : 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-star" viewBox="0 0 16 16">
+                <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.56.56 0 0 0-.163-.505L1.71 6.745l4.052-.576a.53.53 0 0 0 .393-.288L8 2.223l1.847 3.658a.53.53 0 0 0 .393.288l4.052.575-2.906 2.77a.56.56 0 0 0-.163.506l.694 3.957-3.686-1.894a.5.5 0 0 0-.461 0z"/></svg>}</button>
+                        <button><Ellipsis /></button>
+                    </div>
+                </div>
                 <div className="overflow-y  overflow-auto h-full pb-40 md:p-4 p-0 flex flex-col"
-                     ref={messagesEndRef}>
+                    ref={messagesEndRef}>
                     {messages.map((m, i) => (
                         <div key={i} className="flex flex-col mb-4 lg:w-[750px] w-[500px] ">
                             {m.sender && (
@@ -366,7 +392,7 @@ function ChatPage() {
                             {m.content && (
                                 <div
                                     className="max-w-[100%] text-gray-200 p-2 rounded-xl  px-4 self-start text-left">
-                                    <MarkdownRenderer text={m.content}/>
+                                    <MarkdownRenderer text={m.content} />
                                 </div>
 
                             )}
@@ -379,7 +405,7 @@ function ChatPage() {
                         </div>
                     )}
                     {messages.length === 0 && !isAnswering && (
-                        <LandingChat selectedPhrase={handleSelectQuickPhrase}/>
+                        <LandingChat selectedPhrase={handleSelectQuickPhrase} />
                     )}
 
                     {/* Loader AI */}
@@ -387,12 +413,12 @@ function ChatPage() {
                 </div>
                 {isUpgradeToProPopUpOpen && (
                     <PlanPopUp handleUpgradeToProPopUp={handleUpgradeToProPopUp}
-                               setIsUpgradeToProPopUpOpen={setIsUpgradeToProPopUpOpen}/>
+                        setIsUpgradeToProPopUpOpen={setIsUpgradeToProPopUpOpen} />
 
                 )}
                 {/* barra input */}
                 <TextBar handleSend={handleSend} setModel={setModel}
-                         setPrompt={setPrompt} prompt={prompt} isAnswering={isAnswering}/>
+                    setPrompt={setPrompt} prompt={prompt} isAnswering={isAnswering} />
             </div>
         </div>
     );
