@@ -36,34 +36,34 @@
 }
 
 /* 🌙 Dark theme (auto con prefers-color-scheme) */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --color-primary: #f5f5f5;
-        --color-secondary: #cccccc;
-        --color-third: #aaaaaa;
+/*@media (prefers-color-scheme: dark) {*/
+/*    :root {*/
+/*        --color-primary: #f5f5f5;*/
+/*        --color-secondary: #cccccc;*/
+/*        --color-third: #aaaaaa;*/
 
-        --background-Primary: #101010;
-        --background-Secondary: #1a1a1a;
-        --background-Hover: #262626;
+/*        --background-Primary: #101010;*/
+/*        --background-Secondary: #1a1a1a;*/
+/*        --background-Hover: #262626;*/
 
-        --color-Tertiary: #e0e0e0;
-        --color-chat-primary: #f5f5f5;
-        --color-chat-secondary: #cccccc;
-        --color-chat-muted: #888888;
+/*        --color-Tertiary: #e0e0e0;*/
+/*        --color-chat-primary: #f5f5f5;*/
+/*        --color-chat-secondary: #cccccc;*/
+/*        --color-chat-muted: #888888;*/
 
-        --background-Tertiary: #2093da;
-        --background-Quaternary: #121212;
+/*        --background-Tertiary: #2093da;*/
+/*        --background-Quaternary: #121212;*/
 
-        --border-primary: #2c2c2c;
-        --border-secondary: #555555;
-        --border-Tertiary: #2093da;
-    }
-}
+/*        --border-primary: #2c2c2c;*/
+/*        --border-secondary: #555555;*/
+/*        --border-Tertiary: #2093da;*/
+/*    }*/
+/*}*/
 
 
 
 .times-new-roman{
-    font-family: var(--font-times-new-roman), serif;
+    font-family: var(--font-times-new-roman), serif !important;
 }
 .comic-sans{
     font-family: var(--font-comic-sans), cursive;

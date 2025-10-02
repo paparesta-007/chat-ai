@@ -1,9 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Upload, FileText } from "lucide-react";
-import TextBar from "../ChatPage/Textbar/Textbar";
-import {readPdfText} from "pdf-text-reader";
-import fs from 'fs';
-import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.js';
+
 const PdfAnalyzer = () => {
     const [prompt, setPrompt] = useState<string>("");
     const [model, setModel] = useState<string>("");
@@ -40,6 +37,7 @@ const PdfAnalyzer = () => {
         if (file) {
             console.log("Converti PDF:", file.name);
             // aggiungi qui logica di estrazione testo o analisi
+
         }
     };
 
