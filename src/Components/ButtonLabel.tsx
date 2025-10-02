@@ -8,7 +8,7 @@ interface ButtonLabelProps {
 }
 
 const ButtonLabel: React.FC<ButtonLabelProps> = ({ type, Icon = null, text = "", Kbd = null }) => {
-    const baseClasses = "flex flex-row items-center gap-2 px-2 py-1 select-none rounded-lg hover:bg-[var(--background-Hover)] ";
+    const baseClasses = "flex flex-row items-center  gap-2 px-2 py-1 select-none rounded-lg hover:bg-[var(--background-Hover)] ";
     const typeClasses =
         type === "primary"
             ? "text-[var(--color-primary)]"

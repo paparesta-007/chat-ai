@@ -1,7 +1,8 @@
 import React from 'react';
 import {useState} from 'react';
 import availableModels from '../../data/avaibleModels.js';
-import Tooltip from "../../Tooltip/tooltip.js";
+import Tooltip from "../../Components/Tooltip.tsx";
+import Select from "../../Components/Select.js";
 
 const TextBar = ({handleSend, setPrompt, isAnswering, prompt, setModel}) => {
     const [selectedModel, setSelectedModel] = useState(availableModels[2]?.id);
@@ -10,12 +11,11 @@ const TextBar = ({handleSend, setPrompt, isAnswering, prompt, setModel}) => {
             handleSend();
         }
     };
-    const handleModelChange = (e) => {
-        const selectedId = e.target.value;
-        const model = availableModels.find(model => model.id === selectedId);
+    const handleModelChange = (selectedName) => {
+        setSelectedModel(selectedName); // aggiorna la scritta del select
+        const model = availableModels.find((m) => m.name === selectedName);
         if (model) {
-            setSelectedModel(selectedId); // Aggiorna lo stato locale
-            setModel(model); // Aggiorna il modello nel genitore
+            setModel(model); // passa oggetto al genitore
         }
     };
 
@@ -72,17 +72,7 @@ const TextBar = ({handleSend, setPrompt, isAnswering, prompt, setModel}) => {
                             d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
                     </svg>
                 </button>
-                <select
-                    value={selectedModel}
-                    className="p-1.5  bg-[var(--background-Secondary)] text-xs text-[var(--color-third)] outline-none rounded"
-                    onChange={handleModelChange}
-                >
-                    {availableModels.map((model) => (
-                        <option key={model.id} value={model.id}>
-                            {model.name}
-                        </option>
-                    ))}
-                </select>
+                <Select options={availableModels.map((model) => model.name)} value={selectedModel} onChange={handleModelChange}/>
             </div>
         </div>
     )

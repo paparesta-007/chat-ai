@@ -207,6 +207,95 @@
 
     }
 }
+.animate-slideRight{
+    animation: slideRight 0.5s ease-in-out;
+}
+@keyframes slideRight {
+    from {
+        transform: translateX(-10px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+.animate-slideLeft{
+    animation: slideLeft 0.2s ease-in-out;
+}
+@keyframes slideLeft {
+    from {
+        transform: translateX(10px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+/* Slide Top-Right */
+.animate-slideUpRight {
+    animation: slideUpRight 0.2s ease-in-out;
+}
+
+@keyframes slideUpRight {
+    from {
+        transform: translate(10px, 10px);
+        opacity: 0;
+    }
+    to {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+}
+
+/* Slide Top-Left */
+.animate-slideUpLeft {
+    animation: slideUpLeft 0.2s ease-in-out;
+}
+
+@keyframes slideUpLeft {
+    from {
+        transform: translate(-10px, 10px);
+        opacity: 0;
+    }
+    to {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+}
+
+/* Slide Bottom-Right */
+.animate-slideDownRight {
+    animation: slideDownRight 0.2s ease-in-out;
+}
+
+@keyframes slideDownRight {
+    from {
+        transform: translate(10px, -10px);
+        opacity: 0;
+    }
+    to {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+}
+
+/* Slide Bottom-Left */
+.animate-slideDownLeft {
+    animation: slideDownLeft 0.5s ease-in-out;
+}
+
+@keyframes slideDownLeft {
+    from {
+        transform: translate(-10px, -10px);
+        opacity: 0;
+    }
+    to {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+}
 
 /* Classe per Tailwind / CSS personalizzato */
 .animate-tooltip {
