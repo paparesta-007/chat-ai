@@ -3,26 +3,32 @@
 /* 🌞 Default: Light theme */
 /* 🌞 Default: Light theme */
 :root {
-    --color-primary: #1a1a1a;          /* Testo principale (nero profondo) */
-    --color-secondary: #ffffff;        /* Testo secondario (bianco) */
-    --color-third: #555555;            /* Testo terziario (grigio medio) */
+    /* Colori principali */
+    --color-primary: #1C2112;          /* Testo principale (verde scurissimo) */
+    --color-secondary: #F1F4EB;        /* Testo secondario (bianco sporco) */
+    --color-third: #364323;           /* Testo terziario (verde medio) */
 
-    --background-Primary: #ffffff;     /* Sfondo principale: bianco */
-    --background-Secondary: #eeecec;   /* Sfondo card: grigio chiaro */
+    /* Sfondo */
+    --background-Primary: #faf9f5;    /* Sfondo principale */
+    --background-Secondary: rgb(241, 241, 239);  /* Sfondo secondario (verde chiaro) */
 
-    --color-Tertiary: #222222;         /* Accento scuro */
-    --color-chat-primary: #1a1a1a;     /* Chat testo principale */
-    --color-chat-secondary: #333333;   /* Chat testo secondario */
-    --color-chat-muted: #777777;       /* Chat attenuato */
+    /* Accenti e chat */
+    --color-Tertiary: #364323;        /* Accento scuro */
+    --color-chat-primary: #1C2112;    
+    --color-chat-secondary: #364323;
+    --color-chat-muted: #8D957B;      /* Derivato dalla palette per testo attenuato */
 
-    --background-Tertiary: #2093da;    /* Sfondo accento grigio chiaro */
-    --background-Quaternary: #fafafa;  /* Sfondo neutro chiarissimo */
-    --background-Hover:#f3f3f3;
+    /* Ulteriori sfondi */
+    --background-Tertiary: #1B180E;   
+    --background-Quaternary: #F1F4EB;
+    --background-Hover: #E8EDDE;
 
-    --border-primary: #e0e0e0;         /* Bordo chiaro */
-    --border-secondary: #b0b0b0;       /* Bordo medio */
-    --border-Tertiary: #2093da;        /* Bordo accentato scuro */
+    /* Bordi */
+    --border-primary: #E8EDDE;       
+    --border-secondary: #8D957B;    
+    --border-Tertiary: #364323;     
 
+    /* Font */
     --font-default: "Inter", sans-serif;
     --font-times-new-roman: "Times New Roman", serif;
     --font-comic-sans: "Comic Sans MS", cursive;

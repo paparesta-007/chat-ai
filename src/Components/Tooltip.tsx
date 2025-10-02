@@ -17,6 +17,9 @@ const Tooltip: React.FC<TooltipProps> = ({ text, position = "top" }) => {
         "bottom-right": "top-full right-0 mt-2",
         "bottom-left": "top-full left-0 mt-2",
     };
+
+
+
     const animation: Record<string, string> = {
         "top": "animate-slideUp",
         "bottom": "animate-slideDown",
@@ -27,6 +30,7 @@ const Tooltip: React.FC<TooltipProps> = ({ text, position = "top" }) => {
         "bottom-right": "animate-slideDownRight",
         "bottom-left": "animate-slideDownLeft",
     };
+
     const arrowPositions: Record<string, string> = {
         "top": "bottom-[-0.25rem] left-1/2 -translate-x-1/2 rotate-45",
         "bottom": "top-[-0.25rem] left-1/2 -translate-x-1/2 rotate-45",
