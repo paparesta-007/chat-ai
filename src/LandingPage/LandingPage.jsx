@@ -140,8 +140,8 @@ const LandingPage = () => {
                         </div>
                     </div>
                     <div className="text-left">
-                        <h1 className="text-5xl font-semibold tracking-tight text-balance text-[var(--color-primary)] sm:text-7xl">
-                            More than AI <br/> <span
+                        <h1 className="text-5xl  font-semibold tracking-tight text-balance text-[var(--color-primary)] sm:text-7xl">
+                            <span className='gradientAnimation'>More than AI</span> <br/> <span
                             className="text-4xl tracking-normal ">Work smarter not harder</span>
                         </h1>
                         <p className="text-lg font-medium text-pretty text-[var(--color-third)] sm:text-xl/8">

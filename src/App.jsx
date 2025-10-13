@@ -16,6 +16,7 @@ import ReleaseNotes from "./ReleaseNotes/ReleaseNotes.jsx";
 import PageNotFound from "./404Page/404page.jsx";
 import Explore from "./Explore/Explore.jsx";
 import PdfAnalyzer from "./pdfAnalyzer/pdfAnalyzer.tsx";
+import Test from "./Test/test";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -70,7 +71,7 @@ function App() {
                     <Route path="account" element={<AccountSettings/>}/>
                     <Route path="customization" element={<CustomizationSettings/>}/>
                 </Route>
-
+                <Route path="/test" element={<Test/>}/>
                 <Route path="/release-notes" element={<ReleaseNotes/>}/>
                 {/* Catch-all */}
                 <Route path="*" element={<PageNotFound/>}/>

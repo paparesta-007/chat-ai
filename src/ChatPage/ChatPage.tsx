@@ -12,12 +12,13 @@ import avaibleModels from "../data/avaibleModels.js";
 import { useNavigate, useParams } from "react-router";
 import Tooltip from "../Components/Tooltip";
 import PlanPopUp from "./PlanPopUp/PlanPopUp.jsx";
-import { Menu, Star, Ellipsis } from "lucide-react";
+import { Menu, Star, Ellipsis, SunMedium, Moon } from "lucide-react";
 import getAllConversations from "../services/conversations/getConversations.js";
 import getUserPreferences from "../services/userSettings/getUserPreferences.js";
 import favouriteConversation from "../services/conversations/favouriteConversation";
-import  { Message, Conversation, Style } from "../types/types.js";
+import { Message, Conversation, Style } from "../types/types.js";
 import ConversationOption from "./Option/ConversationOption";
+import SkeletonConversation from "../Components/Skeleton";
 
 
 
@@ -40,20 +41,28 @@ function ChatPage() {
     const [justCreatedChat, setJustCreatedChat] = useState<boolean>(false);
     const [conversations, setConversations] = useState<Conversation[]>([]);
     const [isConversationLoading, setIsConversationLoading] = useState<boolean>(false);
+
+
     const [style, setStyle] = useState<Style>();
     const [currentFontFamily, setCurrentFontFamily] = useState<string>("");
     const [currentTheme, setCurrentTheme] = useState<string>("");
+    const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+
     const [isConversationFavourite, setIsConversationFavourite] = useState<boolean>(false);
     const fetchIdRef = useRef(0);
     const [isConversationOptionsOpen, setIsConversationOptionsOpen] = useState<boolean>(false);
+
+
     useEffect(() => {
         getUser();
         fetchConversations();
     }, []);
+    
 
     const fetchConversations: () => Promise<void> = async () => {
         const { data: { session } } = await supabase.auth.getSession();
 
+        
         if (session) {
             setIsConversationLoading(true);
 
@@ -121,6 +130,7 @@ function ChatPage() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [chatId]);
 
+   
 
     // Aggiorna lo stato locale e l'array conversations
     const handleFavouriteConversation = async () => {
@@ -223,6 +233,8 @@ function ChatPage() {
             }
 
 
+
+
             const userMessage = new Message();
             userMessage.sender = prompt;
             userMessage.content = "";
@@ -290,7 +302,7 @@ function ChatPage() {
         navigate("/pricing");
 
     }
-
+    
 
     const handleSelectConversation = async (conversationId: string) => {
         setIsAnswering(true);
@@ -316,6 +328,7 @@ function ChatPage() {
         // Converti Markdown in HTML
         let html = marked(safe);
 
+
         // Avvolgi ogni <code> che non è già in <pre>
 
 
@@ -340,7 +353,7 @@ function ChatPage() {
 
     useEffect(() => {
         if (messagesEndRef.current) {
-            (messagesEndRef.current as any).scrollTop = (messagesEndRef.current as any).scrollHeight;
+            (messagesEndRef.current as any).scrollTop = (messagesEndRef.current as any).scrollHeight-500;
         }
 
     }, [messages]);
@@ -358,34 +371,38 @@ function ChatPage() {
             <div
                 className="w-full relative bg-[var(--background-Primary)]  h-screen overflow-auto flex flex-col items-center justify-center">
                 {/* sezione messaggi */}
-                
+
                 <div className="w-full flex items-center justify-between py-2 px-2.5">
                     {/*Header*/}
                     <div className="flex items-center text-[var(--color-primary)]  gap-2">
-                        {isMinimized && <div><Menu 
-                    className="w-5 cursor-pointer left-0 h-5"
-                    onClick={() => setIsMinimized(!isMinimized)} /></div>}
+                        {isMinimized && <div><Menu
+                            className="w-5 cursor-pointer left-0 h-5"
+                            onClick={() => setIsMinimized(!isMinimized)} /></div>}
                         {conversation_id ? conversations.find((c) => c.id === conversation_id)?.title : "New Chat"}</div>
-                    <div className="flex gap-4  text-[var(--color-third)]">
-                        <button className="relative group px-3 py-1 hover:bg-[var(--background-Secondary)]  flex items-center text-[var(--color-primary)] rounded-lg">
+                    <div className="flex gap-0  text-[var(--color-third)]">
+                        <button className="relative group p-1.5 hover:bg-[var(--background-Secondary)]  flex items-center text-[var(--color-primary)] rounded-lg">
                             Share
 
                             <Tooltip text="Export conversation to pdf" position="bottom" />
-                           
-                            </button>
+
+                        </button>
 
 
-                        <button onClick={handleFavouriteConversation} className="relative group">
-                            {isConversationFavourite? <Tooltip text="Remove from favorites" position="bottom-right" /> : <Tooltip text="Add to favorites" position="bottom-right" />}
-                            {isConversationFavourite?
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fde047" className="bi bi-star-fill" viewBox="0 0 16 16">
-                             <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg> : 
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-star" viewBox="0 0 16 16">
-                <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.56.56 0 0 0-.163-.505L1.71 6.745l4.052-.576a.53.53 0 0 0 .393-.288L8 2.223l1.847 3.658a.53.53 0 0 0 .393.288l4.052.575-2.906 2.77a.56.56 0 0 0-.163.506l.694 3.957-3.686-1.894a.5.5 0 0 0-.461 0z"/></svg>}</button>
-                        <button onClick={() => setIsConversationOptionsOpen(!isConversationOptionsOpen)} className="cursor-pointer relative group">
+                        <button onClick={handleFavouriteConversation} className="cursor-pointer relative group hover:bg-[var(--background-Secondary)] rounded-lg p-1.5">
+
+                            {isConversationFavourite ? <Tooltip text="Remove from favorites" position="bottom-right" /> : <Tooltip text="Add to favorites" position="bottom-right" />}
+                            {isConversationFavourite ?
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fde047" className="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" /></svg> :
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-star" viewBox="0 0 16 16">
+                                    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.56.56 0 0 0-.163-.505L1.71 6.745l4.052-.576a.53.53 0 0 0 .393-.288L8 2.223l1.847 3.658a.53.53 0 0 0 .393.288l4.052.575-2.906 2.77a.56.56 0 0 0-.163.506l.694 3.957-3.686-1.894a.5.5 0 0 0-.461 0z" /></svg>}</button>
+                        <button className="cursor-pointer relative group hover:bg-[var(--background-Secondary)] rounded-lg p-1.5" onClick={() => setIsDarkMode(!isDarkMode)}>{!isDarkMode ? <SunMedium /> : <Moon />}
+                            <Tooltip text="Toggle theme mode" position="bottom-right" />
+                        </button>
+                        <button onClick={() => setIsConversationOptionsOpen(!isConversationOptionsOpen)} className="cursor-pointer relative group hover:bg-[var(--background-Secondary)] rounded-lg p-1.5">
                             {!isConversationOptionsOpen && <Tooltip text="More options" position="bottom-right" />}
                             <Ellipsis className="hover:text-[var(--color-primary)]" /></button>
-                        {isConversationOptionsOpen && <ConversationOption isConversationOptionsOpen={isConversationOptionsOpen}/>}
+                        {isConversationOptionsOpen && <ConversationOption isConversationOptionsOpen={isConversationOptionsOpen} />}
                     </div>
                 </div>
                 <div className="overflow-y  overflow-auto h-full pb-40 md:p-4 p-0 flex flex-col"
@@ -409,8 +426,8 @@ function ChatPage() {
                         </div>
                     ))}
                     {isAnswering && (
-                        <div className=" text-gray-200  self-start text-left">
-                            <div className="loader"></div>
+                        <div className="border">
+                            <SkeletonConversation />
                         </div>
                     )}
                     {messages.length === 0 && !isAnswering && (

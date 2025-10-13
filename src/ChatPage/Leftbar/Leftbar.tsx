@@ -77,7 +77,7 @@ const Leftbar: React.FC<LeftbarProps> = ({
             window.removeEventListener("keydown", handleMinimizedShortcut);
 
         };
-    }, []); // attenzione: [] così si aggiunge solo una volta
+    }, []);
 
     const handleLogout = async (): Promise<void> => {
         const {error} = await supabase.auth.signOut();

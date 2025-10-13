@@ -3,63 +3,33 @@
 /* 🌞 Default: Light theme */
 /* 🌞 Default: Light theme */
 :root {
-    /* Colori principali */
-    --color-primary: #1C2112;          /* Testo principale (verde scurissimo) */
-    --color-secondary: #F1F4EB;        /* Testo secondario (bianco sporco) */
-    --color-third: #364323;           /* Testo terziario (verde medio) */
-
-    /* Sfondo */
-    --background-Primary: #faf9f5;    /* Sfondo principale */
-    --background-Secondary: rgb(241, 241, 239);  /* Sfondo secondario (verde chiaro) */
-
-    /* Accenti e chat */
-    --color-Tertiary: #364323;        /* Accento scuro */
-    --color-chat-primary: #1C2112;    
+    /* Light mode (default) */
+    --color-primary: #1C2112;
+    --color-secondary: #F1F4EB;
+    --color-third: #364323;
+    --background-Primary: #faf9f5;
+    --background-Secondary: rgb(241, 241, 239);
+    --color-Tertiary: #364323;
+    --color-chat-primary: #1C2112;
     --color-chat-secondary: #364323;
-    --color-chat-muted: #8D957B;      /* Derivato dalla palette per testo attenuato */
-
-    /* Ulteriori sfondi */
-    --background-Tertiary: #1B180E;   
+    --color-chat-muted: #8D957B;
+    --background-Tertiary: #1B180E;
     --background-Quaternary: #F1F4EB;
     --background-Hover: #E8EDDE;
 
-    /* Bordi */
-    --border-primary: #E8EDDE;       
-    --border-secondary: #8D957B;    
-    --border-Tertiary: #364323;     
 
-    /* Font */
+    --skeleton-primary:rgb(230, 230, 230);
+    --skeleton-secondary:#f8f8f8;
+
+
+    --border-primary: #E8EDDE;
+    --border-secondary: #8D957B;
+    --border-Tertiary: #364323;
     --font-default: "Inter", sans-serif;
     --font-times-new-roman: "Times New Roman", serif;
     --font-comic-sans: "Comic Sans MS", cursive;
     --font-roboto: "Roboto", sans-serif;
 }
-
-/* 🌙 Dark theme (auto con prefers-color-scheme) */
-/*@media (prefers-color-scheme: dark) {*/
-/*    :root {*/
-/*        --color-primary: #f5f5f5;*/
-/*        --color-secondary: #cccccc;*/
-/*        --color-third: #aaaaaa;*/
-
-/*        --background-Primary: #101010;*/
-/*        --background-Secondary: #1a1a1a;*/
-/*        --background-Hover: #262626;*/
-
-/*        --color-Tertiary: #e0e0e0;*/
-/*        --color-chat-primary: #f5f5f5;*/
-/*        --color-chat-secondary: #cccccc;*/
-/*        --color-chat-muted: #888888;*/
-
-/*        --background-Tertiary: #2093da;*/
-/*        --background-Quaternary: #121212;*/
-
-/*        --border-primary: #2c2c2c;*/
-/*        --border-secondary: #555555;*/
-/*        --border-Tertiary: #2093da;*/
-/*    }*/
-/*}*/
-
 
 
 .times-new-roman{
@@ -179,6 +149,7 @@
     line-height: 1.5;
     word-break: break-word;
 }
+
 .renderChat blockquote{
     @apply border-l-2 border-[var(--border-primary)] pl-2;
 }
@@ -302,12 +273,61 @@
         opacity: 1;
     }
 }
-
-/* Classe per Tailwind / CSS personalizzato */
-.animate-tooltip {
-
+.gradientAnimation {
+  background: conic-gradient(
+    from 0deg,
+    #fda8c9,
+    #45cc23,
+    #5370e4,
+    #d1c734,
+    #fda8c9
+  );
+  background-size: 200% 200%;
+  font-weight: 600;
+  color: #000;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rotateGradient 6s linear infinite;
 }
 
+@keyframes rotateGradient {
+  0% {
+    background-position: 0% 50%;
+    transform: rotate(0deg);
+  }
+  100% {
+    background-position: 100% 50%;
+    transform: rotate(360deg);
+  }
+}
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--skeleton-primary);
+  border-radius: 9999px; /* rounded-2xl style */
+}
+
+.skeleton::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    var(--skeleton-primary) 25%,
+    var(--skeleton-secondary) 50%,
+    var(--skeleton-primary) 75%
+  );
+  animation: skeletonAnimate 2.6s ease-in-out infinite alternate;
+}
+
+@keyframes skeletonAnimate {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
 /*--------- Login Page --------- */
 .btnLogin {
     @apply w-[300px] h-[50px] flex items-center gap-2 text-[var(--color-primary)]  bg-[var(--background-Secondary)]  px-4 py-1 rounded-xl border border-[var(--border-primary)];
