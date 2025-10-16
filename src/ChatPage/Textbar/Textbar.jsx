@@ -21,7 +21,7 @@ const TextBar = ({handleSend, setPrompt, isAnswering, prompt, setModel}) => {
 
 
     return (
-        <div className="flex flex-col shadow-2xl 950 border mt-2 mb-2 border-[var(--border-secondary)] items-center  p-2
+        <div className="flex flex-col  shadow-2xl 950 border mt-2 mb-2 border-[var(--border-secondary)] items-center  p-2
              justify-center bg-[var(--background-Secondary)] md:w-[600px] w-[90%] rounded-2xl">
             <div className="flex w-full">
                 <input

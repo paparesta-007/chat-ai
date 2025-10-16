@@ -3,10 +3,12 @@ import {useNavigate} from "react-router";
 import supabase from "../../library/supabaseclient.js";
 import getAllConversations from "../../services/conversations/getConversations.js";
 import deleteConversation from "../../services/conversations/deleteConversation.js";
-import {ArrowRightToLine, LayoutGrid, Compass, Plus, Command, ArrowBigUpDash, RefreshCw} from "lucide-react";
+import {ArrowRightToLine, LayoutGrid, Compass,LogOut, Plus, Command, ArrowBigUpDash, RefreshCw, Settings} from "lucide-react";
 import type {User} from '@supabase/supabase-js';
 import { Dispatch, SetStateAction } from "react";
 import { Conversation } from '../../types/types.js';
+import { ButtonOption } from '../../types/types.js';
+import ButtonLabel from '../../Components/ButtonLabel.js';
 interface LeftbarProps {
     onSelectConversation: (conversationId: string) => Promise<void> | void;
     handleNewChat: () => void;
@@ -18,6 +20,7 @@ interface LeftbarProps {
     setConversations: Dispatch<SetStateAction<Conversation[]>>;
     isConversationLoading: boolean;
 }
+
 const Leftbar: React.FC<LeftbarProps> = ({
                      onSelectConversation, handleNewChat, isMinimized, setIsMinimized,
                      conversation_id, conversations, setConversations, isConversationLoading, fetchConversations
@@ -27,6 +30,34 @@ const Leftbar: React.FC<LeftbarProps> = ({
 
     const [menuOpen, setMenuOpen] = useState<string | null>(null); // id conversazione aperta
     const navigate = useNavigate();
+
+    const settingOption:ButtonOption[]=[
+        {
+            type: "primary",
+            Icon: <Compass className="w-4 h-4"/>,
+            text: "Upgrade to Pro",
+            Kbd:"",
+            
+            onClick: () => navigate("/pricing")  
+        },
+        {
+            type: "primary",
+            Icon: <Settings className="w-4 h-4"/>,
+            text: "Settings",
+            Kbd:"",
+            
+            onClick: () => navigate("/settings")  
+    
+        },
+        {
+            type: "danger",
+            Icon: <LogOut className="w-4 h-4"/>,
+            text: "Logout",
+            Kbd: "",
+            
+            onClick: () => handleLogout()
+        }
+    ]
 
     useEffect(() => {
         const fetchUser = async (): Promise<void> => {
@@ -335,15 +366,19 @@ const Leftbar: React.FC<LeftbarProps> = ({
 
                     {/* settings */}
                     {isSettingOpen && (
-                        <div className="settings animate-slideUp">
-                            <button onClick={() => navigate("/pricing")}>
-                                Upgrade plan{" "}
-                                <small className="bg-violet-900 border border-violet-500 text-white px-2 rounded-lg">
-                                    Pro
-                                </small>
-                            </button>
-                            <button onClick={() => navigate("/settings")}>Settings</button>
-                            <button onClick={handleLogout}>Logout</button>
+                        <div className="settings animate-slideUp ">
+                            {
+                                settingOption.map((option, index) => (
+                                    <ButtonLabel
+                                        key={index}
+                                        type={option.type}
+                                        Icon={option.Icon}
+                                        text={option.text}
+                                        onClick={option.onClick}
+                                    />
+                                ))
+                                  
+                            }
                         </div>
                     )}
                 </>)}

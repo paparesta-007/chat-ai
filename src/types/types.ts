@@ -22,3 +22,10 @@ export type Conversation = {
 export type Preferences = {
     style: Style[];
 }
+export interface ButtonOption {
+    type: string;
+    Icon: React.ReactNode;
+    text: string;
+    Kbd: string;
+    onClick?: () => void; // opzionale
+}

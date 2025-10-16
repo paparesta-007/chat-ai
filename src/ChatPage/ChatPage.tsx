@@ -17,13 +17,10 @@ import getAllConversations from "../services/conversations/getConversations.js";
 import getUserPreferences from "../services/userSettings/getUserPreferences.js";
 import favouriteConversation from "../services/conversations/favouriteConversation";
 import { Message, Conversation, Style } from "../types/types.js";
-import ConversationOption from "./Option/ConversationOption";
+import ConversationOption from "./ConversationOption/ConversationOption";
 import SkeletonConversation from "../Components/Skeleton";
 
-import ReactMarkdown from "react-markdown";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
-import convertLatexInMarkdown from "../utils/convertLatexInMarkdown";
+import { convertLatexInMarkdown, cleanLatexText } from "../utils/convertLatexInMarkdown";
 
 
 
@@ -251,7 +248,7 @@ function ChatPage() {
 
             setIsAnswering(true);
             const history = toGeminiHistory(messages);
-            const rawReply = await runChat("You are an helpful assistant, return content in markdown styled with header, bullet list, list, tables if needed prompt:"
+            const rawReply = await runChat("You are an helpful assistant, avoid svg, return content in markdown styled with header, bullet list, list, tables if needed prompt:"
                 + prompt, model.id, history);
 
             const reply = safeToString(rawReply);
@@ -375,10 +372,10 @@ function ChatPage() {
             />
 
             <div
-                className="w-full relative bg-[var(--background-Primary)]  h-screen overflow-auto flex flex-col items-center justify-center">
+                className="w-full relative bg-[var(--background-Primary)] h-screen overflow-hidden flex flex-col items-center justify-between">
                 {/* sezione messaggi */}
 
-                <div className="w-full flex items-center justify-between py-2 px-2.5">
+                <div className="w-full flex items-center  justify-between py-2 px-2.5">
                     {/*Header*/}
                     <div className="flex items-center text-[var(--color-primary)]  gap-2">
                         {isMinimized && <div><Menu
@@ -411,38 +408,44 @@ function ChatPage() {
                         {isConversationOptionsOpen && <ConversationOption isConversationOptionsOpen={isConversationOptionsOpen} />}
                     </div>
                 </div>
-                <div className="overflow-y  overflow-auto h-full pb-40 md:p-4 p-0 flex flex-col"
+
+
+
+                <div className="border border-red-500  overflow-auto flex h-full flex-col pb-20 w-full items-center"
                     ref={messagesEndRef}>
-                    {messages.map((m, i) => (
-                        <div key={i} className="flex flex-col mb-4 lg:w-[750px] w-[500px] ">
-                            {m.sender && (
-                                <div
-                                    className="max-w-[100%] mb-4 p-2 text-gray-200  rounded-xl bg-[var(--background-Tertiary)] border border-[var(--border-Tertiary)] px-4 self-end text-right">
-                                    {m.sender}
-                                </div>
+                    <div>
+                        {messages.map((m, i) => (
+                            <div key={i} className="flex flex-col mb-4 lg:w-[750px] w-[500px] ">
+                                {m.sender && (
+                                    <div
+                                        className="max-w-[100%] mb-4 p-2 text-gray-200  rounded-xl bg-[var(--background-Tertiary)] border border-[var(--border-Tertiary)] px-4 self-end text-right">
+                                        {m.sender}
+                                    </div>
+                                )}
+                                {m.content && (
+                                    <div
+                                        className="max-w-[100%] text-gray-200 p-2 rounded-xl  px-4 self-start text-left">
+                                        <MarkdownRenderer text={m.content} />
+                                    </div>
+
+                                )}
+
+                            </div>
+                        ))}
+                        {isAnswering && (
+                            <div className="loader"></div>
+                        )}
+                        <div className="flex flex-col min-h-full items-center">
+                            {messages.length === 0 && !isAnswering && (
+                                <LandingChat selectedPhrase={handleSelectQuickPhrase} />
                             )}
-                            {m.content && (
-                                <div
-                                    className="max-w-[100%] text-gray-200 p-2 rounded-xl  px-4 self-start text-left">
-                                    <MarkdownRenderer text={m.content} />
-                                </div>
-
-                            )}
-
                         </div>
-                    ))}
-                    {/* {isAnswering && (
-                        <div className="border">
-                            <SkeletonConversation />
-                        </div>
-                    )} */}
-                    {messages.length === 0 && !isAnswering && (
-                        <LandingChat selectedPhrase={handleSelectQuickPhrase} />
-                    )}
 
-                    {/* Loader AI */}
+                    </div>
 
                 </div>
+
+
                 {isUpgradeToProPopUpOpen && (
                     <PlanPopUp handleUpgradeToProPopUp={handleUpgradeToProPopUp}
                         setIsUpgradeToProPopUpOpen={setIsUpgradeToProPopUpOpen} />

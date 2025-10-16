@@ -350,8 +350,9 @@
 
 .settings {
     @apply absolute bottom-[70px] left-2 flex flex-col text-left
-    bg-[var(--background-Secondary)] border shadow-lg border-[var(--border-secondary)]
-    rounded-lg w-[95%] text-sm select-none
+    bg-[var(--background-Primary)] dark:bg-[var(--background-Secondary)] border shadow-lg border-[var(--border-secondary)]
+    p-2  rounded-lg 
+    w-[95%] text-sm select-none
      ;
     /* absolute invece di fixed → relativa alla sidebar */
 }

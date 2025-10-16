@@ -2,7 +2,7 @@
 import katex from "katex";
 import "katex/dist/katex.min.css";
 
-export default function convertLatexInMarkdown(text) {
+export  function convertLatexInMarkdown(text) {
   if (!text) return "";
 
   let processed = text;
@@ -39,4 +39,16 @@ export default function convertLatexInMarkdown(text) {
   );
 
   return processed;
+}
+export function cleanLatexText(text) {
+  return text
+    // Rimuove path SVG
+    .replace(/([MmLlHhVvCcSsQqTtAaZz][^A-Za-z\n]*)/g, "")
+    // Rimuove simboli di controllo Unicode o invisibili
+    .replace(/[\u200B-\u200F\uFEFF]/g, "")
+    // Rimuove lettere singole isolate tra spazi (es. " x " o " c ")
+    .replace(/\s[a-zA-Z]\s/g, " ")
+    // Normalizza spazi multipli
+    .replace(/\s{2,}/g, " ")
+    .trim();
 }

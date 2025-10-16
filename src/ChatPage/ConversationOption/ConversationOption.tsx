@@ -2,20 +2,13 @@ import React, {useEffect} from 'react';
 import ButtonLabel from "../../Components/ButtonLabel.js";
 import {Trash2, Star, Copy, Search, Share} from "lucide-react";
 import {useRef, useState,} from "react";
-import Kbd from "../../Components/Kbd";
+import Kbd from "../../Components/Kbd.js";
 import {Command, SquarePen, WandSparkles} from "lucide-react";
-
+import { ButtonOption } from '../../types/types.js';
 interface ConversationOptionProps {
     isConversationOptionsOpen: boolean;
 }
 
-interface ButtonOption {
-    type: string;
-    Icon: React.ReactNode;
-    text: string;
-    Kbd: string;
-    onClick?: () => void; // opzionale
-}
 
 
 const ConversationOption: React.FC<ConversationOptionProps> = ({isConversationOptionsOpen}) => {
@@ -101,7 +94,8 @@ const ConversationOption: React.FC<ConversationOptionProps> = ({isConversationOp
         };
     }, []);
 
-    const baseStyle = "absolute top-10 z-[9999] bg-[var(--background-Primary)] dark:bg-[var(--background-Secondary)] right-4 flex flex-col p-2 shadow-lg rounded-lg border border-[var(--border-secondary)]"
+    const baseStyle = "absolute top-10 z-[9999] bg-[var(--background-Primary)] dark:bg-[var(--background-Secondary)] right-4 flex"+
+    " flex-col p-2 shadow-lg rounded-lg border border-[var(--border-secondary)]"
     const animationStyle = isConversationOptionsOpen ? "animate-slideDown" : "animate-slideUp"
     const handleSearch = () => {
         if (searchRef.current) {

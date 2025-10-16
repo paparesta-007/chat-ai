@@ -21,7 +21,7 @@ const SkeletonConversation = () => {
     }, []);
 
     return (
-        <div className="flex flex-col gap-1">
+        <div className="flex h-200px flex-col gap-1">
             {items.map((item, index) => (
                 <div
                     key={index}
