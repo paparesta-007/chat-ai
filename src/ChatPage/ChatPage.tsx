@@ -20,7 +20,10 @@ import { Message, Conversation, Style } from "../types/types.js";
 import ConversationOption from "./Option/ConversationOption";
 import SkeletonConversation from "../Components/Skeleton";
 
-
+import ReactMarkdown from "react-markdown";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import convertLatexInMarkdown from "../utils/convertLatexInMarkdown";
 
 
 
@@ -57,12 +60,12 @@ function ChatPage() {
         getUser();
         fetchConversations();
     }, []);
-    
+
 
     const fetchConversations: () => Promise<void> = async () => {
         const { data: { session } } = await supabase.auth.getSession();
 
-        
+
         if (session) {
             setIsConversationLoading(true);
 
@@ -130,7 +133,7 @@ function ChatPage() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [chatId]);
 
-   
+
 
     // Aggiorna lo stato locale e l'array conversations
     const handleFavouriteConversation = async () => {
@@ -264,13 +267,14 @@ function ChatPage() {
                 )
             );
 
-
             setIsAnswering(false);
             setPrompt("");
-            // Salva messaggi sul DB
-            if (messagesEndRef.current) {
-                (messagesEndRef.current as any).scrollTop = (messagesEndRef.current as any).scrollHeight;
-            }
+            setTimeout(() => {
+                if (messagesEndRef.current) {
+                    const container = messagesEndRef.current as HTMLElement;
+                    container.scrollTop = container.scrollHeight - 150;
+                }
+            }, 50);
             await createMessage(userMessage.sender, reply, convId);
             navigate(`/chat/${convId}`);
             await fetchConversations()
@@ -302,7 +306,7 @@ function ChatPage() {
         navigate("/pricing");
 
     }
-    
+
 
     const handleSelectConversation = async (conversationId: string) => {
         setIsAnswering(true);
@@ -324,15 +328,17 @@ function ChatPage() {
 
     const MarkdownRenderer = ({ text }: { text: string }) => {
         const safe = text || "";
+        const withLatex = convertLatexInMarkdown(safe);
+        const html = marked(withLatex);
 
-        // Converti Markdown in HTML
-        let html = marked(safe);
+        return (
+            <div
+                className="renderChat"
+                dangerouslySetInnerHTML={{ __html: html }}
+            />
+        );
 
 
-        // Avvolgi ogni <code> che non è già in <pre>
-
-
-        return <div className="renderChat" dangerouslySetInnerHTML={{ __html: html }} />;
     };
     const handleNewChat: () => void = (): void => {
         // Invalida richieste pendenti: incrementa fetchId così risposte in arrivo saranno ignorate
@@ -353,7 +359,7 @@ function ChatPage() {
 
     useEffect(() => {
         if (messagesEndRef.current) {
-            (messagesEndRef.current as any).scrollTop = (messagesEndRef.current as any).scrollHeight-500;
+            (messagesEndRef.current as any).scrollTop = (messagesEndRef.current as any).scrollHeight - 500;
         }
 
     }, [messages]);
@@ -425,11 +431,11 @@ function ChatPage() {
 
                         </div>
                     ))}
-                    {isAnswering && (
+                    {/* {isAnswering && (
                         <div className="border">
                             <SkeletonConversation />
                         </div>
-                    )}
+                    )} */}
                     {messages.length === 0 && !isAnswering && (
                         <LandingChat selectedPhrase={handleSelectQuickPhrase} />
                     )}
