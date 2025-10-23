@@ -1,7 +1,6 @@
 @import "tailwindcss";
 
-/* 🌞 Default: Light theme */
-/* 🌞 Default: Light theme */
+
 :root {
     /* Light mode (default) */
     --color-primary: #1C2112;
@@ -30,6 +29,7 @@
     --font-comic-sans: "Comic Sans MS", cursive;
     --font-roboto: "Roboto", sans-serif;
 }
+
 @media (prefers-color-scheme: dark) {
   :root {
     --color-primary: #e4e7ec;
