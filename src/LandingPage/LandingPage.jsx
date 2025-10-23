@@ -50,7 +50,6 @@ const LandingPage = () => {
                         </a>
                     </div>
 
-                    {/* Center: Nav items */}
                     <div className="flex-1 flex  justify-center lg:justify-center">
                         <div className="hidden lg:flex lg:gap-x-10">
                             {navigation.map((item) => (
@@ -67,7 +66,6 @@ const LandingPage = () => {
                                         className={isLiOpen && liName === item.name ? "rotate-180 transition duration-150" : "transition duration-150"}/>}
                                     </a>
 
-                                    {/* Dropdown menu */}
                                     {item.dropdown && isLiOpen && liName === item.name && (
                                         <div
                                             className={"absolute animate-slideDown font-semibold top-full mt-2 w-48 bg-[var(--bg-Primary)] border border-[var(--border-secondary)] shadow-lg rounded-md z-10"}>

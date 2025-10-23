@@ -4,7 +4,7 @@
 **Chat AI** is an advanced chatbot platform that allows users to interact with multiple AI models in a simple, intuitive, and flexible way. Its main goal is to provide an intelligent conversation experience accessible to everyone, leveraging both free and paid models without compromising the quality of responses.  
 
 ---
-
+_The project is free for now, enjoy it!_
 ## Technology and Stack
 Chat AI is built with modern, high-performance technologies that ensure speed, scalability, and a smooth user experience:  
 
