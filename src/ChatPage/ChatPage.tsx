@@ -313,6 +313,7 @@ function ChatPage() {
         setConversation_id(conversationId);
         setMessages([]);
         setIsNewChat(false);
+        
         setIsConversationFavourite(false);
 
         // Carica messaggi
@@ -358,6 +359,7 @@ function ChatPage() {
         if (messagesEndRef.current) {
             (messagesEndRef.current as any).scrollTop = (messagesEndRef.current as any).scrollHeight - 500;
         }
+        
 
     }, [messages]);
 
@@ -435,11 +437,12 @@ function ChatPage() {
                         {isAnswering && (
                             <div className="loader"></div>
                         )}
-                        <div className="flex flex-col min-h-full items-center">
+                      
                             {messages.length === 0 && !isAnswering && (
+                                  <div className="flex flex-col min-h-full items-center">
                                 <LandingChat selectedPhrase={handleSelectQuickPhrase} />
+                            </div>
                             )}
-                        </div>
 
                     </div>
 
