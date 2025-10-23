@@ -413,20 +413,20 @@ function ChatPage() {
 
 
 
-                <div className="border border-red-500  overflow-auto flex h-full flex-col pb-20 w-full items-center"
+                <div className="  overflow-auto flex h-full flex-col pb-20 w-full items-center"
                     ref={messagesEndRef}>
                     <div>
                         {messages.map((m, i) => (
                             <div key={i} className="flex flex-col mb-4 lg:w-[750px] w-[500px] ">
                                 {m.sender && (
                                     <div
-                                        className="max-w-[100%] mb-4 p-2 text-gray-200  rounded-xl bg-[var(--background-Tertiary)] border border-[var(--border-Tertiary)] px-4 self-end text-right">
+                                        className="max-w-[100%] mb-4 p-2 text-[var(--color-primary)]  rounded-xl bg-[var(--background-Tertiary)] border border-[var(--border-Tertiary)] px-4 self-end text-right">
                                         {m.sender}
                                     </div>
                                 )}
                                 {m.content && (
                                     <div
-                                        className="max-w-[100%] text-gray-200 p-2 rounded-xl  px-4 self-start text-left">
+                                        className="max-w-[100%] text-[var(--color-primary)] p-2 rounded-xl  px-4 self-start text-left">
                                         <MarkdownRenderer text={m.content} />
                                     </div>
 

@@ -30,7 +30,33 @@
     --font-comic-sans: "Comic Sans MS", cursive;
     --font-roboto: "Roboto", sans-serif;
 }
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-primary: #e4e7ec;
+    --color-secondary: #b0b1b4;
+    --color-third: #8a8a8a;
+    --background-Primary: rgb(18, 18, 18);
+    --background-Secondary: rgb(12, 12, 12);
+    --color-Tertiary: #8b93a6;
+    --color-chat-primary: #e4e7ec;
+    --color-chat-secondary: #a3a9b8;
+    --color-chat-muted: #6c7380;
+    --background-Tertiary: #1b6914;
+    --background-Quaternary: #030303;
+    --background-Hover: #23262f;
 
+    --skeleton-primary: #23262f;
+    --skeleton-secondary: #181a20;
+
+    --border-primary: #23262f;
+    --border-secondary: #555658;
+    --border-Tertiary: #3b9633;
+    --font-default: "Inter", sans-serif;
+    --font-times-new-roman: "Times New Roman", serif;
+    --font-comic-sans: "Comic Sans MS", cursive;
+    --font-roboto: "Roboto", sans-serif;
+  }
+}
 
 .times-new-roman{
     font-family: var(--font-times-new-roman), serif !important;

@@ -17,7 +17,7 @@ const ButtonLabel: React.FC<ButtonLabelProps> = ({ type, Icon = null, text = "",
             : type === "danger"
                 ? "text-[#ec6f6f] "
                 : "";
-
+    
     return (
         <div {...props} className={`${baseClasses} ${typeClasses} flex justify-between`}>
             <div className="flex items-center   gap-2">
