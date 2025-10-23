@@ -1,8 +1,7 @@
 'use client'
 
 import {useState, useEffect} from 'react'
-import {Dialog, DialogPanel} from '@headlessui/react'
-import {Bars3Icon, XMarkIcon} from '@heroicons/react/24/outline'
+import {Bars3Icon} from '@heroicons/react/24/outline'
 import landingVoices from "../data/LandingPagesVoices.js";
 import supabase from "../library/supabaseclient.js";
 import {Links, useNavigate} from "react-router";
@@ -36,10 +35,7 @@ const LandingPage = () => {
     return (
         <div className="bg-[var(--background-Primary)] h-full relative flex flex-col items-center justify-center ">
             <header className=" fixed top-0 bg-[var(--background-Primary)] w-full">
-                {/*<div className="w-full h-10 flex  text-[var(--color-primary)] items-center bg-[var(--background-Secondary)] justify-center p-6 lg:px-8 gap-2">*/}
-                {/*    <span>ChatAI v.1.0.0 just released. </span>*/}
-                {/*    <a onClick={() => window.location.href = "/release-notes"} className="flex font-bold  group hover:underline items-center gap-1" > Learn more <ArrowRight className="group-hover:translate-x-1 transition"/></a>*/}
-                {/*</div>*/}
+
                 <nav aria-label="Global" className="flex items-center justify-between p-6 lg:px-8">
                     {/* Logo on the left */}
                     <div className="flex-shrink-0 w-[200px] ">
@@ -161,10 +157,7 @@ const LandingPage = () => {
                         </div>
                     </div>
                 </div>
-                {/*<div className="sm:w-1/2 w-full flex justify-center items-center text-[var(--color-primary)]">*/}
-                {/*    <img src="https://images.ctfassets.net/spoqsaf9291f/zerLUlSxmwZCYikOJ4XtC/da4a3967d3a4eaa169c6a941c2c044aa/Notion_for_startups_-_hero.png"*/}
-                {/*         className="rounded-xl" alt=""/>*/}
-                {/*</div>*/}
+    
             </div>
             <div className="lg:w-[70%] my-10 md:w-[90%] w-full flex flex-col gap-10 ">
                 <div className="flex justify-between bg-[var(--background-Secondary)] items-center p-4 rounded-xl">
