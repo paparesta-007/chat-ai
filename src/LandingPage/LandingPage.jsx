@@ -129,7 +129,7 @@ const LandingPage = () => {
                 className=" px-6 h-[100vh] flex flex-col md:w-[80%] items-center justify-center w-full sm:flex-row pt-14 lg:px-8">
 
                 <div className="sm:w-1/2 w-full py-32">
-                    <div className="hidden sm:mb-8 sm:flex ">
+                    <div className="hidden sm:mb-8 sm:flex justify-center">
                         <div
                             className=" rounded-full px-3 py-1 text-sm/6 text-gray-400 ring-1 border-[var(--border-secondary)]">
                             Added Claude and Groq API integration.{' '}
@@ -139,16 +139,16 @@ const LandingPage = () => {
                             </a>
                         </div>
                     </div>
-                    <div className="text-left">
+                    <div className="text-center">
                         <h1 className="text-5xl  font-semibold tracking-tight text-balance text-[var(--color-primary)] sm:text-7xl">
-                            <span className='gradientAnimation'>More than AI</span> <br/> <span
-                            className="text-4xl tracking-normal ">Work smarter not harder</span>
+                            <span className='gradientAnimation'>Build with AI</span> <br/>
+                            <span className="text-4xl tracking-normal ">From idea to production in minutes</span>
                         </h1>
                         <p className="text-lg font-medium text-pretty text-[var(--color-third)] sm:text-xl/8">
-                            <br/>Ask anything, learn in real time, connect with APIs, and run code seamlessly
+                            <br/>Research, prototype, and automate in one workspace—get real‑time insights, integrate with your stack, and run code securely.
                         </p>
 
-                        <div className="mt-10 flex items-center gap-x-6">
+                        <div className="mt-10 flex items-center justify-center gap-x-6">
                             <a
                                 href="#"
                                 className="rounded-md bg-[var(--background-Tertiary)] px-3.5 py-2.5 ho   text-[var(--color-secondary)] shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
