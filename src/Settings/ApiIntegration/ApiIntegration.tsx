@@ -15,9 +15,12 @@ const ApiIntegration = () => {
         if (user?.id) {
             setUser_id(user.id);
             console.log(user.id);
-            setIsLoading(false);
+            
 
+        }else {
+            console.error('No authenticated user');
         }
+        setIsLoading(false);
     }
     
 
