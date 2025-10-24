@@ -1,7 +1,7 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import ChatPage from "./ChatPage/ChatPage.js";
-import {BrowserRouter, Routes, Route, Navigate} from "react-router";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 
 import Login from "./Login/Login.jsx";
 
@@ -16,27 +16,28 @@ import ReleaseNotes from "./ReleaseNotes/ReleaseNotes.jsx";
 import PageNotFound from "./404Page/404page.jsx";
 import Explore from "./Explore/Explore.jsx";
 import PdfAnalyzer from "./pdfAnalyzer/pdfAnalyzer.tsx";
-
+import ApiIntegration from "./Settings/ApiIntegration/ApiIntegration.jsx";
+import ProviderModal from "./Settings/ApiIntegration/ProviderModal.tsx";
 function App() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         // Recupera subito la sessione
-        supabase.auth.getSession().then(({data: {session}}) => {
+        supabase.auth.getSession().then(({ data: { session } }) => {
             setUser(session?.user ?? null);
             setLoading(false);
         });
 
 
         // Listener su login/logout
-        const {data: {subscription}} = supabase.auth.onAuthStateChange(
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(
             (_event, session) => {
                 setUser(session?.user ?? null);
                 setLoading(false);
             }
         );
-        
+
 
         return () => {
             subscription.unsubscribe();
@@ -51,28 +52,28 @@ function App() {
         <BrowserRouter>
             <Routes>
                 {/* Landing page pubblica */}
-                <Route path="/" element={<LandingPage/>}/>
+                <Route path="/" element={<LandingPage />} />
 
-                {/* Login */}
                 <Route
                     path="/login"
-                    element={user ? <Navigate to="/newchat"/> : <Login/>}
+                    element={user ? <Navigate to="/newchat" /> : <Login />}
                 />
 
-                <Route path="/newchat" element={<ChatPage/>}/>
-                <Route path="/chat/:chatId" element={<ChatPage/>}/>
-                <Route path="/chat" element={<Navigate to="/newchat"/>}/>
-                <Route path="/pricing" element={<Pricing/>}/>
-                <Route path="/explore" element={<Explore/>}/>
-                <Route path="/pdf" element={<PdfAnalyzer/>}/>
-                <Route path="/settings" element={<Settings/>}>
-                    <Route path="general" element={<GeneralSettings/>}/>
-                    <Route path="account" element={<AccountSettings/>}/>
-                    <Route path="customization" element={<CustomizationSettings/>}/>
+                <Route path="/newchat" element={<ChatPage />} />
+                <Route path="/chat/:chatId" element={<ChatPage />} />
+                <Route path="/chat" element={<Navigate to="/newchat" />} />
+                <Route path="/pricing" element={<Pricing />} />
+                <Route path="/explore" element={<Explore />} />
+                <Route path="/pdf" element={<PdfAnalyzer />} />
+                <Route path="/settings" element={<Settings />}>
+                    <Route path="general" element={<GeneralSettings />} />
+                    <Route path="account" element={<AccountSettings />} />
+                    <Route path="customization" element={<CustomizationSettings />} />
+                    <Route path="api-integration" element={<ApiIntegration />} />
+                    <Route path="api-integration/:providerName" element={<ProviderModal />} />
                 </Route>
-                <Route path="/release-notes" element={<ReleaseNotes/>}/>
-                {/* Catch-all */}
-                <Route path="*" element={<PageNotFound/>}/>
+                <Route path="/release-notes" element={<ReleaseNotes />} />
+                <Route path="*" element={<PageNotFound />} />
             </Routes>
         </BrowserRouter>
     );

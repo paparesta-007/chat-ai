@@ -19,6 +19,11 @@ const Settings = () => {
                         </NavLink>
                     </li>
                     <li>
+                        <NavLink to="api-integration" className="flex items-center gap-2 hover:text-[var(--color-Tertiary)]">
+                            <CircleUserRound /> API Integration
+                        </NavLink>
+                    </li>
+                    <li>
                         <NavLink to="account" className="flex items-center gap-2 hover:text-[var(--color-Tertiary)]">
                             <CircleUserRound /> Account
                         </NavLink>

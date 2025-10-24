@@ -29,7 +29,7 @@
     --font-comic-sans: "Comic Sans MS", cursive;
     --font-roboto: "Roboto", sans-serif;
 }
-
+/* 
 @media (prefers-color-scheme: dark) {
   :root {
     --color-primary: #e4e7ec;
@@ -48,7 +48,7 @@
     --skeleton-primary: #23262f;
     --skeleton-secondary: #181a20;
 
-    --border-primary: #23262f;
+    --border-primary: #33353b;
     --border-secondary: #555658;
     --border-Tertiary: #3b9633;
     --font-default: "Inter", sans-serif;
@@ -56,7 +56,7 @@
     --font-comic-sans: "Comic Sans MS", cursive;
     --font-roboto: "Roboto", sans-serif;
   }
-}
+} */
 
 .times-new-roman{
     font-family: var(--font-times-new-roman), serif !important;
