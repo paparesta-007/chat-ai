@@ -22,18 +22,16 @@ const ProviderModal = () => {
 
     useEffect(() => {
         const fetchUserAndProvider = async () => {
-            // Recupera l'utente
             const { data: { user } = {} } = await supabase.auth.getUser();
             if (user?.id) {
                 setUser_id(user.id);
                 console.log(user.id);
 
-                // Ora che abbiamo user.id, recupera il provider
                 console.log("Fetching provider for user:", user.id, "and providerName:", provider?.owner);
                 const apiKeyProvider = await getSingleProvider(provider?.owner, user.id);
                 if (apiKeyProvider) {
                     console.log("API Key Provider:", apiKeyProvider);
-                    setInputApiKey(apiKeyProvider.apiKey); // Assumendo che 'apiKey' sia il campo che contiene l'API Key
+                    setInputApiKey(apiKeyProvider.apiKey);  
                     setIsApiKeyExisting(true);
                 } else {
                     console.log("No API Key Provider found");
