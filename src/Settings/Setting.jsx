@@ -1,5 +1,5 @@
 import React from 'react';
-import { CircleUserRound, Settings2, Brush } from 'lucide-react';
+import { CircleUserRound, Settings2, Brush, LayoutGrid } from 'lucide-react';
 import {Link, NavLink, Outlet} from "react-router";
 
 const Settings = () => {
@@ -20,7 +20,7 @@ const Settings = () => {
                     </li>
                     <li>
                         <NavLink to="api-integration" className="flex items-center gap-2 hover:text-[var(--color-Tertiary)]">
-                            <CircleUserRound /> API Integration
+                            <LayoutGrid /> API Integration
                         </NavLink>
                     </li>
                     <li>
