@@ -9,7 +9,7 @@ import createConversation from "../services/conversations/createConversation.js"
 import getMessages from "../services/conversations/getMessages.js";
 import LandingChat from "./LandingChat/LandingChat.js";
 import avaibleModels from "../data/avaibleModels.js";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router-dom";
 import Tooltip from "../Components/Tooltip";
 import PlanPopUp from "./PlanPopUp/PlanPopUp.jsx";
 import { Menu, Star, Ellipsis, SunMedium, Moon } from "lucide-react";
