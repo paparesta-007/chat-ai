@@ -29,7 +29,7 @@
     --font-comic-sans: "Comic Sans MS", cursive;
     --font-roboto: "Roboto", sans-serif;
 }
-/* 
+
 @media (prefers-color-scheme: dark) {
   :root {
     --color-primary: #e4e7ec;
@@ -56,7 +56,7 @@
     --font-comic-sans: "Comic Sans MS", cursive;
     --font-roboto: "Roboto", sans-serif;
   }
-} */
+}
 
 .times-new-roman{
     font-family: var(--font-times-new-roman), serif !important;
@@ -417,7 +417,7 @@
 .actionBtn{
     @apply items-center hover:bg-[rgba(0,0,0,0.1)] hover:text-[var(--color-primary)] text-sm rounded-lg py-2 px-1 text-[var(--color-third)] flex gap-2
 }
-td,tr{
+td,tr,th{
     @apply  border-b border-[var(--border-secondary)] p-2
 }
 

@@ -29,9 +29,10 @@ const ProviderModal = () => {
 
                 console.log("Fetching provider for user:", user.id, "and providerName:", provider?.owner);
                 const apiKeyProvider = await getSingleProvider(provider?.owner, user.id);
-                if (apiKeyProvider) {
+                console.log("Fetched provider data:", apiKeyProvider);
+                if (apiKeyProvider != null) {
                     console.log("API Key Provider:", apiKeyProvider);
-                    setInputApiKey(apiKeyProvider.apiKey);  
+                    setInputApiKey(apiKeyProvider.apiKey);
                     setIsApiKeyExisting(true);
                 } else {
                     console.log("No API Key Provider found");
@@ -59,7 +60,7 @@ const ProviderModal = () => {
                 console.log("Integration updated:", updatedProvider);
             } else {
                 console.log("Inserting new integration for", providerName);
-                const newProvider = await insertApiKeyProvider(providerName, apiKey);
+                const newProvider = await insertSingleProvider(providerName, apiKey, user_id!);
                 if (!newProvider) {
                     console.error("Failed to insert provider");
                     return;
@@ -83,7 +84,7 @@ const ProviderModal = () => {
     if (!provider) return <div>Provider not found</div>;
 
     return (
-        <div className='flex flex-col gap-4'>
+        <div className='flex flex-col gap-4 text-[var(--color-primary)]'>
             <div className='flex items-center gap-2'>
                 <img src={`/img/providers/${provider.img}`}
                     className='rounded-md'
@@ -114,7 +115,7 @@ const ProviderModal = () => {
                         <div className='flex items-center '>
                             <input
                                 type={showApiKey ? "text" : "password"}
-                                value={inputApiKey}
+                                value={inputApiKey ?? ''} // <-- garantisce sempre una stringa
                                 onChange={(e) => setInputApiKey(e.target.value)}
                                 placeholder='API Key'
                                 autoComplete='off'
@@ -136,10 +137,12 @@ const ProviderModal = () => {
                         </a>
                     </div>
 
-                    <button 
-                        disabled={isApiKeyLoading || !inputApiKey.trim()} 
-                        onClick={() => handleSaveIntegration(provider.owner, inputApiKey)} 
-                        className='bg-[var(--color-primary)] w-64 h-12 px-3 text-sm text-white rounded-md hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
+                    <button
+                        disabled={isApiKeyLoading || !inputApiKey}
+                        onClick={() => handleSaveIntegration(provider.owner, inputApiKey)}
+                        className='bg-[var(--background-Tertiary)] border border-[var(--border-Tertiary)] w-64 h-12 px-3 text-sm
+                         text-[var(--color-primary)] rounded-md hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed
+                         font-semibold cursor-pointer transition-colors'
                     >
                         {isApiKeyLoading ? 'Saving...' : 'Save Integration'}
                     </button>

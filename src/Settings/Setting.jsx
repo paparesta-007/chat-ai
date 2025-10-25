@@ -1,6 +1,6 @@
 import React from 'react';
 import { CircleUserRound, Settings2, Brush, LayoutGrid } from 'lucide-react';
-import {Link, NavLink, Outlet} from "react-router";
+import {Link, NavLink, Outlet} from "react-router-dom";
 
 const Settings = () => {
     return (

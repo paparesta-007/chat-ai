@@ -7,7 +7,7 @@ const insertSingleProvider = async (providerName, apiKey, user_id) => {
             { providerName, apiKey, user_id }
         ])
         .select()
-        .single(); 
+        .single();
     if (error) {
         console.error("Error inserting API Key Provider:", error);
         return null;
