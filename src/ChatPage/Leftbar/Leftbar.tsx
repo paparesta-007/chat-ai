@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigate} from "react-router";
+import {useNavigate} from "react-router-dom";
 import supabase from "../../library/supabaseclient.js";
-import getAllConversations from "../../services/conversations/getConversations.js";
 import deleteConversation from "../../services/conversations/deleteConversation.js";
 import {ArrowRightToLine, LayoutGrid, Compass,LogOut, Plus, Command, ArrowBigUpDash, RefreshCw, Settings} from "lucide-react";
 import type {User} from '@supabase/supabase-js';
@@ -25,7 +24,6 @@ const Leftbar: React.FC<LeftbarProps> = ({
                      onSelectConversation, handleNewChat, isMinimized, setIsMinimized,
                      conversation_id, conversations, setConversations, isConversationLoading, fetchConversations
                  }) => {
-    const [user, setUser] = useState<User | null>(null);
     const [isSettingOpen, setIsSettingOpen] = useState(false);
 
     const [menuOpen, setMenuOpen] = useState<string | null>(null); // id conversazione aperta
@@ -72,7 +70,7 @@ const Leftbar: React.FC<LeftbarProps> = ({
                 console.error("getUser error:", err);
             }
         };
-        fetchUser();
+        fetchUser().catch((err) => console.error(err));
     }, []);
 
     useEffect(() => {
@@ -99,6 +97,7 @@ const Leftbar: React.FC<LeftbarProps> = ({
                 event.preventDefault();
                 setIsMinimized(prev => !prev);
             }
+
 
         };
 

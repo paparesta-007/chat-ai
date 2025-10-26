@@ -4,7 +4,7 @@ import {useState, useEffect} from 'react'
 import {Bars3Icon} from '@heroicons/react/24/outline'
 import landingVoices from "../data/LandingPagesVoices.js";
 import supabase from "../library/supabaseclient.js";
-import {Links, useNavigate} from "react-router";
+import {Links, useNavigate} from "react-router-dom";
 import {ArrowRight, ChevronDown} from "lucide-react";
 
 const navigation = [
