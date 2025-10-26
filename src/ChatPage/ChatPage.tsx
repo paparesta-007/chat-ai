@@ -8,19 +8,18 @@ import createMessage from "../services/conversations/createMessage.js";
 import createConversation from "../services/conversations/createConversation.js";
 import getMessages from "../services/conversations/getMessages.js";
 import LandingChat from "./LandingChat/LandingChat.js";
-import avaibleModels from "../data/avaibleModels.js";
+import availableModels from "../data/avaibleModels.js";
 import { useNavigate, useParams } from "react-router-dom";
 import Tooltip from "../Components/Tooltip";
 import PlanPopUp from "./PlanPopUp/PlanPopUp.jsx";
-import { Menu, Star, Ellipsis, SunMedium, Moon } from "lucide-react";
+import { Menu, Ellipsis, SunMedium, Moon } from "lucide-react";
 import getAllConversations from "../services/conversations/getConversations.js";
 import getUserPreferences from "../services/userSettings/getUserPreferences.js";
 import favouriteConversation from "../services/conversations/favouriteConversation";
 import { Message, Conversation, Style } from "../types/types.js";
 import ConversationOption from "./ConversationOption/ConversationOption";
-import SkeletonConversation from "../Components/Skeleton";
 
-import { convertLatexInMarkdown, cleanLatexText } from "../utils/convertLatexInMarkdown";
+import { convertLatexInMarkdown,  } from "../utils/convertLatexInMarkdown";
 
 
 
@@ -34,7 +33,7 @@ function ChatPage() {
     const messagesEndRef = useRef(null);
     const [isAnswering, setIsAnswering] = useState(false);
 
-    const [model, setModel] = useState(avaibleModels[2]);
+    const [model, setModel] = useState(availableModels[2]);
     const [isUpgradeToProPopUpOpen, setIsUpgradeToProPopUpOpen] = useState<boolean>(false);
     const navigate = useNavigate();
     const [isMinimized, setIsMinimized] = useState<boolean>(false);
@@ -202,7 +201,7 @@ function ChatPage() {
     const handleSend = async () => {
         if (!prompt || !prompt.trim()) return;
 
-        if (model.id === avaibleModels[0].id) {
+        if (model.id === availableModels[0].id) {
             setIsUpgradeToProPopUpOpen(true);
             return;
         }

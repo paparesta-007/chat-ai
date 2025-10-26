@@ -8,7 +8,7 @@ import iconGmail from "../../../public/img/workspaceIcons/icons8-gmail.svg"
 import iconTeams from "../../../public/img/workspaceIcons/icons8-microsoft-teams.png"
 import iconGithub from "../../../public/img/workspaceIcons/icons8-github.svg"
 import {LucideProps, X} from "lucide-react";
-import {Link} from "react-router";
+import {Link} from "react-router-dom";
 import type {User} from '@supabase/supabase-js';
 import { Dispatch, SetStateAction } from "react";
 type QuickFunction = {

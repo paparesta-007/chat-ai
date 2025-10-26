@@ -2,7 +2,7 @@ import React from 'react';
 import releaseNotes from '../../public/release-notes';
 import { useState } from 'react';
 import {marked} from "marked";
-import {Link} from "react-router";
+import {Link} from "react-router-dom";
 
 const ReleaseNotes = () => {
     const [selectedRelease, setSelectedRelease] = useState(releaseNotes[0]);

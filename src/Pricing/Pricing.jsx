@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import pricingPlans from '../data/pricingplans.js';
-import {useNavigate} from "react-router";
+import {useNavigate} from "react-router-dom";
 
 const Pricing = () => {
     const [isIndividual, setIsIndividual] = useState(true);

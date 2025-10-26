@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router";
+import { useNavigate, Link } from "react-router-dom";
 import googleLogo from "../assets/icons8-logo-di-google.svg";
 import appleLogo from "../assets/icons8-mac-os.svg";
 import microsoftLogo from "../assets/icons8-microsoft.svg";
