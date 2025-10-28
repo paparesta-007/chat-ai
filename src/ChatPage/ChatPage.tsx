@@ -420,7 +420,7 @@ function ChatPage() {
                             <div key={i} className="flex flex-col mb-4 lg:w-[750px] w-[500px] ">
                                 {m.sender && (
                                     <div
-                                        className="max-w-[100%] mb-4 p-2 text-[var(--color-primary)]  rounded-xl bg-[var(--background-Tertiary)] border border-[var(--border-Tertiary)] px-4 self-end text-right">
+                                        className="max-w-[100%] mb-4 p-2 text-[var(--color-secondary)]  rounded-xl bg-[var(--background-Tertiary)] border border-[var(--border-Tertiary)] px-4 self-end text-right">
                                         {m.sender}
                                     </div>
                                 )}

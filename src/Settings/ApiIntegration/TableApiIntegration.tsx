@@ -20,7 +20,7 @@ const TableApiIntegration: React.FC<{ apiKeys: ApiKey[] }> = ({ apiKeys }) => {
     return (
         <table className="w-full table-auto items-center text-left">
             <thead>
-                <tr className='text-[var(--color-secondary)]'>
+                <tr className='text-[var(--color-primary)]'>
                     <th>#</th>
                     <th>Provider </th>
                     <th>Last modify</th>

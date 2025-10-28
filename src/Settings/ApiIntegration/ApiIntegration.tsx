@@ -3,7 +3,7 @@ import apiProvider from '../../data/providerApi';
 import { Link } from 'react-router-dom';
 import supabase from '../../library/supabaseclient';
 import getAllProviders from '../../services/apiProviders/getAllProvider.js'
-import TableApiIntegration from './tableApiIntegration';
+import TableApiIntegration from './TableApiIntegration';
 const ApiIntegration = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [user_id, setUser_id] = useState<string | null>(null);
@@ -80,7 +80,7 @@ const ApiIntegration = () => {
                                         </div>
                                     </div>
                                     <h3 className="text-md font-semibold text-[var(--color-primary)]">{provider.name}</h3>
-                                    <p className='text-sm text-[var(--color-secondary)] mt-1'>{provider.description}</p>
+                                    <p className='text-sm text-[var(--color-third)] mt-1'>{provider.description}</p>
                                 </Link>
                             ))}
                         </ul>
