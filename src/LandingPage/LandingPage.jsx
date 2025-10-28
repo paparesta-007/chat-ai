@@ -78,7 +78,7 @@ const LandingPage = () => {
                                                 >
                                                     {subItem.title}
                                                     {subItem.description && (
-                                                        <p className="text-xs text-gray-500">{subItem.description}</p>
+                                                        <p className="text-xs text-[var(--color-third)]">{subItem.description}</p>
                                                     )}
                                                 </a>
                                             ))}
@@ -99,7 +99,7 @@ const LandingPage = () => {
                         </a>
                         <a
                             href="/chat"
-                            className="bg-[var(--background-Tertiary)] text-[var(--color-secondary)] px-4 py-2 rounded-lg"
+                            className="bg-[var(--background-Tertiary)] text-[var(--color-secondary)] font-semibold px-4 py-2 rounded-lg"
                         >
                             Get started
                         </a>
@@ -138,14 +138,14 @@ const LandingPage = () => {
                             <span className='gradientAnimation'>Build with AI</span> <br/>
                             <span className="text-4xl tracking-normal ">From idea to production in minutes</span>
                         </h1>
-                        <p className="text-lg font-medium text-pretty text-[var(--color-third)] sm:text-xl/8">
+                        <p className="text-lg font-normal text-pretty text-[var(--color-third)] sm:text-xl/8">
                             <br/>Research, prototype, and automate in one workspace—get real‑time insights, integrate with your stack, and run code securely.
                         </p>
 
                         <div className="mt-10 flex items-center justify-center gap-x-6">
                             <a
                                 href="#"
-                                className="rounded-md bg-[var(--background-Tertiary)] px-3.5 py-2.5 ho   text-[var(--color-secondary)] shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                                className="rounded-md bg-[var(--background-Tertiary)] px-3.5 py-2.5 font-semibold  text-[var(--color-secondary)] shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
                             >
                                 Get started for free
                             </a>

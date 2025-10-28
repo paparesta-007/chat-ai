@@ -33,15 +33,15 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --color-primary: #e4e7ec;
-    --color-secondary: #b0b1b4;
-    --color-third: #8a8a8a;
-    --background-Primary: rgb(18, 18, 18);
+    --color-secondary: black;
+    --color-third: #606060;
+    --background-Primary: black;
     --background-Secondary: rgb(12, 12, 12);
     --color-Tertiary: #8b93a6;
     --color-chat-primary: #e4e7ec;
     --color-chat-secondary: #a3a9b8;
     --color-chat-muted: #6c7380;
-    --background-Tertiary: #1b6914;
+    --background-Tertiary: white;
     --background-Quaternary: #030303;
     --background-Hover: #23262f;
 
@@ -50,7 +50,7 @@
 
     --border-primary: #33353b;
     --border-secondary: #555658;
-    --border-Tertiary: #3b9633;
+    --border-Tertiary: white;
     --font-default: "Inter", sans-serif;
     --font-times-new-roman: "Times New Roman", serif;
     --font-comic-sans: "Comic Sans MS", cursive;
@@ -73,7 +73,9 @@
 .default{
     font-family: var(--font-default), sans-serif;
 }
-
+.renderChat .katex{
+    
+}
 .renderChat ul,
 .renderChat ol {
     color: var(--color-chat-primary);
@@ -423,7 +425,7 @@ td,tr,th{
 
 /*--------- Textbar --------- */
 .sendBtn{
-    @apply p-1.5 bg-[var(--background-Tertiary)] w-10 h-10 flex items-center justify-center text-white border border-[var(--border-Tertiary)] rounded-full
+    @apply p-1.5 bg-[var(--background-Tertiary)] w-10 h-10 flex items-center justify-center text-[var(--color-secondary)] border border-[var(--border-Tertiary)] rounded-full
 }
 /*--------- Pricing Page --------- */
 .pricing-card {

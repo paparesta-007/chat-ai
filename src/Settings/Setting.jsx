@@ -32,7 +32,7 @@ const Settings = () => {
             </div>
 
             {/* Contenuto dinamico */}
-            <div className="w-[calc(100%-250px)] h-screen bg-[var(--background-Secondary)] p-4 overflow-auto">
+            <div className="w-[calc(100%-250px)] h-screen bg-[var(--background-Secondary)] p-8 overflow-auto">
                 <Outlet /> {/* Qui React Router inserisce la pagina giusta */}
             </div>
             <Link to="/chat" className="fixed top-4 right-4  text-[var(--color-primary)] ">X</Link>
