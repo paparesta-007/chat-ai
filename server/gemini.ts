@@ -68,13 +68,19 @@ app.use("/", function (req: express.Request, res: express.Response, next: expres
 
 app.get("/api/gemini/generate", async function (req: express.Request, res: express.Response, next: express.NextFunction) {
     try {
+        let startTime = Date.now();
+        let prompt=decodeURIComponent(req.query.prompt as string) || "Explain what is climate change like a I am 10 years old. short answer.";
         console.log("API Key: " + process.env.GOOGLE_GENERATIVE_AI_API_KEY);
         const { text, usage } = await generateText({
             model: google("gemini-2.5-flash-lite"),
             system: "You are a 8 years old kid",
-            prompt: "What is love in simple terms?",
+            prompt: prompt,
+        
         })
-        res.send({ text, usage });
+        
+
+        let endTime = Date.now();
+        res.send({ text, usage, totaltime: endTime - startTime });
     } catch (error) {
         next(error);
     }
@@ -82,8 +88,11 @@ app.get("/api/gemini/generate", async function (req: express.Request, res: expre
 
 app.get("/api/gemini/structured-output", async function (req: express.Request, res: express.Response, next: express.NextFunction) {
     try {
-        const { object } = await generateObject({
+        let prompt=`Generate flashcard about ${decodeURIComponent(req.query.prompt as string)}` || "Generate quiz for learning basic of Star Wars universe";
+        let startTime = Date.now();
+        const { object, usage } = await generateObject({
             model: google("gemini-2.5-flash-lite"),
+            
             schema: z.object({
                 flashcards: z.array(z.object({
                     question: z.string().describe("The question on the front of the flashcard"),
@@ -92,13 +101,46 @@ app.get("/api/gemini/structured-output", async function (req: express.Request, r
                 })
                 ).describe("A list of quiz to help learn the basics of the Star Wars universe, 5 question")
             }),
-            prompt: 'Generate quiz for learning basic of Star Wars universe',
+            prompt: prompt,
         });
-        res.send(object);
+        let endTime = Date.now();
+        res.send({ object, usage, totaltime: endTime - startTime });
     } catch (error) {
         next(error);
     }
 })
+
+app.get("/api/gemini/stream", async function (req, res, next) {
+    try {
+        let prompt=decodeURIComponent(req.query.prompt as string) || "Explain what is climate change like a I am 10 years old. short answer.";
+        res.setHeader('Content-Type', 'application/x-ndjson; charset=utf-8');
+        res.setHeader("Transfer-Encoding", "chunked");
+        let time=Date.now();
+        const startTime = Date.now();
+        const { textStream, } = streamText({
+            model: google("gemini-2.5-flash-lite"),
+            prompt: `Answer shorty: ${prompt}`,
+            onFinish({ text, finishReason, response, steps, totalUsage }) {
+                res.write(JSON.stringify({ text, finishReason,  totalUsage, steps, time: Date.now() - startTime }) + "\n");
+            },
+        });
+
+        let firstChunkSent = false;
+        for await (const textPart of textStream) {
+
+            if (!firstChunkSent) {
+                const elapsed = Date.now() - startTime;
+                res.write(JSON.stringify({ text: textPart, elapsed }) + "\n");
+                firstChunkSent = true;
+            } else {
+                res.write(JSON.stringify({ text: textPart }) + "\n");
+            }
+        }
+        res.end();
+    } catch (error) {
+        next(error);
+    }
+});
 
 
 
