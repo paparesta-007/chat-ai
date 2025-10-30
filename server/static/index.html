@@ -1,97 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gemini Playground</title>
-  <style>
-    body {
-      display: flex;
-      height: 100vh;
-      font-family: Arial, sans-serif;
-      background-color: black;
-      color: white;
-      margin: 0;
-      padding: 20px;
-      gap: 20px;
-    }
-    h3 {
-      margin-top: 0;
-    }
-    /* Left sidebar */
-    .sidebar {
-      width: 200px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    button {
-      padding: 10px;
-      font-size: 16px;
-      cursor: pointer;
-      border: none;
-      border-radius: 5px;
-      background-color: white;
-      color: black;
-      font-weight: 700;
-      transition: background-color 0.3s ease;
-    }
-
-    button:hover {
-      background-color: gray;
-      color: white;
-    }
-
-    /* Right content area */
-    .playground {
-      flex: 1;
-      border: 1px dashed rgb(43, 42, 42);
-      border-radius: 10px;
-      padding: 20px;
-      overflow-y: auto;
-      white-space: pre-wrap;
-    }
-  </style>
+  <script src="index.js"></script>
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
   <!-- Left buttons -->
   <div class="sidebar">
-    <h3>Gemini Playground</h3>
-    <button id="generateText">Genera testo</button>
-    <button id="generateQuiz">Genera Quiz</button>
+    <div>
+      <h3>Gemini Playground</h3>
+      <input type="text" id="promptInput" placeholder="Inserisci il prompt qui"  />
+      <button id="generateText">Genera testo</button>
+      <button id="generateQuiz">Genera Quiz</button>
+      <button id="generateStream">Genera testo in streaming</button>
+    </div>
+    <div>
+      <h3>Output usage:</h3>
+      <p>Total tokens: <span id="totalTokens">0</span></p>
+      <p>Input tokens: <span id="inputTokens">0</span></p>
+      <p>Output tokens: <span id="outputTokens">0</span></p>
+      <p>Total time: <span id="totalTime">0</span> ms</p>
+    </div>
   </div>
 
   <!-- Right playground -->
   <div class="playground" id="playground">
-    <p>Qui apparirà il contenuto generato dall'AI...</p>
+
   </div>
 
-  <script>
-    const playground = document.getElementById('playground');
-
-    document.getElementById('generateText').addEventListener('click', async () => {
-      playground.textContent = "Caricamento...";
-      try {
-        const res = await fetch('/api/gemini/generate');
-        const data = await res.json();
-        playground.textContent = data.text || JSON.stringify(data, null, 2);
-      } catch (err) {
-        playground.textContent = "Errore: " + err.message;
-      }
-    });
-
-    document.getElementById('generateQuiz').addEventListener('click', async () => {
-      playground.textContent = "Caricamento...";
-      try {
-        const res = await fetch('/api/gemini/structured-output');
-        const data = await res.json();
-        playground.textContent = JSON.stringify(data, null, 2);
-      } catch (err) {
-        playground.textContent = "Errore: " + err.message;
-      }
-    });
-  </script>
 </body>
+
 </html>
