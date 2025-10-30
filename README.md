@@ -1,89 +1,177 @@
 # Chat AI
-###### Created by Tommaso Paparesta
 
-**Chat AI** is an advanced chatbot platform that allows users to interact with multiple AI models in a simple, intuitive, and flexible way. Its main goal is to provide an intelligent conversation experience accessible to everyone, leveraging both free and paid models without compromising the quality of responses.  
+A full-stack AI-powered chat application built with React and Node.js, featuring PDF analysis, document management, and integration with Google's Gemini AI.
 
----
-_The project is free for now, enjoy it!_
-## Technology and Stack
-Chat AI is built with modern, high-performance technologies that ensure speed, scalability, and a smooth user experience:  
+## 🚀 Features
 
-- **Frontend:** Built with **ReactJS**, one of the most powerful frameworks for interactive web applications. This ensures a dynamic interface that works seamlessly across all devices.  
-- **Styling and Design:** Uses **TailwindCSS** for modular and easily customizable styling. With Tailwind, every component is responsive, lightweight, and visually consistent.  
-- **Database and Backend:** Conversation and data management are handled via **Supabase**, an open-source alternative to Firebase that provides advanced functionality.  
-- **AI API Integrations:** The platform allows users to easily connect to various AI model providers via API, including:
-  - **OpenAI**  
-  - **Claude AI**  
-  - **Deepseek**  
-  - **Groq**  
+- **AI Chat Interface**: Interactive chat powered by Google Gemini AI
+- **PDF Analyzer**: Upload and analyze PDF documents with AI assistance
+- **Document Library**: Manage and organize your documents
+- **User Authentication**: Secure login and user management
+- **Explore & Discover**: Browse and discover AI capabilities
+- **Pricing Plans**: Multiple subscription tiers
+- **Release Notes**: Track application updates and changes
+- **Responsive Design**: Built with Tailwind CSS for mobile-first experience
 
----
+## 📁 Project Structure
 
-## Key Features
+```
+chat-ai/
+├── client/                 # Frontend React application
+│   ├── src/
+│   │   ├── App.jsx        # Main application component
+│   │   ├── ChatPage/      # Chat interface components
+│   │   ├── pdfAnalyzer/   # PDF analysis features
+│   │   ├── library/       # Document library management
+│   │   ├── Login/         # Authentication components
+│   │   ├── Settings/      # User settings
+│   │   ├── Explore/       # Discovery features
+│   │   ├── Pricing/       # Pricing page
+│   │   └── ...
+│   ├── api/               # Client-side API utilities
+│   └── public/            # Static assets
+│
+└── server/                # Backend Node.js server
+    ├── gemini.ts          # Gemini AI integration
+    └── static/            # Static files
+```
 
-Chat AI goes beyond a simple chat, offering a wide range of advanced functionalities for users of all levels:
+## 🛠️ Tech Stack
 
-1. **Free Models**  
-   - Users can access free models like **Gemini 2.5 Flash Lite** to test and experiment without any cost.  
-   - Perfect for students, developers, or anyone wanting to explore AI without financial commitment.  
+### Frontend
+- **React** - UI framework
+- **Vite** - Build tool and dev server
+- **Tailwind CSS** - Utility-first CSS framework
+- **TypeScript** - Type safety
+- **ESLint** - Code linting
 
-2. **Support for External APIs**  
-   - Easily connect your API keys to leverage premium or specialized models.  
-   - Multiple providers can be used simultaneously, allowing comparison of responses and performance.  
+### Backend
+- **Node.js** - Runtime environment
+- **TypeScript** - Type safety
+- **Google Gemini AI** - AI model integration
 
-3. **Conversation Saving**  
-   - All chats are automatically saved in the database, allowing users to pick up previous conversations.  
-   - Useful for analysis, long-term projects, or simply keeping track of interesting responses.  
+## 📦 Installation
 
-4. **Paid Plans**  
-   - Premium plans allow access to more advanced models like **Gemini 2.5 Pro**, with faster response times and higher processing capabilities.  
-   - Paid users enjoy higher usage limits, advanced customization options, and priority support.  
+### Prerequisites
+- Node.js (v16 or higher)
+- npm or yarn
+- Google Gemini API key
 
-5. **Intuitive Interface**  
-   - Designed to be simple and accessible, even for users with no prior AI experience.  
-   - Features include conversation history search, chat management, and project organization, all integrated natively.  
-
----
-
-## System Requirements
-
-Before installing and running Chat AI, ensure your system meets the following specifications:
-
-- **Node.js:** Version 18.x or higher  
-- **npm:** Version 9.x or higher  
-- **Operating System:** Windows 10/11, macOS 12+, or Linux (Ubuntu 20.04+ recommended)  
-- **Browser:** Latest version of Chrome, Edge, or Firefox for development preview  
-- **Memory:** Minimum 4 GB RAM (8 GB+ recommended for large-scale usage)  
-
----
-
-##  Installation Instructions (open source)
-
-Follow these steps to install and run Chat AI locally using npm:
+### Setup
 
 1. **Clone the repository**
-    ```bash
-   git clone https://github.com/yourusername/chat-ai.git
+   ```bash
+   git clone <repository-url>
    cd chat-ai
-   ```  
-  
-2. **Install dependencies**
-     ```bash
+   ```
+
+2. **Install client dependencies**
+   ```bash
+   cd client
    npm install
    ```
 
-3. **Set up environment variables**
+3. **Install server dependencies**
+   ```bash
+   cd ../server
+   npm install
+   ```
 
-    <small> Create a .env file in the root folder and add your API keys:</small>
-    ```bash
-    SUPABASE_URL=your_supabase_url
-    SUPABASE_KEY=your_supabase_key
-    OPENAI_API_KEY=your_openai_key
-    CLAUDE_API_KEY=your_claude_key
-    ```
-4. **Run in development mode**
-    ```bash
-    npm run dev
-    ```
+4. **Configure environment variables**
 
-test readme
+   Create a `.env` file in the `client` directory:
+   ```env
+   VITE_API_URL=http://localhost:3000
+   ```
+
+   Create a `.env` file in the `server` directory:
+   ```env
+   GEMINI_API_KEY=your_gemini_api_key_here
+   PORT=3000
+   ```
+
+## 🚀 Running the Application
+
+### Development Mode
+
+1. **Start the server**
+   ```bash
+   cd server
+   npm run dev
+   ```
+
+2. **Start the client** (in a new terminal)
+   ```bash
+   cd client
+   npm run dev
+   ```
+
+3. **Open your browser**
+   Navigate to `http://localhost:5173` (or the port shown in terminal)
+
+### Production Build
+
+1. **Build the client**
+   ```bash
+   cd client
+   npm run build
+   ```
+
+2. **Build the server**
+   ```bash
+   cd server
+   npm run build
+   ```
+
+## 📝 Available Scripts
+
+### Client
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
+
+### Server
+- `npm run dev` - Start development server with hot reload
+- `npm run build` - Compile TypeScript to JavaScript
+- `npm start` - Start production server
+
+## 🔑 Key Features Explained
+
+### PDF Analyzer
+Upload and analyze PDF documents using AI. The system extracts text and provides intelligent insights about the content.
+
+### Chat Interface
+Engage in conversations with the Gemini AI model. The chat supports context-aware responses and maintains conversation history.
+
+### Document Library
+Store, organize, and manage your documents with easy access to previous analyses and conversations.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🙏 Acknowledgments
+
+- Google Gemini AI for powering the AI capabilities
+- React community for excellent tooling and libraries
+- All contributors who help improve this project
+
+## 📞 Support
+
+For support, please open an issue in the GitHub repository or contact the maintainers.
+
+---
+
+Built with ❤️ using React and Google Gemini AI
+```
