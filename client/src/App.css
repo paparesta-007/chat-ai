@@ -23,7 +23,6 @@
 
     --border-primary: #E8EDDE;
     --border-secondary: #8D957B;
-    --border-third: #A3AC91;
     --border-Tertiary: #364323;
     --font-default: "Inter", sans-serif;
     --font-times-new-roman: "Times New Roman", serif;
@@ -31,34 +30,33 @@
     --font-roboto: "Roboto", sans-serif;
 }
 
-    @media (prefers-color-scheme: dark) {
-    :root {
-        --color-primary: #e4e7ec;
-        --color-secondary: black;
-        --color-third: #7e7d7d;
-        --background-Primary: black;
-        --background-Secondary: rgb(12, 12, 12);
-        --color-Tertiary: #8b93a6;
-        --color-chat-primary: #e4e7ec;
-        --color-chat-secondary: #a3a9b8;
-        --color-chat-muted: #6c7380;
-        --background-Tertiary: white;
-        --background-Quaternary: #030303;
-        --background-Hover: #23262f;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-primary: #e4e7ec;
+    --color-secondary: black;
+    --color-third: #606060;
+    --background-Primary: black;
+    --background-Secondary: rgb(12, 12, 12);
+    --color-Tertiary: #8b93a6;
+    --color-chat-primary: #e4e7ec;
+    --color-chat-secondary: #a3a9b8;
+    --color-chat-muted: #6c7380;
+    --background-Tertiary: white;
+    --background-Quaternary: #030303;
+    --background-Hover: #23262f;
 
-        --skeleton-primary: #23262f;
-        --skeleton-secondary: #181a20;
+    --skeleton-primary: #23262f;
+    --skeleton-secondary: #181a20;
 
-        --border-primary: #33353b;
-        --border-secondary: #555658;
-        --border-third: #444547;
-        --border-Tertiary: white;
-        --font-default: "Inter", sans-serif;
-        --font-times-new-roman: "Times New Roman", serif;
-        --font-comic-sans: "Comic Sans MS", cursive;
-        --font-roboto: "Roboto", sans-serif;
-    }
-    }
+    --border-primary: #33353b;
+    --border-secondary: #555658;
+    --border-Tertiary: white;
+    --font-default: "Inter", sans-serif;
+    --font-times-new-roman: "Times New Roman", serif;
+    --font-comic-sans: "Comic Sans MS", cursive;
+    --font-roboto: "Roboto", sans-serif;
+  }
+}
 
 .times-new-roman{
     font-family: var(--font-times-new-roman), serif !important;
@@ -373,8 +371,8 @@
 }
 
 .user-container {
-    @apply flex items-center font-semibold p-2 gap-2 text-sm border-t border-dashed border-[var(--border-third)] select-none
-    text-[var(--color-primary)] bg-[var(--background-Primary)] cursor-pointer mt-auto;
+    @apply flex items-center font-semibold p-2 gap-2 text-sm rounded-xl select-none
+    text-[var(--color-primary)] bg-[var(--background-Secondary)] cursor-pointer mt-auto;
     /* mt-auto = lo spinge in fondo nella colonna */
 }
 
@@ -419,7 +417,7 @@
     @apply w-full px-2 py-1 rounded-lg text-left text-[var(--color-third)] hover:bg-[var(--background-Primary)] ;
 }
 .actionBtn{
-    @apply items-center hover:text-[var(--color-primary)] hover:bg-[var(--background-Secondary)] hover:border-[var(--border-primary)] text-sm rounded-lg py-2 px-1 text-[var(--color-third)] flex gap-2
+    @apply items-center hover:bg-[rgba(0,0,0,0.1)] hover:text-[var(--color-primary)] text-sm rounded-lg py-2 px-1 text-[var(--color-third)] flex gap-2
 }
 td,tr,th{
     @apply  border-b border-[var(--border-secondary)] p-2

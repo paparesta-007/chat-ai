@@ -1,6 +1,6 @@
 import React from 'react';
 import apiProvider from "../../data/providerApi.js";
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import deleteSingleProvider from '../../services/apiProviders/deleteSingleProvider.js';
 
 type ProviderName = keyof typeof apiProvider;

@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import React, {useEffect, useState} from 'react';
+import {useNavigate} from "react-router";
 import supabase from "../../library/supabaseclient.js";
+import getAllConversations from "../../services/conversations/getConversations.js";
 import deleteConversation from "../../services/conversations/deleteConversation.js";
-import { ArrowRightToLine, LayoutGrid, Compass, LogOut, Plus, Command, ArrowBigUpDash, RefreshCw, Settings } from "lucide-react";
-import type { User } from '@supabase/supabase-js';
+import {ArrowRightToLine, LayoutGrid, Compass,LogOut, Plus, Command, ArrowBigUpDash, RefreshCw, Settings} from "lucide-react";
+import type {User} from '@supabase/supabase-js';
 import { Dispatch, SetStateAction } from "react";
 import { Conversation } from '../../types/types.js';
 import { ButtonOption } from '../../types/types.js';
@@ -21,38 +22,39 @@ interface LeftbarProps {
 }
 
 const Leftbar: React.FC<LeftbarProps> = ({
-    onSelectConversation, handleNewChat, isMinimized, setIsMinimized,
-    conversation_id, conversations, setConversations, isConversationLoading, fetchConversations
-}) => {
+                     onSelectConversation, handleNewChat, isMinimized, setIsMinimized,
+                     conversation_id, conversations, setConversations, isConversationLoading, fetchConversations
+                 }) => {
+    const [user, setUser] = useState<User | null>(null);
     const [isSettingOpen, setIsSettingOpen] = useState(false);
 
     const [menuOpen, setMenuOpen] = useState<string | null>(null); // id conversazione aperta
     const navigate = useNavigate();
 
-    const settingOption: ButtonOption[] = [
+    const settingOption:ButtonOption[]=[
         {
             type: "primary",
-            Icon: <Compass className="w-4 h-4" />,
+            Icon: <Compass className="w-4 h-4"/>,
             text: "Upgrade to Pro",
-            Kbd: "",
-
-            onClick: () => navigate("/pricing")
+            Kbd:"",
+            
+            onClick: () => navigate("/pricing")  
         },
         {
             type: "primary",
-            Icon: <Settings className="w-4 h-4" />,
+            Icon: <Settings className="w-4 h-4"/>,
             text: "Settings",
-            Kbd: "",
-
-            onClick: () => navigate("/settings")
-
+            Kbd:"",
+            
+            onClick: () => navigate("/settings")  
+    
         },
         {
             type: "danger",
-            Icon: <LogOut className="w-4 h-4" />,
+            Icon: <LogOut className="w-4 h-4"/>,
             text: "Logout",
             Kbd: "",
-
+            
             onClick: () => handleLogout()
         }
     ]
@@ -60,7 +62,7 @@ const Leftbar: React.FC<LeftbarProps> = ({
     useEffect(() => {
         const fetchUser = async (): Promise<void> => {
             try {
-                const { data, error } = await supabase.auth.getUser();
+                const {data, error} = await supabase.auth.getUser();
                 if (error) throw error;
                 const user: User | null = data?.user ?? null;
                 if (user) {
@@ -70,7 +72,7 @@ const Leftbar: React.FC<LeftbarProps> = ({
                 console.error("getUser error:", err);
             }
         };
-        fetchUser().catch((err) => console.error(err));
+        fetchUser();
     }, []);
 
     useEffect(() => {
@@ -98,7 +100,6 @@ const Leftbar: React.FC<LeftbarProps> = ({
                 setIsMinimized(prev => !prev);
             }
 
-
         };
 
         window.addEventListener("keydown", handleMinimizedShortcut);
@@ -110,11 +111,11 @@ const Leftbar: React.FC<LeftbarProps> = ({
     }, []);
 
     const handleLogout = async (): Promise<void> => {
-        const { error } = await supabase.auth.signOut();
+        const {error} = await supabase.auth.signOut();
         if (!error) navigate("/login");
     };
     const handleDeleteConversation = async (conversationId: string) => {
-
+        
         console.log(conversationId);
         await deleteConversation(conversationId);
         setConversations(conversations.filter(conversation => conversation.id !== conversationId));
@@ -123,18 +124,19 @@ const Leftbar: React.FC<LeftbarProps> = ({
         handleNewChat()
     };
     const handleRefresh = () => {
-        fetchConversations();
+      fetchConversations();
     };
     return (
         <div
-            className={`h-screen text-[var(--color-primary)]  select-none bg-[var(--background-Primary)]  flex flex-col  relative transition-all duration-300 ${isMinimized ? "w-0 border-1 border-transparent" : "md:w-[250px]  border-r border-dashed border-[var(--border-third)] w-screen "} `}>
+            className={`h-screen text-[var(--color-primary)]  border border-[var(--border-primary)] select-none bg-[var(--background-Secondary)]  flex flex-col gap-2 relative transition-all duration-300 ${
+                isMinimized ? "w-0 border-0" : "md:w-[250px] w-screen "} `}>
             {/* header */}
 
             {menuOpen && <div className="absolute top-0 left-0 w-full h-full  bg-[rgba(0,0,0,0.5)] opacity-50 z-10"
-                onClick={() => setMenuOpen(null)}></div>}
+                              onClick={() => setMenuOpen(null)}></div>}
             {isMinimized ? null : (
                 <>
-                    <div className="flex flex-col border-b p-2 border-dashed border-[var(--border-third)] ">
+                    <div className="flex flex-col ">
                         <h2
 
                             className="flex cursor-pointer justify-between rounded-lg py-2 px-1 text-lg gap-2"
@@ -142,7 +144,7 @@ const Leftbar: React.FC<LeftbarProps> = ({
                             <span className="text-[var(--color-primary)] " onClick={() => navigate("/")}>Chat AI </span>
 
                             <span className="text-[var(--color-third)] text-xs flex items-center  gap-2">
-                                {/*<span className="text-sm flex  gap-1"><Command className="h- w-4" /> + \</span>*/}
+                        {/*<span className="text-sm flex  gap-1"><Command className="h- w-4" /> + \</span>*/}
                                 <ArrowRightToLine
                                     className={isMinimized ? "text-[var(--color-third)] w-5 h-5 group relative" : "text-[var(--color-third)] group relative rotate-180 x w-5 h-5"}
                                     onClick={() => {
@@ -150,40 +152,37 @@ const Leftbar: React.FC<LeftbarProps> = ({
                                     }}>
 
                                 </ArrowRightToLine>
-                            </span>
+                    </span>
                         </h2>
                         <button className="actionBtn group" onClick={handleNewChat}>
-                            <Plus className="w-5 h-5" />
+                            <Plus className="w-5 h-5"/>
                             <span className="flex w-full justify-between items-center ">New Chat <kbd
                                 className="hidden text-sm items-center group-hover:flex gap-1"><Command
-                                    className="h-4 w-4" />+,</kbd></span>
+                                className="h-4 w-4"/>+,</kbd></span>
                         </button>
                         <button className="actionBtn group">
-                            <Compass className="w-5 h-5" />
+                            <Compass className="w-5 h-5"/>
                             <span className="flex w-full justify-between items-center "
-                                onClick={() => navigate("/explore")}>Explore <kbd
-                                    className="hidden text-sm items-center group-hover:flex gap-1"><Command
-                                        className="h-4 w-4" />+\</kbd></span>
+                            onClick={()=>navigate("/explore")}>Explore <kbd
+                                className="hidden text-sm items-center group-hover:flex gap-1"><Command
+                                className="h-4 w-4"/>+\</kbd></span>
                         </button>
                         <button className="actionBtn group">
-                            <LayoutGrid className="w-5 h-5" />
+                            <LayoutGrid className="w-5 h-5"/>
                             <span className="flex w-full justify-between items-center ">Connections <kbd
                                 className="hidden text-sm items-center group-hover:flex gap-1"><Command
-                                    className="h-4 w-4" />+<ArrowBigUpDash className="h-4 w-4" />+/</kbd></span>
+                                className="h-4 w-4"/>+<ArrowBigUpDash className="h-4 w-4"/>+/</kbd></span>
                         </button>
                     </div>
-                    <div className="flex flex-col p-2 ">
+                    
+                   <h4 className="text-[var(--color-primary)] mt-2 text-sm items-center relative flex justify-between  px-1">Favourite
 
-                        <h4 className="text-[var(--color-primary)]  text-sm items-center relative flex justify-between  px-1">Favourite
-
-                            <button className="hover:rotate-100 transition-all duration-300  group" onClick={handleRefresh}><RefreshCw className="w-5 h-5" /></button></h4>
-
-                    </div>
+                        <button className="hover:rotate-100 transition-all duration-300  group" onClick={handleRefresh}><RefreshCw className="w-5 h-5"  /></button></h4>
                     {isMinimized ? null : (
-                        <div className="chat-container p-2 w-full h-64">
+                        <div className="chat-container w-full h-64">
 
                             {isConversationLoading ? (
-                                <div className="loader" />
+                                <div className="loader"/>
                             ) : conversations.length > 0 ? (
                                 conversations.map((conversation) => (
                                     conversation.favourite ? <div
@@ -214,9 +213,9 @@ const Leftbar: React.FC<LeftbarProps> = ({
                                             strokeLinecap="round"
                                             strokeLinejoin="round"
                                         >
-                                            <circle cx="12" cy="12" r="1" />
-                                            <circle cx="12" cy="5" r="1" />
-                                            <circle cx="12" cy="19" r="1" />
+                                            <circle cx="12" cy="12" r="1"/>
+                                            <circle cx="12" cy="5" r="1"/>
+                                            <circle cx="12" cy="19" r="1"/>
                                         </svg>
 
                                         {/* menu */}
@@ -247,9 +246,9 @@ const Leftbar: React.FC<LeftbarProps> = ({
                                                         strokeWidth="2"
                                                         className="lucide lucide-trash-icon lucide-trash"
                                                     >
-                                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
-                                                        <path d="M3 6h18" />
-                                                        <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
+                                                        <path d="M3 6h18"/>
+                                                        <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
                                                     </svg>
                                                     Elimina
                                                 </button>
@@ -262,19 +261,16 @@ const Leftbar: React.FC<LeftbarProps> = ({
                             )}
                         </div>
 
-                    )}
-                    <div className="flex flex-col p-2 ">
-                        <h4 className="text-[var(--color-Primary)] mt-2 text-sm items-center relative flex justify-between  px-1">All chat
+                    )}                         
 
-                            <button className="hover:rotate-100 transition-all duration-300  group" onClick={handleRefresh}><RefreshCw className="w-5 h-5" /></button></h4>
+                    <h4 className="text-[var(--color-Primary)] mt-2 text-sm items-center relative flex justify-between  px-1">All chat
 
-                    </div>
-
+                        <button className="hover:rotate-100 transition-all duration-300  group" onClick={handleRefresh}><RefreshCw className="w-5 h-5"  /></button></h4>
                     {isMinimized ? null : (
-                        <div className="chat-container pl-2 w-full h-full">
+                        <div className="chat-container w-full h-full">
 
                             {isConversationLoading ? (
-                                <div className="loader" />
+                                <div className="loader"/>
                             ) : conversations.length > 0 ? (
                                 conversations.map((conversation) => (
                                     <div
@@ -305,9 +301,9 @@ const Leftbar: React.FC<LeftbarProps> = ({
                                             strokeLinecap="round"
                                             strokeLinejoin="round"
                                         >
-                                            <circle cx="12" cy="12" r="1" />
-                                            <circle cx="12" cy="5" r="1" />
-                                            <circle cx="12" cy="19" r="1" />
+                                            <circle cx="12" cy="12" r="1"/>
+                                            <circle cx="12" cy="5" r="1"/>
+                                            <circle cx="12" cy="19" r="1"/>
                                         </svg>
 
                                         {/* menu */}
@@ -338,9 +334,9 @@ const Leftbar: React.FC<LeftbarProps> = ({
                                                         strokeWidth="2"
                                                         className="lucide lucide-trash-icon lucide-trash"
                                                     >
-                                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
-                                                        <path d="M3 6h18" />
-                                                        <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
+                                                        <path d="M3 6h18"/>
+                                                        <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
                                                     </svg>
                                                     Elimina
                                                 </button>
@@ -381,7 +377,7 @@ const Leftbar: React.FC<LeftbarProps> = ({
                                         onClick={option.onClick}
                                     />
                                 ))
-
+                                  
                             }
                         </div>
                     )}
