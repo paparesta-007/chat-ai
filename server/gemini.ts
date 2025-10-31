@@ -10,6 +10,7 @@ import url from "url";
 import fs from "fs";
 import express from "express";
 
+import cors from "cors";
 
 
 import { generateText, streamText } from 'ai';
@@ -17,6 +18,7 @@ import { google } from '@ai-sdk/google';
 import { generateObject } from 'ai';
 
 import { z } from 'zod';
+import e from "express";
 
 
 
@@ -46,6 +48,7 @@ server.listen(port, function () {
 
 });
 
+app.use(cors());
 
 app.use("/", function (req: express.Request, res: express.Response, next: express.NextFunction) {
     console.log("Metodo: " + req.method);
@@ -88,18 +91,22 @@ app.get("/api/gemini/generate", async function (req: express.Request, res: expre
 
 app.get("/api/gemini/structured-output", async function (req: express.Request, res: express.Response, next: express.NextFunction) {
     try {
-        let prompt=`Generate flashcard about ${decodeURIComponent(req.query.prompt as string)}` || "Generate quiz for learning basic of Star Wars universe";
+        const randomNum = Math.floor(Math.random() * 1000);
+        let prompt=`Generate 10 flashcard about ${decodeURIComponent(req.query.prompt as string)} Use a random creative angle seed: ${randomNum}.` || "Generate quiz for learning basic of Star Wars universe";
         let startTime = Date.now();
+
         const { object, usage } = await generateObject({
-            model: google("gemini-2.5-flash-lite"),
-            
+            model: google("gemini-2.0-flash-exp"),
+            temperature: 1.2,
+            seed: randomNum,
             schema: z.object({
                 flashcards: z.array(z.object({
                     question: z.string().describe("The question on the front of the flashcard"),
-                    options: z.array(z.string()).describe("Multiple choice options for the question, 3 choices"),
+                    options: z.array(z.string()).describe("Multiple choice options for the question, 4 choices"),
                     answer: z.string().describe("The correct answer to the question"),
+                    explanation: z.string().optional().describe("A brief explanation of the answer"),
                 })
-                ).describe("A list of quiz to help learn the basics of the Star Wars universe, 5 question")
+                ).describe("A list of quiz to help learn about the topic"),
             }),
             prompt: prompt,
         });
