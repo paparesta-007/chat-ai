@@ -115,7 +115,7 @@ function ChatPage() {
                     setIsNewChat(false);
                 }
             } catch (err) {
-                // Se errore e request non invalidato -> fallback
+                // Se errore e request non invalidata -> fallback
                 if (localFetchId !== fetchIdRef.current) return;
                 console.error("loadChat error:", err);
                 navigate("/404", { replace: true });
@@ -210,19 +210,36 @@ function ChatPage() {
             let convId: string = conversation_id;
 
             if (isNewChat) {
-
                 const titlePrompt = `Write a short title 4-8 word about, return 1 concise phrase, avoid markdown styling : ${prompt}`;
 
-                const rawTitle: string = await runChat(titlePrompt, model.id);
+                const res = await fetch(`http://localhost:3000/api/gemini/generate?prompt=${encodeURIComponent(titlePrompt)}&model=${encodeURIComponent(model.id)}`);
+                
+                // Check if response is OK
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                
+                // Check content type before parsing JSON
+                const contentType = res.headers.get("content-type");
+                if (!contentType || !contentType.includes("application/json")) {
+                    const text = await res.text();
+                    console.error("Expected JSON but got:", text);
+                    throw new Error("Server returned non-JSON response");
+                }
+                
+                const data = await res.json();
+                const usage = data.usage;
+                console.log("Title generation usage:", usage);
+                const rawTitle: string = data.text;
+
                 const chatTitle: string = safeToString(rawTitle);
                 const conversation: any = await createConversation(user_id, chatTitle);
                 convId = conversation?.[0]?.id ?? conversation?.id;
                 setConversation_id(convId);
-                setIsNewChat(false); // <- molto importante!
+                setIsNewChat(false);
                 setJustCreatedChat(true);
 
                 console.log("Conversation created?", conversation);
-
 
                 if (!convId) {
                     console.error("❌ createConversation non ha ritornato un id valido:", conversation);
@@ -232,53 +249,51 @@ function ChatPage() {
                 console.log("✅ Nuova conversazione creata con id:", convId);
             }
 
+        const userMessage = new Message();
+        userMessage.sender = prompt;
+        userMessage.content = "";
+        userMessage.conversation_id = convId;
+        userMessage.id = "";
+        userMessage.created_at = "";
 
+        // Mostra subito messaggio utente
+        setMessages((prev: Message[]) => [...prev, userMessage]);
+        setPrompt("");
 
+        setIsAnswering(true);
+        const history = toGeminiHistory(messages);
+        const rawReply = await runChat("You are an helpful assistant, avoid svg, return content in markdown styled with header, bullet list, list, tables if needed prompt:"
+            + prompt, model.id, history);
 
-            const userMessage = new Message();
-            userMessage.sender = prompt;
-            userMessage.content = "";
-            userMessage.conversation_id = convId;
-            userMessage.id = "";
-            userMessage.created_at = "";
+        const reply = safeToString(rawReply);
+            
+        // Aggiorna l'ultimo messaggio con la risposta AI
+        setMessages((prev) =>
+            prev.map((m, idx) =>
+                idx === prev.length - 1
+                    ? { ...m, content: reply, conversation_id: convId }
+                    : m
+            )
+        );
 
-            // Mostra subito messaggio utente
-            setMessages((prev: Message[]) => [...prev, userMessage]);
-            setPrompt("");
-
-            setIsAnswering(true);
-            const history = toGeminiHistory(messages);
-            const rawReply = await runChat("You are an helpful assistant, avoid svg, return content in markdown styled with header, bullet list, list, tables if needed prompt:"
-                + prompt, model.id, history);
-
-            const reply = safeToString(rawReply);
-
-
-
-            // Aggiorna l'ultimo messaggio con la risposta AI
-            setMessages((prev) =>
-                prev.map((m, idx) =>
-                    idx === prev.length - 1
-                        ? { ...m, content: reply, conversation_id: convId }
-                        : m
-                )
-            );
-
-            setIsAnswering(false);
-            setPrompt("");
-            setTimeout(() => {
-                if (messagesEndRef.current) {
-                    const container = messagesEndRef.current as HTMLElement;
-                    container.scrollTop = container.scrollHeight - 150;
-                }
-            }, 50);
-            await createMessage(userMessage.sender, reply, convId);
-            navigate(`/chat/${convId}`);
-            await fetchConversations()
-        } catch (err) {
-            console.error("handleSend error:", err);
-        }
-    };
+        setIsAnswering(false);
+        setPrompt("");
+        setTimeout(() => {
+            if (messagesEndRef.current) {
+                const container = messagesEndRef.current as HTMLElement;
+                container.scrollTop = container.scrollHeight - 150;
+            }
+        }, 50);
+        await createMessage(userMessage.sender, reply, convId);
+        navigate(`/chat/${convId}`);
+        await fetchConversations()
+    } catch (err) {
+        console.error("handleSend error:", err);
+        setIsAnswering(false);
+        // Show error message to user
+        alert("Failed to send message. Please check if the server is running and try again.");
+    }
+};
     const toGeminiHistory = (messages: Message[]) => {
         return messages.flatMap((m) => {
             const historyItems = [];
@@ -313,7 +328,7 @@ function ChatPage() {
         setConversation_id(conversationId);
         setMessages([]);
         setIsNewChat(false);
-        
+
         setIsConversationFavourite(false);
 
         // Carica messaggi
@@ -359,7 +374,7 @@ function ChatPage() {
         if (messagesEndRef.current) {
             (messagesEndRef.current as any).scrollTop = (messagesEndRef.current as any).scrollHeight - 500;
         }
-        
+
 
     }, [messages]);
 
@@ -437,12 +452,12 @@ function ChatPage() {
                         {isAnswering && (
                             <div className="loader"></div>
                         )}
-                      
-                            {messages.length === 0 && !isAnswering && (
-                                  <div className="flex flex-col min-h-full items-center">
+
+                        {messages.length === 0 && !isAnswering && (
+                            <div className="flex flex-col min-h-full items-center">
                                 <LandingChat selectedPhrase={handleSelectQuickPhrase} />
                             </div>
-                            )}
+                        )}
 
                     </div>
 
