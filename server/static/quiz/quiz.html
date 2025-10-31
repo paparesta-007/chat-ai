@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WW2 Quiz</title>
+  <link rel="stylesheet" href="quiz.css">
+
+  <script type="module">
+    import prompt from "./prompt.js";
+    window.prompt = prompt;
+  </script>
+  <script defer src="quiz.js"></script>
+</head>
+<body>
+  <h2 id="quizTitle">WW2 Quiz</h2>
+
+  <div id="quizWrapper">
+    <div id="questionContainer"></div>
+
+    <div id="navButtons">
+      <button id="prevButton">Prev</button>
+      <button id="nextButton">Next</button>
+      <button id="showSolutionButton">Show solution</button>
+    </div>
+    <div>
+        <p id="resultMessage"></p>
+    </div>
+  </div>
+</body>
+</html>
