@@ -163,12 +163,14 @@ const CustomizationSettings = () => {
             <div className='border border-[var(--border-primary)] p-4 rounded-lg flex flex-col gap-4'>
                 <div>
                     <h2 className="text-xl font-semibold text-[var(--color-primary)]">How ChatAI should call you?</h2>
-                    <input type="text" value={currentTitle} onChange={(e) => setCurrentTitle(e.target.value)} placeholder="Your title" className="w-full mt-2 p-2 border border-[var(--border-secondary)] rounded-md bg-[var(--background-Secondary)] text-[var(--color-primary)] outline-none" />
+                    <input type="text" value={currentTitle} onChange={(e) => setCurrentTitle(e.target.value)} placeholder="Your title" 
+                    className="w-full mt-2 p-2 border border-[var(--border-secondary)] rounded-md bg-[var(--background-Secondary)] text-[var(--color-primary)] outline-none" />
                     <p className="text-sm text-[var(--color-third)] mt-1">This will be shown on the top left of the sidebar, no one will see it.</p>
                 </div>
                 <div>
                     <h2 className="text-xl font-semibold text-[var(--color-primary)]">Want change your avatar?</h2>
-                    <input type="text" value={currentImageUrl} onChange={(e) => setCurrentImageUrl(e.target.value)} placeholder="Your image url (must be a valid URL)" className="w-full mt-2 p-2 border border-[var(--border-secondary)] rounded-md bg-[var(--background-Secondary)] text-[var(--color-primary)] outline-none" />
+                    <input type="text" value={currentImageUrl} onChange={(e) => setCurrentImageUrl(e.target.value)} placeholder="Your image url (must be a valid URL)" 
+                    className="w-full mt-2 p-2 border border-[var(--border-secondary)] rounded-md bg-[var(--background-Secondary)] text-blue-500 text-underline outline-none" />
                     <p className="text-sm text-[var(--color-third)] mt-1">This will be shown on the top left avatar section of the sidebar, no one will see it.</p>
                 </div>
 
