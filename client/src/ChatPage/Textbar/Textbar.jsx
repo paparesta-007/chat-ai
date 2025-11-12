@@ -12,10 +12,10 @@ const TextBar = ({handleSend, setPrompt, isAnswering, prompt, setModel}) => {
         }
     };
     const handleModelChange = (selectedName) => {
-        setSelectedModel(selectedName); // aggiorna la scritta del select
+        setSelectedModel(selectedName); 
         const model = availableModels.find((m) => m.name === selectedName);
         if (model) {
-            setModel(model); // passa oggetto al genitore
+            setModel(model);
         }
     };
 

@@ -3,62 +3,87 @@
 
 :root {
     /* Light mode (default) */
-    --color-primary: #1C2112;
-    --color-secondary: #F1F4EB;
-    --color-third: #364323;
-    --background-Primary: #faf9f5;
-    --background-Secondary: rgb(241, 241, 239);
-    --color-Tertiary: #364323;
-    --color-chat-primary: #1C2112;
-    --color-chat-secondary: #364323;
-    --color-chat-muted: #8D957B;
-    --background-Tertiary: #1B180E;
-    --background-Quaternary: #F1F4EB;
-    --background-Hover: #E8EDDE;
+    /* Primary Colors */
+    --color-primary: hsl(80, 30%, 10%);           /* Deep olive-green */
+    --color-secondary: hsl(75, 30%, 95%);         /* Light sage */
+    --color-third: hsl(85, 20%, 25%);             /* Medium olive */
+    
+    /* Backgrounds */
+    --background-Primary: hsl(50, 40%, 98%);      /* Warm white */
+    --background-Secondary: hsl(60, 10%, 95%);    /* Subtle off-white */
+    --background-Tertiary: hsl(40, 30%, 8%);      /* Deep warm black */
+    --background-Quaternary: hsl(75, 30%, 95%);   /* Light sage */
+    --background-Hover: hsl(80, 35%, 90%);        /* Soft sage hover */
+    
+    /* Text Colors */
+    --color-Tertiary: hsl(85, 20%, 25%);          /* Medium olive */
+    --color-chat-primary: hsl(80, 30%, 10%);      /* Deep olive-green */
+    --color-chat-secondary: hsl(85, 20%, 25%);    /* Medium olive */
+    --color-chat-muted: hsl(75, 15%, 55%);        /* Muted sage */
+    
+    /* Skeleton Loaders */
+    --skeleton-primary: hsl(0, 0%, 90%);          /* Light gray */
+    --skeleton-secondary: hsl(0, 0%, 97%);        /* Very light gray */
+    
+    /* Borders */
+    --border-primary: hsl(80, 35%, 90%);          /* Soft sage */
+    --border-secondary: hsl(75, 15%, 55%);        /* Muted sage */
+    --border-third: hsl(80, 15%, 65%);            /* Light gray-sage */
+    --border-Tertiary: hsl(85, 20%, 25%);         /* Medium olive */
 
-
-    --skeleton-primary:rgb(230, 230, 230);
-    --skeleton-secondary:#f8f8f8;
-
-
-    --border-primary: #E8EDDE;
-    --border-secondary: #8D957B;
-    --border-third: #A3AC91;
-    --border-Tertiary: #364323;
-    --font-default: "Inter", sans-serif;
-    --font-times-new-roman: "Times New Roman", serif;
-    --font-comic-sans: "Comic Sans MS", cursive;
-    --font-roboto: "Roboto", sans-serif;
+    --btn-danger: hsl(0, 100%, 50%);
+    --btn-danger-hover: hsl(0, 100%, 40%);
+    --btn-danger-active: hsl(0, 100%, 30%);
+    
+    /* Fonts */
+    --font-default: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-times-new-roman: "Times New Roman", Georgia, serif;
+    --font-comic-sans: "Comic Sans MS", "Comic Sans", cursive;
+    --font-roboto: "Roboto", -apple-system, sans-serif;
 }
 
-    @media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
     :root {
-        --color-primary: #e4e7ec;
-        --color-secondary: black;
-        --color-third: #7e7d7d;
-        --background-Primary: black;
-        --background-Secondary: rgb(12, 12, 12);
-        --color-Tertiary: #8b93a6;
-        --color-chat-primary: #e4e7ec;
-        --color-chat-secondary: #a3a9b8;
-        --color-chat-muted: #6c7380;
-        --background-Tertiary: white;
-        --background-Quaternary: #030303;
-        --background-Hover: #23262f;
+        /* Primary Colors */
+        --color-primary: hsl(220, 15%, 92%);          /* Soft blue-gray */
+        --color-secondary: hsl(0, 0%, 0%);            /* Pure black */
+        --color-third: hsl(0, 2%, 50%);               /* Medium gray */
+        
+        /* Backgrounds */
+        --background-Primary: hsl(0, 0%, 0%);         /* Pure black */
+        --background-Secondary: hsl(0, 0%, 5%);       /* Near black */
+        --background-Tertiary: hsl(0, 0%, 100%);      /* White (for contrast) */
+        --background-Quaternary: hsl(0, 0%, 1%);      /* Deep black */
+        --background-Hover: hsl(0, 0%, 5%);       /* Subtle blue-gray hover */
+        
+        /* Text Colors */
+        --color-Tertiary: hsl(220, 18%, 65%);         /* Soft blue-gray */
+        --color-chat-primary: hsl(220, 15%, 92%);     /* Soft blue-gray */
+        --color-chat-secondary: hsl(220, 15%, 70%);   /* Medium blue-gray */
+        --color-chat-muted: hsl(220, 10%, 50%);       /* Muted gray */
+        
+        /* Skeleton Loaders */
+        --skeleton-primary: hsl(220, 15%, 18%);       /* Dark blue-gray */
+        --skeleton-secondary: hsl(220, 10%, 10%);     /* Very dark gray */
+        
+        /* Borders */
+        --border-primary: hsl(0, 0%, 10%);          /* Dark border */
+        --border-secondary: hsl(0, 2%, 34%);          /* Medium gray border */
+        --border-third: hsl(0, 2%, 27%);              /* Dark gray border */
+        --border-Tertiary: hsl(0, 0%, 100%);          /* White border (for contrast) */
 
-        --skeleton-primary: #23262f;
-        --skeleton-secondary: #181a20;
+        --btn-danger: hsl(0, 100%, 50%);
+        --btn-danger-hover: hsl(0, 100%, 40%);
+        --btn-danger-active: hsl(0, 100%, 30%);
+        
+        /* Fonts remain the same */
+    }
+}
 
-        --border-primary: #33353b;
-        --border-secondary: #555658;
-        --border-third: #444547;
-        --border-Tertiary: white;
-        --font-default: "Inter", sans-serif;
-        --font-times-new-roman: "Times New Roman", serif;
-        --font-comic-sans: "Comic Sans MS", cursive;
-        --font-roboto: "Roboto", sans-serif;
-    }
-    }
+/* Smooth transitions for theme switching */
+* {
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
 
 .times-new-roman{
     font-family: var(--font-times-new-roman), serif !important;
