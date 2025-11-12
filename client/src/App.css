@@ -4,37 +4,60 @@
 :root {
     /* Light mode (default) */
     /* Primary Colors */
-    --color-primary: hsl(80, 30%, 10%);           /* Deep olive-green */
-    --color-secondary: hsl(75, 30%, 95%);         /* Light sage */
-    --color-third: hsl(85, 20%, 25%);             /* Medium olive */
-    
+    --color-primary: hsl(80, 30%, 10%);
+    /* Deep olive-green */
+    --color-secondary: hsl(75, 30%, 95%);
+    /* Light sage */
+    --color-third: hsl(85, 20%, 25%);
+    /* Medium olive */
+
     /* Backgrounds */
-    --background-Primary: hsl(50, 40%, 98%);      /* Warm white */
-    --background-Secondary: hsl(60, 10%, 95%);    /* Subtle off-white */
-    --background-Tertiary: hsl(40, 30%, 8%);      /* Deep warm black */
-    --background-Quaternary: hsl(75, 30%, 95%);   /* Light sage */
-    --background-Hover: hsl(80, 35%, 90%);        /* Soft sage hover */
-    
+    --background-Primary: hsl(50, 40%, 98%);
+    /* Warm white */
+    --background-Secondary: hsl(60, 10%, 95%);
+    /* Subtle off-white */
+    --background-Tertiary: hsl(40, 30%, 8%);
+    /* Deep warm black */
+    --background-Quaternary: hsl(75, 30%, 95%);
+    /* Light sage */
+    --background-Hover: hsl(80, 35%, 90%);
+    /* Soft sage hover */
+
     /* Text Colors */
-    --color-Tertiary: hsl(85, 20%, 25%);          /* Medium olive */
-    --color-chat-primary: hsl(80, 30%, 10%);      /* Deep olive-green */
-    --color-chat-secondary: hsl(85, 20%, 25%);    /* Medium olive */
-    --color-chat-muted: hsl(75, 15%, 55%);        /* Muted sage */
-    
+    --color-Tertiary: hsl(85, 20%, 25%);
+    /* Medium olive */
+    --color-chat-primary: hsl(80, 30%, 10%);
+    /* Deep olive-green */
+    --color-chat-secondary: hsl(85, 20%, 25%);
+    /* Medium olive */
+    --color-chat-muted: hsl(75, 15%, 55%);
+    /* Muted sage */
+
     /* Skeleton Loaders */
-    --skeleton-primary: hsl(0, 0%, 90%);          /* Light gray */
-    --skeleton-secondary: hsl(0, 0%, 97%);        /* Very light gray */
-    
+    --skeleton-primary: hsl(0, 0%, 90%);
+    /* Light gray */
+    --skeleton-secondary: hsl(0, 0%, 97%);
+    /* Very light gray */
+
     /* Borders */
-    --border-primary: hsl(80, 35%, 90%);          /* Soft sage */
-    --border-secondary: hsl(75, 15%, 55%);        /* Muted sage */
-    --border-third: hsl(80, 15%, 65%);            /* Light gray-sage */
-    --border-Tertiary: hsl(85, 20%, 25%);         /* Medium olive */
+    --border-primary: hsl(80, 35%, 90%);
+    /* Soft sage */
+    --border-secondary: hsl(75, 15%, 55%);
+    /* Muted sage */
+    --border-third: hsl(80, 15%, 65%);
+    /* Light gray-sage */
+    --border-Tertiary: hsl(85, 20%, 25%);
+    /* Medium olive */
 
     --btn-danger: hsl(0, 100%, 50%);
     --btn-danger-hover: hsl(0, 100%, 40%);
     --btn-danger-active: hsl(0, 100%, 30%);
-    
+
+    --bg-error: hsl(0, 100%, 20%);
+    --bg-success: hsl(120, 100%, 20%);
+    --border-error: hsl(0, 100%, %);
+    --border-success: hsl(120, 100%, 28%);
+
     /* Fonts */
     --font-default: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     --font-times-new-roman: "Times New Roman", Georgia, serif;
@@ -45,37 +68,60 @@
 @media (prefers-color-scheme: dark) {
     :root {
         /* Primary Colors */
-        --color-primary: hsl(220, 15%, 92%);          /* Soft blue-gray */
-        --color-secondary: hsl(0, 0%, 0%);            /* Pure black */
-        --color-third: hsl(0, 2%, 50%);               /* Medium gray */
-        
+        --color-primary: hsl(220, 15%, 92%);
+        /* Soft blue-gray */
+        --color-secondary: hsl(0, 0%, 0%);
+        /* Pure black */
+        --color-third: hsl(0, 2%, 50%);
+        /* Medium gray */
+
         /* Backgrounds */
-        --background-Primary: hsl(0, 0%, 0%);         /* Pure black */
-        --background-Secondary: hsl(0, 0%, 5%);       /* Near black */
-        --background-Tertiary: hsl(0, 0%, 100%);      /* White (for contrast) */
-        --background-Quaternary: hsl(0, 0%, 1%);      /* Deep black */
-        --background-Hover: hsl(0, 0%, 5%);       /* Subtle blue-gray hover */
-        
+        --background-Primary: hsl(0, 0%, 0%);
+        /* Pure black */
+        --background-Secondary: hsl(0, 0%, 5%);
+        /* Near black */
+        --background-Tertiary: hsl(0, 0%, 100%);
+        /* White (for contrast) */
+        --background-Quaternary: hsl(0, 0%, 1%);
+        /* Deep black */
+        --background-Hover: hsl(0, 0%, 5%);
+        /* Subtle blue-gray hover */
+
         /* Text Colors */
-        --color-Tertiary: hsl(220, 18%, 65%);         /* Soft blue-gray */
-        --color-chat-primary: hsl(220, 15%, 92%);     /* Soft blue-gray */
-        --color-chat-secondary: hsl(220, 15%, 70%);   /* Medium blue-gray */
-        --color-chat-muted: hsl(220, 10%, 50%);       /* Muted gray */
-        
+        --color-Tertiary: hsl(220, 18%, 65%);
+        /* Soft blue-gray */
+        --color-chat-primary: hsl(220, 15%, 92%);
+        /* Soft blue-gray */
+        --color-chat-secondary: hsl(220, 15%, 70%);
+        /* Medium blue-gray */
+        --color-chat-muted: hsl(220, 10%, 50%);
+        /* Muted gray */
+
         /* Skeleton Loaders */
-        --skeleton-primary: hsl(220, 15%, 18%);       /* Dark blue-gray */
-        --skeleton-secondary: hsl(220, 10%, 10%);     /* Very dark gray */
-        
+        --skeleton-primary: hsl(220, 15%, 18%);
+        /* Dark blue-gray */
+        --skeleton-secondary: hsl(220, 10%, 10%);
+        /* Very dark gray */
+
         /* Borders */
-        --border-primary: hsl(0, 0%, 10%);          /* Dark border */
-        --border-secondary: hsl(0, 2%, 34%);          /* Medium gray border */
-        --border-third: hsl(0, 2%, 27%);              /* Dark gray border */
-        --border-Tertiary: hsl(0, 0%, 100%);          /* White border (for contrast) */
+        --border-primary: hsl(0, 0%, 10%);
+        /* Dark border */
+        --border-secondary: hsl(0, 2%, 34%);
+        /* Medium gray border */
+        --border-third: hsl(0, 2%, 27%);
+        /* Dark gray border */
+        --border-Tertiary: hsl(0, 0%, 100%);
+        /* White border (for contrast) */
 
         --btn-danger: hsl(0, 100%, 50%);
         --btn-danger-hover: hsl(0, 100%, 40%);
         --btn-danger-active: hsl(0, 100%, 30%);
-        
+
+        --bg-error: hsl(0, 100%, 20%);
+        --bg-success: hsl(120, 100%, 20%);
+        --border-error: hsl(0, 100%, %);
+        --border-success: hsl(120, 100%, 28%);
+
         /* Fonts remain the same */
     }
 }
@@ -85,36 +131,43 @@
     transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
-.times-new-roman{
+.times-new-roman {
     font-family: var(--font-times-new-roman), serif !important;
 }
-.comic-sans{
+
+.comic-sans {
     font-family: var(--font-comic-sans), cursive;
 }
-.roboto{
+
+.roboto {
     font-family: var(--font-roboto), sans-serif;
 }
-.new-york{
+
+.new-york {
     font-family: var(--font-new-york), serif;
 }
-.default{
+
+.default {
     font-family: var(--font-default), sans-serif;
 }
-.renderChat .katex{
-    
-}
+
+.renderChat .katex {}
+
 .renderChat ul,
 .renderChat ol {
     color: var(--color-chat-primary);
     padding-left: 20px;
-    margin: 10px 0; /* spazio sopra e sotto */
+    margin: 10px 0;
+    /* spazio sopra e sotto */
     list-style-position: inside;
 }
 
 .renderChat ul li,
 .renderChat ol li {
-    margin-bottom: 6px; /* spazio tra gli elementi della lista */
-    line-height: 1.6; /* migliora leggibilità */
+    margin-bottom: 6px;
+    /* spazio tra gli elementi della lista */
+    line-height: 1.6;
+    /* migliora leggibilità */
 }
 
 .renderChat p {
@@ -130,7 +183,7 @@
     margin: 16px 0 12px 0;
     line-height: 1.3;
     color: var(--color-primary);
-    
+
 }
 
 .renderChat h1 {
@@ -205,66 +258,78 @@
     word-break: break-word;
 }
 
-.renderChat blockquote{
+.renderChat blockquote {
     @apply border-l-2 border-[var(--border-primary)] pl-2;
 }
 
-.animate-slideUp{
+.animate-slideUp {
     animation: slideUp 0.5s ease-in-out;
 }
+
 @keyframes slideUp {
     from {
         transform: translateY(10px);
         opacity: 0;
 
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
 
     }
 }
-.animate-slideDown{
+
+.animate-slideDown {
     animation: slideDown 0.2s ease-in-out;
 }
+
 @keyframes slideDown {
     from {
         transform: translateY(-10px);
         opacity: 0;
 
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
 
     }
 }
-.animate-slideRight{
+
+.animate-slideRight {
     animation: slideRight 0.5s ease-in-out;
 }
+
 @keyframes slideRight {
     from {
         transform: translateX(-10px);
         opacity: 0;
     }
+
     to {
         transform: translateX(0);
         opacity: 1;
     }
 }
-.animate-slideLeft{
+
+.animate-slideLeft {
     animation: slideLeft 0.2s ease-in-out;
 }
+
 @keyframes slideLeft {
     from {
         transform: translateX(10px);
         opacity: 0;
     }
+
     to {
         transform: translateX(0);
         opacity: 1;
     }
 }
+
 /* Slide Top-Right */
 .animate-slideUpRight {
     animation: slideUpRight 0.2s ease-in-out;
@@ -275,6 +340,7 @@
         transform: translate(10px, 10px);
         opacity: 0;
     }
+
     to {
         transform: translate(0, 0);
         opacity: 1;
@@ -291,6 +357,7 @@
         transform: translate(-10px, 10px);
         opacity: 0;
     }
+
     to {
         transform: translate(0, 0);
         opacity: 1;
@@ -307,6 +374,7 @@
         transform: translate(10px, -10px);
         opacity: 0;
     }
+
     to {
         transform: translate(0, 0);
         opacity: 1;
@@ -323,70 +391,74 @@
         transform: translate(-10px, -10px);
         opacity: 0;
     }
+
     to {
         transform: translate(0, 0);
         opacity: 1;
     }
 }
+
 .gradientAnimation {
-  background: conic-gradient(
-    from 0deg,
-    #fda8c9,
-    #45cc23,
-    #5370e4,
-    #d1c734,
-    #fda8c9
-  );
-  background-size: 200% 200%;
-  font-weight: 600;
-  color: #000;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: rotateGradient 6s linear infinite;
+    background: conic-gradient(from 0deg,
+            #fda8c9,
+            #45cc23,
+            #5370e4,
+            #d1c734,
+            #fda8c9);
+    background-size: 200% 200%;
+    font-weight: 600;
+    color: #000;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rotateGradient 6s linear infinite;
 }
 
 @keyframes rotateGradient {
-  0% {
-    background-position: 0% 50%;
-    transform: rotate(0deg);
-  }
-  100% {
-    background-position: 100% 50%;
-    transform: rotate(360deg);
-  }
+    0% {
+        background-position: 0% 50%;
+        transform: rotate(0deg);
+    }
+
+    100% {
+        background-position: 100% 50%;
+        transform: rotate(360deg);
+    }
 }
+
 .skeleton {
-  position: relative;
-  overflow: hidden;
-  background-color: var(--skeleton-primary);
-  border-radius: 9999px; /* rounded-2xl style */
+    position: relative;
+    overflow: hidden;
+    background-color: var(--skeleton-primary);
+    border-radius: 9999px;
+    /* rounded-2xl style */
 }
 
 .skeleton::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    var(--skeleton-primary) 25%,
-    var(--skeleton-secondary) 50%,
-    var(--skeleton-primary) 75%
-  );
-  animation: skeletonAnimate 2.6s ease-in-out infinite alternate;
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg,
+            var(--skeleton-primary) 25%,
+            var(--skeleton-secondary) 50%,
+            var(--skeleton-primary) 75%);
+    animation: skeletonAnimate 2.6s ease-in-out infinite alternate;
 }
 
 @keyframes skeletonAnimate {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
 }
+
 /*--------- Login Page --------- */
 .btnLogin {
-    @apply w-[300px] h-[50px] flex items-center gap-2 text-[var(--color-primary)]  bg-[var(--background-Secondary)]  px-4 py-1 rounded-xl border border-[var(--border-primary)];
+    @apply w-[300px] h-[50px] flex items-center gap-2 text-[var(--color-primary)] bg-[var(--background-Secondary)] px-4 py-1 rounded-xl border border-[var(--border-primary)];
 }
+
 .popup {
     @apply fixed bottom-10 right-10 px-4 py-2 rounded-lg text-white bg-[#242424] flex items-center justify-center;
 }
@@ -394,76 +466,84 @@
 /*--------- Chat Page --------- */
 
 .chat-container {
-    @apply flex flex-col gap-1 w-full overflow-y-auto ; /* riempie lo spazio centrale e scrolla se serve */
+    @apply flex flex-col gap-1 w-full overflow-y-auto;
+    /* riempie lo spazio centrale e scrolla se serve */
 }
 
 .user-container {
-    @apply flex items-center font-semibold p-2 gap-2 text-sm border-t border-dashed border-[var(--border-third)] select-none
-    text-[var(--color-primary)] bg-[var(--background-Primary)] cursor-pointer mt-auto;
+    @apply flex items-center font-semibold p-2 gap-2 text-sm border-t border-dashed border-[var(--border-third)] select-none text-[var(--color-primary)] bg-[var(--background-Primary)] cursor-pointer mt-auto;
     /* mt-auto = lo spinge in fondo nella colonna */
 }
 
 .settings {
-    @apply absolute bottom-[70px] left-2 flex flex-col text-left
-    bg-[var(--background-Primary)] dark:bg-[var(--background-Secondary)] border shadow-lg border-[var(--border-secondary)]
-    p-2  rounded-lg 
-    w-[95%] text-sm select-none
-     ;
+    @apply absolute bottom-[70px] left-2 flex flex-col text-left bg-[var(--background-Primary)] dark:bg-[var(--background-Secondary)] border shadow-lg border-[var(--border-secondary)] p-2 rounded-lg w-[95%] text-sm select-none;
     /* absolute invece di fixed → relativa alla sidebar */
 }
-.animate-leftbarClose{
-    animation: leftbarClose 0.5s ease-in-out forwards ;
+
+.animate-leftbarClose {
+    animation: leftbarClose 0.5s ease-in-out forwards;
 }
-.animate-leftbarOpen{
-    animation: leftbarOpen 0.5s ease-in-out forwards ;
+
+.animate-leftbarOpen {
+    animation: leftbarOpen 0.5s ease-in-out forwards;
 }
-.conversationDiv{
-    @apply relative text-[var(--color-third)] transition w-full  flex items-center justify-between px-1 py-1 border border-transparent rounded-md
+
+.conversationDiv {
+    @apply relative text-[var(--color-third)] transition w-full flex items-center justify-between px-1 py-1 border border-transparent rounded-md
 }
+
 @keyframes leftbarClose {
     from {
         display: block;
         transform: translateX(0);
     }
+
     to {
         display: none;
         transform: translateX(-100%);
     }
 }
+
 @keyframes leftbarOpen {
     from {
         display: none;
         transform: translateX(-100%);
     }
+
     to {
         display: block;
         transform: translateX(0);
     }
 }
+
 .settings button {
-    @apply w-full px-2 py-1 rounded-lg text-left text-[var(--color-third)] hover:bg-[var(--background-Primary)] ;
+    @apply w-full px-2 py-1 rounded-lg text-left text-[var(--color-third)] hover:bg-[var(--background-Primary)];
 }
-.actionBtn{
+
+.actionBtn {
     @apply items-center hover:text-[var(--color-primary)] hover:bg-[var(--background-Secondary)] hover:border-[var(--border-primary)] text-sm rounded-lg py-2 px-1 text-[var(--color-third)] flex gap-2
 }
-td,tr,th{
-    @apply  border-b border-[var(--border-secondary)] p-2
+
+td, tr, th {
+    @apply border-b border-[var(--border-secondary)] p-2
 }
 
 /*--------- Textbar --------- */
-.sendBtn{
+.sendBtn {
     @apply p-1.5 bg-[var(--background-Tertiary)] w-10 h-10 flex items-center justify-center text-[var(--color-secondary)] border border-[var(--border-Tertiary)] rounded-full
 }
+
 /*--------- Pricing Page --------- */
 .pricing-card {
-    @apply bg-[var(--background-Secondary)] border border-[var(--border-secondary)]
-    rounded-2xl p-4 flex flex-col items-start gap-2  ;
+    @apply bg-[var(--background-Secondary)] border border-[var(--border-secondary)] rounded-2xl p-4 flex flex-col items-start gap-2;
 }
 
 /* dimensione */
 ::-webkit-scrollbar {
-    width: 7px; /* verticale */
-    height: 7px; /* orizzontale */
+    width: 7px;
+    /* verticale */
+    height: 7px;
+    /* orizzontale */
 }
 
 /* track = sfondo */
@@ -475,8 +555,10 @@ td,tr,th{
 ::-webkit-scrollbar-thumb {
     background-color: var(--color-third);
     border-radius: 8px;
-    border: 0 solid transparent; /* spazio intorno */
+    border: 0 solid transparent;
+    /* spazio intorno */
 }
+
 ::selection {
     background: rgb(186, 192, 138);
     color: black;
@@ -488,6 +570,7 @@ td,tr,th{
     color: black;
     text-shadow: none;
 }
+
 /* HTML: <div class="loader"></div> */
 .loader {
     width: 20px;
@@ -496,12 +579,17 @@ td,tr,th{
     border-radius: 50%;
     background: var(--color-primary);
     --_m:
-            conic-gradient(#0000 10%,#000),
-            linear-gradient(#000 0 0) content-box;
+        conic-gradient(#0000 10%, #000),
+        linear-gradient(#000 0 0) content-box;
     -webkit-mask: var(--_m);
     mask: var(--_m);
     -webkit-mask-composite: source-out;
     mask-composite: subtract;
     animation: l3 1s infinite linear;
 }
-@keyframes l3 {to{transform: rotate(1turn)}}
+
+@keyframes l3 {
+    to {
+        transform: rotate(1turn)
+    }
+}

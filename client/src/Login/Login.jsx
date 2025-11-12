@@ -124,9 +124,13 @@ const Login = () => {
                             onChange={(e) => setConfirmPassword(e.target.value)}
                         />
                     )}
-
+                    {showPopup && (
+                        <div className=" text-[var(--btn-danger)] px-4 py-2 rounded-lg shadow-lg">
+                            {popupMessage}
+                        </div>
+                    )}
                     <button
-                        className="bg-[var(--background-Tertiary)] cursor-pointer  w-[300px] h-[50px] text-white p-2 rounded-full"
+                        className="bg-[var(--background-Tertiary)] cursor-pointer  w-[300px] h-[50px] text-[var(--color-secondary)] p-2 rounded-full"
                         type="submit"
                     >
                         {isSignUp ? "Sign Up" : "Sign In"}
@@ -174,11 +178,7 @@ const Login = () => {
                 <small>Chat AI &copy; 2025</small>
             </footer>
 
-            {showPopup && (
-                <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-black text-white px-4 py-2 rounded-lg shadow-lg">
-                    {popupMessage}
-                </div>
-            )}
+
         </div>
     );
 };
