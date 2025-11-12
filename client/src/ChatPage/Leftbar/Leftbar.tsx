@@ -8,6 +8,7 @@ import { Dispatch, SetStateAction } from "react";
 import { Conversation } from '../../types/types.js';
 import { ButtonOption } from '../../types/types.js';
 import ButtonLabel from '../../Components/ButtonLabel.js';
+import selectUserData from '../../services/userSettings/getUserData.js';
 interface LeftbarProps {
     onSelectConversation: (conversationId: string) => Promise<void> | void;
     handleNewChat: () => void;
@@ -28,7 +29,9 @@ const Leftbar: React.FC<LeftbarProps> = ({
 
     const [menuOpen, setMenuOpen] = useState<string | null>(null); // id conversazione aperta
     const navigate = useNavigate();
-
+    const [userId, setUserId] = useState<string | null>(null);
+    const [userTitle, setUserTitle] = useState<string>("");
+    const [userImageUrl, setUserImageUrl] = useState<string>("");
     const settingOption: ButtonOption[] = [
         {
             type: "primary",
@@ -64,7 +67,10 @@ const Leftbar: React.FC<LeftbarProps> = ({
                 if (error) throw error;
                 const user: User | null = data?.user ?? null;
                 if (user) {
-                    console.log(user.id);
+                    setUserId(user.id);
+                    const userTitleAndImg= await selectUserData(user.id);
+                    setUserTitle(userTitleAndImg?.full_name || "");
+                    setUserImageUrl(userTitleAndImg?.avatar_url || "");
                 }
             } catch (err) {
                 console.error("getUser error:", err);
@@ -361,11 +367,11 @@ const Leftbar: React.FC<LeftbarProps> = ({
                         onClick={() => setIsSettingOpen(!isSettingOpen)}
                     >
                         <img
-                            src="https://upload.wikimedia.org/wikipedia/it/6/69/Il_Bambino_%28Guerre_stellari%29.png"
+                            src={userImageUrl || '/default-avatar.png'}
                             className="w-10 h-10 rounded-full object-cover"
                             alt=""
                         />
-                        {isMinimized ? null : (<h3>Tommaso</h3>)}
+                        {isMinimized ? null : (<h3>{userTitle}</h3>)}
                     </div>
 
                     {/* settings */}
