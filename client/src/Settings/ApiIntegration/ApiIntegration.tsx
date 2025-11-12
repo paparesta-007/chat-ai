@@ -61,14 +61,14 @@ const ApiIntegration = () => {
                     <div className='flex flex-col'>
                         <h3 className='text-md font-semibold text-[var(--color-primary)]'>Available API Providers</h3>
                         <input onChange={(e) => setSearchTerm(e.target.value)} type='text' placeholder='Search API Providers' className='w-full p-2 mt-4 mb-6 border border-[var(--border-primary)]
-                     outline-none focus:ring-2 ring-[var(--border-secondary)] bg-[var(--background-Secondary)] rounded-md transition-all duration-100' />
+                     outline-none focus:ring-2 ring-[var(--border-secondary)] bg-[var(--background-Secondary)] placeholder:text-[var(--color-third)] rounded-md transition-all duration-100' />
                         <ul className='grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4'>
                             {Object.entries(apiProvider).filter(([key, provider]) => (
                                 provider.name.toLowerCase().includes(searchTerm.toLowerCase())
                             )).map(([key, provider]) => (
                                 <Link key={key}
                                     to={`/settings/api-integration/${provider.name}`}
-                                    className='rounded-lg p-4 bg-[var(--background-Primary)] border-2 border-[var(--border-primary)] hover:border-[var(--border-secondary)] hover:brightness-110 transition-colors'>
+                                    className='rounded-lg p-4 bg-[var(--background-Primary)] border border-[var(--border-primary)] hover:bg-[var(--background-Hover)] hover:brightness-110 transition-colors'>
                                     <div className='flex justify-between mb-2'>
                                         <img
                                             src={`/img/providers/${provider.img}`}

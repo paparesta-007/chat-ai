@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import apiProvider from "../../data/providerApi.js";
 import { Link } from 'react-router';
 import deleteSingleProvider from '../../services/apiProviders/deleteSingleProvider.js';
@@ -17,8 +17,9 @@ const handleDelete = (apiKey: ApiKey) => {
     deleteSingleProvider(apiKey.providerName, apiKey.user_id);
 }   
 const TableApiIntegration: React.FC<{ apiKeys: ApiKey[] }> = ({ apiKeys }) => {
+
     return (
-        <table className="w-full table-auto items-center text-left">
+        <table className="w-full table-auto items-center text-left overflow-x-auto">
             <thead>
                 <tr className='text-[var(--color-primary)]'>
                     <th>#</th>
@@ -47,7 +48,7 @@ const TableApiIntegration: React.FC<{ apiKeys: ApiKey[] }> = ({ apiKeys }) => {
 
                         </td>
                         <td>
-                            <button onClick={() => handleDelete(apiKey)}>Delete</button>
+                            <button onClick={() => handleDelete(apiKey)} className='bg-[var(--btn-danger)] hover:bg-[var(--btn-danger-hover)] active:bg-[var(--btn-danger-active)] text-white px-3 py-1 rounded'>Delete</button>
                         </td>
                     </tr>
                 ))}

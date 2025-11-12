@@ -75,12 +75,6 @@ const ProviderModal = () => {
         }
     }
 
-    const insertApiKeyProvider = async (providerName: string, apiKey: string) => {
-        if (!user_id) return null;
-        const provider = await insertSingleProvider(providerName, apiKey, user_id);
-        return provider;
-
-    }
     if (!provider) return <div>Provider not found</div>;
 
     return (
@@ -141,7 +135,7 @@ const ProviderModal = () => {
                         disabled={isApiKeyLoading || !inputApiKey}
                         onClick={() => handleSaveIntegration(provider.owner, inputApiKey)}
                         className='bg-[var(--background-Tertiary)] border border-[var(--border-Tertiary)] w-64 h-12 px-3 text-sm
-                         text-[var(--color-primary)] rounded-md hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed
+                         text-[var(--color-secondary)] rounded-md hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed
                          font-semibold cursor-pointer transition-colors'
                     >
                         {isApiKeyLoading ? 'Saving...' : 'Save Integration'}
