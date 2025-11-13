@@ -93,7 +93,7 @@ const LandingChat: React.FC<LandingChatProps> = ({selectedPhrase}) => {
                         <div key={index} onClick={() => {
                             selectedPhrase(item.prompt)
                         }}
-                             className="bg-[var(--background-Secondary)] max-w-[250px] flex  gap-2 text-[var(--color-third)]  p-4 rounded-2xl cursor-pointer border border-[var(--border-secondary)]">
+                             className="bg-[var(--background-Primary)] hover:bg-[var(--background-Hover)] max-w-[250px] flex  gap-2 text-[var(--color-third)]  p-4 rounded-2xl cursor-pointer border border-[var(--border-primary)]">
                             <Icon className="w-8 h-8 "/>
                             <h2 className="text-sm ">{item.title}</h2>
 
@@ -102,7 +102,7 @@ const LandingChat: React.FC<LandingChatProps> = ({selectedPhrase}) => {
                 })}
             </div>
             {isUpgradeConnectionsPopUpOpen && <div
-                className="bg-[var(--background-Secondary)] border border-[var(--border-secondary)] md:w-[650px] w-full py-2 px-4 rounded-2xl flex md:flex-row flex-col items-center justify-between">
+                className="bg-[var(--background-Primary)] border border-[var(--border-primary)] md:w-[650px] w-full py-2 px-4 rounded-2xl flex md:flex-row flex-col items-center justify-between">
                 <h3 className="text-[var(--color-primary)]">
                     Connect your workspace, <Link className="text-[var(--color-Tertiary)] hover:underline"
                                                   to="/pricing">upgrade to pro</Link>
@@ -118,7 +118,7 @@ const LandingChat: React.FC<LandingChatProps> = ({selectedPhrase}) => {
                                     className="w-6 h-6 object-contain"
                                     alt={icon.title}/>
                                 <div
-                                    className="absolute left-1/2 bg-[var(--background-Secondary)] animate-slideDown
+                                    className="absolute left-1/2 bg-[var(--background-Primary)] animate-slideDown
                                     rounded-full px-2 transition duration-300 ease-in-out text-[var(--color-third)]
                                     transform hidden group-hover:block -translate-x-1/2 top-full mt-4">
                                     {icon.title}

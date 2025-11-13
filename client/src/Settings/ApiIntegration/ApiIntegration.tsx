@@ -42,15 +42,15 @@ const ApiIntegration = () => {
                 <div className='text-[var(--color-primary)] flex flex-col gap-10'>
                     <div className='flex flex-col'>
                         <h2 className="text-2xl font-semibold text-[var(--color-primary)] ">External API Providers</h2>
-                        <p className="text-sm text-[var(--color-secondary)]">Configure your API integration for custom responses</p>
+                        <p className="text-sm text-[var(--color-third)]">Configure your API integration for custom responses</p>
                         <div>
                             <hr className='my-4 border-[var(--border-primary)]' />
                             <div >
                                 <h3 className='text-sm font-semibold text-[var(--color-primary)]'>Your API Integrations</h3>
-                                <p className='text-xs text-[var(--color-secondary)] mb-2'>Manage your connected API providers</p>
+                                <p className='text-xs text-[var(--color-third)] mb-2'>Manage your connected API providers</p>
                                 <div className='bg-[var(--background-Primary)] border border-[var(--border-primary)] rounded-md p-4'>
                                     {!isApiKeyExisting ? (
-                                        <p className='text-sm text-[var(--color-secondary)]'>You have no API integrations set up yet.</p>
+                                        <p className='text-sm text-[var(--color-third)]'>You have no API integrations set up yet.</p>
                                     ) : (
                                         <TableApiIntegration apiKeys={apiKeys} />
                                     )}

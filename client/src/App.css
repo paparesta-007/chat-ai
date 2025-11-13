@@ -20,7 +20,7 @@
     /* Deep warm black */
     --background-Quaternary: hsl(75, 30%, 95%);
     /* Light sage */
-    --background-Hover: hsl(80, 35%, 90%);
+    --background-Hover: hsl(80, 35%, 80%);
     /* Soft sage hover */
 
     /* Text Colors */
@@ -40,7 +40,7 @@
     /* Very light gray */
 
     /* Borders */
-    --border-primary: hsl(80, 35%, 90%);
+    --border-primary: hsl(80, 35%, 85%);
     /* Soft sage */
     --border-secondary: hsl(75, 15%, 55%);
     /* Muted sage */
@@ -49,13 +49,15 @@
     --border-Tertiary: hsl(85, 20%, 25%);
     /* Medium olive */
 
-    --btn-danger: hsl(0, 100%, 50%);
-    --btn-danger-hover: hsl(0, 100%, 40%);
+    --color-danger: hsl(0, 100%, 100%);
+
+    --btn-danger: hsl(0, 100%, 40%);
+    --btn-danger-hover: hsl(0, 100%, 45%);
     --btn-danger-active: hsl(0, 100%, 30%);
 
-    --bg-error: hsl(0, 100%, 20%);
+    --bg-error: hsl(0, 100%, 50%);
     --bg-success: hsl(120, 100%, 20%);
-    --border-error: hsl(0, 100%, %);
+    --border-error: hsl(0, 100%, 45%);
     --border-success: hsl(120, 100%, 28%);
 
     /* Fonts */
@@ -104,7 +106,7 @@
         /* Very dark gray */
 
         /* Borders */
-        --border-primary: hsl(0, 0%, 10%);
+        --border-primary: hsl(0, 0%, 15%);
         /* Dark border */
         --border-secondary: hsl(0, 2%, 34%);
         /* Medium gray border */
@@ -113,13 +115,15 @@
         --border-Tertiary: hsl(0, 0%, 100%);
         /* White border (for contrast) */
 
-        --btn-danger: hsl(0, 100%, 50%);
-        --btn-danger-hover: hsl(0, 100%, 40%);
+        --color-danger: hsl(0, 100%, 70%);
+
+        --btn-danger: hsl(0, 100%, 20%);
+        --btn-danger-hover: hsl(0, 100%, 25%);
         --btn-danger-active: hsl(0, 100%, 30%);
 
         --bg-error: hsl(0, 100%, 20%);
         --bg-success: hsl(120, 100%, 20%);
-        --border-error: hsl(0, 100%, %);
+        --border-error: hsl(0, 100%, 25%);
         --border-success: hsl(120, 100%, 28%);
 
         /* Fonts remain the same */
