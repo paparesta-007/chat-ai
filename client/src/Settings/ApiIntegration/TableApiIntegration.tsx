@@ -48,7 +48,9 @@ const TableApiIntegration: React.FC<{ apiKeys: ApiKey[] }> = ({ apiKeys }) => {
 
                         </td>
                         <td>
-                            <button onClick={() => handleDelete(apiKey)} className='bg-[var(--btn-danger)] hover:bg-[var(--btn-danger-hover)] active:bg-[var(--btn-danger-active)] text-white px-3 py-1 rounded'>Delete</button>
+                            <button onClick={() => handleDelete(apiKey)} 
+                            className='bg-[var(--btn-danger)] border border-[var(--border-error)] hover:bg-[var(--btn-danger-hover)] 
+                            active:bg-[var(--btn-danger-active)] text-[var(--color-danger)] px-3 py-1 rounded font-semibold'>Delete</button>
                         </td>
                     </tr>
                 ))}

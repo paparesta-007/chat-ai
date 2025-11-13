@@ -4,9 +4,10 @@ import supabase from "../../library/supabaseclient.js";
 import getUserPreferences from "../../services/userSettings/getUserPreferences.js";
 import updatePreference from "../../services/userSettings/updatePreference.js";
 import type { User } from '@supabase/supabase-js';
-import { Check, X } from 'lucide-react';
+import { Check, TestTube, X } from 'lucide-react';
 import updateUserData from '../../services/userSettings/updateUserData.js';
 import selectUserData from '../../services/userSettings/getUserData.js';
+import Select from '../../Components/Select.js';
 type Style = {
     theme: string;
     fontFamily: string;
@@ -29,6 +30,7 @@ const CustomizationSettings = () => {
     const [isSaving, setIsSaving] = useState<boolean>(false);
     const [currentTitle, setCurrentTitle] = useState<string>("");
     const [currentImageUrl, setCurrentImageUrl] = useState<string>("");
+    const [previewImageUrl, setPreviewImageUrl] = useState<boolean>(false);
 
     useEffect(() => {
         getUser();
@@ -163,15 +165,32 @@ const CustomizationSettings = () => {
             <div className='border border-[var(--border-primary)] p-4 rounded-lg flex flex-col gap-4'>
                 <div>
                     <h2 className="text-xl font-semibold text-[var(--color-primary)]">How ChatAI should call you?</h2>
-                    <input type="text" value={currentTitle} onChange={(e) => setCurrentTitle(e.target.value)} placeholder="Your title" 
-                    className="w-full mt-2 p-2 border border-[var(--border-secondary)] rounded-md bg-[var(--background-Secondary)] text-[var(--color-primary)] outline-none" />
+                    <input type="text" value={currentTitle} onChange={(e) => setCurrentTitle(e.target.value)} placeholder="Your title"
+                        className="w-full mt-2 p-2 border border-[var(--border-secondary)] rounded-md bg-[var(--background-Secondary)] text-[var(--color-primary)] outline-none" />
                     <p className="text-sm text-[var(--color-third)] mt-1">This will be shown on the top left of the sidebar, no one will see it.</p>
                 </div>
                 <div>
                     <h2 className="text-xl font-semibold text-[var(--color-primary)]">Want change your avatar?</h2>
-                    <input type="text" value={currentImageUrl} onChange={(e) => setCurrentImageUrl(e.target.value)} placeholder="Your image url (must be a valid URL)" 
-                    className="w-full mt-2 p-2 border border-[var(--border-secondary)] rounded-md bg-[var(--background-Secondary)] text-blue-500 text-underline outline-none" />
+                    <input type="text" value={currentImageUrl} onChange={(e) => setCurrentImageUrl(e.target.value)} placeholder="Your image url (must be a valid URL)"
+                        className="w-full mt-2 p-2 border border-[var(--border-secondary)] rounded-md bg-[var(--background-Secondary)] text-blue-500 text-underline outline-none" />
                     <p className="text-sm text-[var(--color-third)] mt-1">This will be shown on the top left avatar section of the sidebar, no one will see it.</p>
+                    <a className="text-sm text-[var(--color-third)] underline cursor-pointer mt-2 flex items-center gap-1 w-max"
+                        onClick={async () => {
+                            const isValidImage = await isImageUrl(currentImageUrl);
+                            if (isValidImage) {
+                                setPreviewImageUrl(true);
+                            } else {
+                                setPopup({
+                                    show: true,
+                                    message: "Invalid image URL",
+                                    status: "error",
+                                });
+                                setTimeout(() => setPopup(null), 3000);
+                            }
+                        }}
+                    >
+                        <TestTube className='w-5 h-5 '/>Preview Image
+                    </a>
                 </div>
 
             </div>
@@ -182,44 +201,48 @@ const CustomizationSettings = () => {
                         <h2 className="text-xl font-semibold text-[var(--color-primary)]">Choose your font</h2>
                         <p className="text-md text-[var(--color-third)]">With the best font you can have the best experience</p>
                     </div>
-                    <select className="w-[200px] text-[var(--color-primary)] bg-[var(--background-Secondary)] p-2 rounded-md border border-[var(--border-secondary)] outline-none"
+
+                    <div className=''>
+                        <Select options={["default", "times-new-roman", "comic-sans", "roboto"]}
                         value={currentFontFamily || "default"}
-                        onChange={(e) => setCurrentFontFamily(e.target.value)}
-                    >
-                        <option value="default">Default (arial)</option>
-                        <option value="times-new-roman">Times New Roman</option>
-                        <option value="comic-sans">Comic Sans</option>
-                        <option value="roboto">Roboto</option>
-
-
-
-                    </select>
+                        style='border border-[var(--border-primary)] py-2 px-4 rounded-md'
+                        onChange={(value) => setCurrentFontFamily(value)} />
+                    </div>
                 </div>
                 <div className="flex items-center my-8">
                     <div>
                         <h2 className="text-xl font-semibold text-[var(--color-primary)]">Choose your theme</h2>
                         <p className="text-md text-[var(--color-third)]">More themes will be added soon</p>
                     </div>
-                    <select className="w-[200px] text-[var(--color-primary)] bg-[var(--background-Secondary)] p-2 rounded-md border border-[var(--border-secondary)] outline-none"
-                        value={currentTheme || "dark"}
-                        onChange={(e) => setCurrentTheme(e.target.value)}>
-
-                        <option value="dark">Dark</option>
-                        <option value="light">Light</option>
-                        <option value="synced_with_device">Synced with device</option>
-                        <option value="" disabled>more them soon</option>
-
-                    </select>
+                    <Select options={["dark","light","synced_with_device"]}
+                    style='border border-[var(--border-primary)] py-2 px-4 rounded-md'
+                    value={currentTheme || "dark"}
+                    onChange={(value) => setCurrentTheme(value)} />
+                    
                 </div>
                 <div
                     className={`
-                ${popup?.show ? "flex text-center animate-slideUp fixed bottom-4 right-4 p-2 rounded-lg" : "hidden"}
-                ${popup?.status === "success" ? "bg-[var(--bg-success)] border border-[var(--border-success)] text-white" : ""}
-                ${popup?.status === "error" ? "bg-[var(--bg-error)] border border-[var(--border-error)] text-white" : ""}
-              `}
+                    ${popup?.show ? "flex text-center animate-slideUp fixed bottom-4 right-4 p-2 rounded-lg" : "hidden"}
+                    ${popup?.status === "success" ? "bg-[var(--bg-success)] border border-[var(--border-success)] text-white" : ""}
+                    ${popup?.status === "error" ? "bg-[var(--bg-error)] border border-[var(--border-error)] text-white" : ""}
+                `}
                 >
                     <div className=" p-1 rounded-full  flex items-center justify-center">{popup?.status ? <Check className="w-4 h-4" /> : <X className="w-4 h-4" />}</div> {popup?.message}
                 </div>
+                {previewImageUrl && (
+                    <div className="fixed inset-0 bg-black/40 backdrop-blur-md z-40"
+                    onClick={() => setPreviewImageUrl(false)}></div>
+                )}
+                {previewImageUrl && (
+                    <div className="mt-4 border p-4 z-50 animate-slideUp  bg-[var(--background-Primary)] border-[var(--border-primary)] rounded-md absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        <img src={currentImageUrl} alt="Preview" className="max-w-full 
+                            object-contain max-h-64 rounded-full" />
+                        <h2 className="text-lg font-semibold text-[var(--color-primary)] mt-2">{currentTitle ? currentTitle : "Avatar Preview"}</h2>
+                        <p className="text-sm text-[var(--color-third)] mt-2">This is how your avatar will look like!</p>
+                        <button className="absolute cursor-pointer top-2 right-2 bg-[var(--color-primary)] text-[var(--background-Secondary)] rounded-full w-6 h-6 flex items-center justify-center"
+                            onClick={() => setPreviewImageUrl(false)}>X</button>
+                    </div>
+                )}
 
             </div>
             <button className={`bg-[var(--color-primary)] w-[200px] text-[var(--background-Secondary)] font-semibold px-8 cursor-pointer py-2 rounded-md ${isSaving ? "opacity-50 cursor-not-allowed" : ""}`}
