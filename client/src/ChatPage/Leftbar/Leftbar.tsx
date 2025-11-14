@@ -9,6 +9,7 @@ import { Conversation } from '../../types/types.js';
 import { ButtonOption } from '../../types/types.js';
 import ButtonLabel from '../../Components/ButtonLabel.js';
 import selectUserData from '../../services/userSettings/getUserData.js';
+import ConfirmDialog from '../../Components/ConfirmDialog.js';
 interface LeftbarProps {
     onSelectConversation: (conversationId: string) => Promise<void> | void;
     handleNewChat: () => void;
@@ -32,6 +33,8 @@ const Leftbar: React.FC<LeftbarProps> = ({
     const [userId, setUserId] = useState<string | null>(null);
     const [userTitle, setUserTitle] = useState<string>("");
     const [userImageUrl, setUserImageUrl] = useState<string>("");
+    const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
+    const [conversationToDelete, setConversationToDelete] = useState<string | null>(null);
     const settingOption: ButtonOption[] = [
         {
             type: "primary",
@@ -68,7 +71,7 @@ const Leftbar: React.FC<LeftbarProps> = ({
                 const user: User | null = data?.user ?? null;
                 if (user) {
                     setUserId(user.id);
-                    const userTitleAndImg= await selectUserData(user.id);
+                    const userTitleAndImg = await selectUserData(user.id);
                     setUserTitle(userTitleAndImg?.full_name || "");
                     setUserImageUrl(userTitleAndImg?.avatar_url || "");
                 }
@@ -229,7 +232,7 @@ const Leftbar: React.FC<LeftbarProps> = ({
                                         {menuOpen === conversation.id && (
                                             <div
                                                 className="absolute top-10 right-0
-                                          overflow-hidden
+                                          overflow-hidden animate-slideDown
                                           bg-[var(--background-Secondary)]
                                           rounded-lg shadow-lg z-10 border border-[var(--border-primary)]
                                           transition-all duration-300 ease-in-out select-none"
@@ -240,7 +243,10 @@ const Leftbar: React.FC<LeftbarProps> = ({
                                                     ✏️ Rinomina
                                                 </button>
                                                 <button
-                                                    onClick={() => handleDeleteConversation(conversation.id)}
+                                                    onClick={() => {
+                                                        setIsConfirmDialogOpen(true);
+                                                        setConversationToDelete(conversation.id);
+                                                    }}
                                                     className="w-full flex gap-2 text-left px-4 py-2 hover:bg-red-800 rounded-b-lg"
                                                 >
                                                     <svg
@@ -322,6 +328,7 @@ const Leftbar: React.FC<LeftbarProps> = ({
                                                 className="absolute top-10 right-0
                                           overflow-hidden
                                           bg-[var(--background-Secondary)]
+                                          animate-slideDown
                                           rounded-lg shadow-lg z-10 border border-[var(--border-primary)]
                                           transition-all duration-300 ease-in-out select-none"
                                             >
@@ -331,7 +338,10 @@ const Leftbar: React.FC<LeftbarProps> = ({
                                                     ✏️ Rinomina
                                                 </button>
                                                 <button
-                                                    onClick={() => handleDeleteConversation(conversation.id)}
+                                                    onClick={() => {
+                                                        setIsConfirmDialogOpen(true);
+                                                        setConversationToDelete(conversation.id);
+                                                    }}
                                                     className="w-full flex gap-2 text-left px-4 py-2 hover:bg-red-800 rounded-b-lg"
                                                 >
                                                     <svg
@@ -352,15 +362,32 @@ const Leftbar: React.FC<LeftbarProps> = ({
                                                 </button>
                                             </div>
                                         )}
+
                                     </div>
+
                                 ))
                             ) : (
                                 <p className="text-[var(--color-third)] text-sm px-1">No conversations found</p>
                             )}
+
                         </div>
 
                     )}
 
+
+                    <ConfirmDialog
+                        messagePrimary="Sei sicuro di voler eliminare questa conversazione? "
+                        messageSecondary={`Conversation ID: ${conversationToDelete}`}
+                        onConfirm={() => {
+                            console.log("Confirmed!");
+                            setIsConfirmDialogOpen(false);
+                            if (conversationToDelete) {
+                                handleDeleteConversation(conversationToDelete);
+                            }
+                        }}
+                        onCancel={() => setIsConfirmDialogOpen(false)}
+                        open={isConfirmDialogOpen}
+                    />
                     {/* utente */}
                     <div
                         className="user-container"
@@ -371,7 +398,7 @@ const Leftbar: React.FC<LeftbarProps> = ({
                             className="w-10 h-10 rounded-full object-cover"
                             alt=""
                         />
-                        {isMinimized ? null : (<h3>{userTitle}</h3>)}
+                        {isMinimized ? null : (<h3>{userTitle ? userTitle : "User"}</h3>)}
                     </div>
 
                     {/* settings */}
