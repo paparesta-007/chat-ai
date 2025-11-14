@@ -18,6 +18,7 @@ import Explore from "./Explore/Explore.jsx";
 import PdfAnalyzer from "./pdfAnalyzer/pdfAnalyzer.tsx";
 import ApiIntegration from "./Settings/ApiIntegration/ApiIntegration.jsx";
 import ProviderModal from "./Settings/ApiIntegration/ProviderModal.tsx";
+import Test from "./Test/Test";
 function App() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -59,6 +60,7 @@ function App() {
                     element={user ? <Navigate to="/newchat" /> : <Login />}
                 />
 
+                <Route path="/testComponent" element={<Test />} />
                 <Route path="/newchat" element={<ChatPage />} />
                 <Route path="/chat/:chatId" element={<ChatPage />} />
                 <Route path="/chat" element={<Navigate to="/newchat" />} />

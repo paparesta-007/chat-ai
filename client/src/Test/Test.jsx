@@ -1,9 +1,21 @@
-import React from "react"
+import React , {useState} from "react"
 import SkeletonConversation from "../Components/Skeleton"
+import ConfirmDialog from "../Components/ConfirmDialog"
 const Test = ()=>{
+    const [isOpen, setIsOpen] = useState(false);
     return(
         <div className="bg-[var(--background-Primary)] h-screen w-screen">
-            <SkeletonConversation />
+            <div className="text-[var(--color-primary)]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta natus quo fuga maxime nulla quibusdam. Tempora, ea facilis. Facere aliquam, at voluptatem tempore earum officiis praesentium neque fuga quam cumque!</div>
+            <button className="bg-[var(--color-primary)] px-2 py-1 rounded-md cursor-pointer" onClick={() => setIsOpen(true)}>Open Confirm Dialog</button>
+            <ConfirmDialog 
+                message="Sei sicuro di voler eliminare questa conversazione?" 
+                onConfirm={() => {
+                    console.log("Confirmed!");
+                    setIsOpen(false);
+                }}
+                onCancel={() => setIsOpen(false)}
+                open={isOpen}
+            />
         </div>
     )
 }
