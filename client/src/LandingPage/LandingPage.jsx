@@ -5,7 +5,8 @@ import { Bars3Icon } from '@heroicons/react/24/outline'
 import landingVoices from "../data/LandingPagesVoices.js";
 import supabase from "../library/supabaseclient.js";
 import { Links, useNavigate } from "react-router-dom";
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { ArrowRight, ChevronDown, User } from "lucide-react";
+import selectUserData from '../services/userSettings/getUserData.js';
 
 const navigation = [
     { name: 'Products', href: '#', dropdown: true },
@@ -23,14 +24,25 @@ const LandingPage = () => {
     const [user, setUser] = useState(false)
     const [liName, setLiName] = useState("")
     const [isLiOpen, setIsLiOpen] = useState(false)
+    const [currentTitle, setCurrentTitle] = useState("")
     const navigate = useNavigate();
     useEffect(() => {
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            setUser(session?.user ?? null);
+        const fetchUserData = async () => {
+            // Ottieni sessione
+            const { data: { session } } = await supabase.auth.getSession();
+            const currentUser = session?.user ?? null;
+            setUser(currentUser);
 
-        });
+            // Se c'è un utente, prendi il titolo
+            if (currentUser) {
+                const userTitleAndImg = await selectUserData(currentUser.id);
+                setCurrentTitle(userTitleAndImg?.full_name || "");
+            }
+        };
 
+        fetchUserData();
     }, []);
+
 
     return (
         <div className="bg-[var(--background-Primary)] h-full relative flex flex-col items-center justify-center ">
@@ -91,19 +103,33 @@ const LandingPage = () => {
                     </div>
 
                     <div className=" hidden lg:flex  gap-3 ">
-                        <a
-                            href="/login"
-                            className=" text-[var(--color-primary)] hover:bg-[var(--background-Secondary)]
+                        {user ? (
+                            <a
+                                href="/chat"
+                                className="flex gap-2 w-max text-[var(--color-primary)] hover:bg-[var(--background-Secondary)]
                             border-dashed border-[var(--border-third)] border px-4 py-2 rounded-xs"
-                        >
-                            Login
-                        </a>
-                        <a
-                            href="/chat"
-                            className="bg-[var(--background-Tertiary)] text-[var(--color-secondary)] font-semibold px-4 py-2 rounded-lg"
-                        >
-                            Get started
-                        </a>
+                            >
+                                <User />{currentTitle || "Profile"}
+                            </a>
+                        ) : (
+                            <div className="flex gap-3 ">
+                                <a
+                                    href="/login"
+                                    className=" text-[var(--color-primary)] hover:bg-[var(--background-Secondary)]
+                            border-dashed border-[var(--border-third)] border px-4 py-2 rounded-xs"
+                                >
+                                    Login
+                                </a>
+                                <a
+                                    href="/chat"
+                                    className="bg-[var(--background-Tertiary)] text-[var(--color-secondary)] font-semibold px-4 py-2 rounded-lg"
+                                >
+                                    Get started
+                                </a>
+                            </div>
+
+                        )}
+
                     </div>
                     {/* Mobile menu button */}
                     <div className="flex lg:hidden ">
@@ -186,7 +212,7 @@ const LandingPage = () => {
                                 href="#"
                                 className="text-sm md:text-base font-semibold text-[var(--color-primary)] px-4 py-2.5 bg-[var(--background-Secondary)] 
                                 whitespace-nowrap hover:opacity-80 transition-opacity border border-[var(--border-secondary)] rounded"
-                            >   
+                            >
                                 Learn more <span aria-hidden="true">→</span>
                             </a>
                         </div>

@@ -493,7 +493,7 @@
 }
 
 .conversationDiv {
-    @apply relative text-[var(--color-third)] transition w-full flex items-center justify-between px-1 py-1 border border-transparent rounded-md
+    @apply relative text-[var(--color-third)]  hover:bg-[var(--background-Hover)] transition w-full flex items-center justify-between px-1 py-1 border border-transparent rounded-md
 }
 
 @keyframes leftbarClose {
