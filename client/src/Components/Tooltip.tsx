@@ -3,9 +3,10 @@ import React from "react";
 interface TooltipProps {
     text: string;
     position?: "top" | "bottom" | "left" | "right" | "top-right" | "top-left" | "bottom-right" | "bottom-left";
+    messageType?: "normal" | "error" | "warning";
 }
 
-const Tooltip: React.FC<TooltipProps> = ({ text, position = "top" }) => {
+const Tooltip: React.FC<TooltipProps> = ({ text, position = "top", messageType="normal" }) => {
     // classi dinamiche per posizionamento e freccia
     const positions: Record<string, string> = {
         "top": "bottom-full left-1/2 -translate-x-1/2 mb-2",
@@ -18,7 +19,11 @@ const Tooltip: React.FC<TooltipProps> = ({ text, position = "top" }) => {
         "bottom-left": "top-full left-0 mt-2",
     };
 
-
+    const bgColor: Record<string, string> = {
+        "normal": "bg-[var(--background-Secondary)] ",
+        "error": "bg-[var(--bg-error)] ",
+        "warning": "bg-[var(--bg-warning)] border border-[var(--border-warning)]",
+    };
 
     const animation: Record<string, string> = {
         "top": "animate-slideUp",
@@ -44,9 +49,9 @@ const Tooltip: React.FC<TooltipProps> = ({ text, position = "top" }) => {
 
     return (
         <div className={`absolute ${positions[position]} ${animation[position]} hidden group-hover:flex flex-col items-center z-50`}>
-            <div className="relative bg-black text-white text-xs rounded-lg px-3 py-1 shadow-lg whitespace-nowrap">
+            <div className={`relative  text-white text-xs rounded-lg px-3 py-1 shadow-lg whitespace-nowrap ${bgColor[messageType]}`}>
                 {text}
-                <div className={`absolute w-2 h-2 bg-black ${arrowPositions[position]}`}></div>
+                <div className={`absolute w-2 h-2 ${bgColor[messageType]} ${arrowPositions[position]}`}></div>
             </div>
         </div>
     );

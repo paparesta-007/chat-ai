@@ -1,16 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {useState} from 'react';
-import availableModels from '../../data/avaibleModels.js';
 import Tooltip from "../../Components/Tooltip.tsx";
 import Select from "../../Components/Select.js";
+import getAllModels from '../../services/ai-models/getAllModels.js';
+import { Lightbulb, LightbulbIcon, TestTubeIcon } from '@phosphor-icons/react';
+import { TestTube } from 'lucide-react';
+
 
 const TextBar = ({handleSend, setPrompt, isAnswering, prompt, setModel}) => {
-    const [selectedModel, setSelectedModel] = useState(availableModels[2]?.id);
+    const [selectedModel, setSelectedModel] = useState([]);
+    const [availableModels, setAvailableModels] = useState([]);
     const onKeyDown = (e) => {
         if (e.key === "Enter" && !isAnswering) {
             handleSend();
         }
     };
+    useEffect(() => {
+        const fetchModels= async () => {
+            let models=await getAllModels();
+            if(models && models.length>0){
+                console.log("Fetched models:", models);
+                setAvailableModels(models);
+                setSelectedModel(models[0].name);
+            }
+            
+        }
+        fetchModels();
+    }, [])
     const handleModelChange = (selectedName) => {
         setSelectedModel(selectedName); 
         const model = availableModels.find((m) => m.name === selectedName);
@@ -23,6 +39,7 @@ const TextBar = ({handleSend, setPrompt, isAnswering, prompt, setModel}) => {
     return (
         <div className="flex flex-col  shadow-2xl 950 border mt-2 mb-2 border-[var(--border-secondary)] items-center  p-2
              justify-center bg-[var(--background-Secondary)] md:w-[600px] w-[90%] rounded-2xl">
+
             <div className="flex w-full">
                 <input
                     type="text"
@@ -72,7 +89,7 @@ const TextBar = ({handleSend, setPrompt, isAnswering, prompt, setModel}) => {
                             d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
                     </svg>
                 </button>
-                <Select options={availableModels.map((model) => model.name)} value={selectedModel} onChange={handleModelChange}/>
+                <Select options={availableModels} value={selectedModel} onChange={handleModelChange}/>
             </div>
         </div>
     )
