@@ -29,3 +29,12 @@ export interface ButtonOption {
     Kbd: string;
     onClick?: () => void; // opzionale
 }
+export interface Model{
+    name: string;
+    available: boolean;
+    provider?: string;
+    version?: string;
+    maxContextTokens?: number;
+    costPerInputToken?: number;
+    costPerOutputToken?: number;
+}

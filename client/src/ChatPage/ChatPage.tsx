@@ -8,7 +8,6 @@ import createMessage from "../services/conversations/createMessage.js";
 import createConversation from "../services/conversations/createConversation.js";
 import getMessages from "../services/conversations/getMessages.js";
 import LandingChat from "./LandingChat/LandingChat.js";
-import avaibleModels from "../data/avaibleModels.js";
 import { useNavigate, useParams } from "react-router-dom";
 import Tooltip from "../Components/Tooltip";
 import PlanPopUp from "./PlanPopUp/PlanPopUp.jsx";
@@ -16,11 +15,12 @@ import { Menu, Star, Ellipsis, SunMedium, Moon } from "lucide-react";
 import getAllConversations from "../services/conversations/getConversations.js";
 import getUserPreferences from "../services/userSettings/getUserPreferences.js";
 import favouriteConversation from "../services/conversations/favouriteConversation";
-import { Message, Conversation, Style } from "../types/types.js";
+import { Message, Conversation, Style, Model } from "../types/types.js";
 import ConversationOption from "./ConversationOption/ConversationOption";
 import SkeletonConversation from "../Components/Skeleton";
 
 import { convertLatexInMarkdown, cleanLatexText } from "../utils/convertLatexInMarkdown";
+import getAllModels from "../services/ai-models/getAllModels";
 
 
 
@@ -33,8 +33,8 @@ function ChatPage() {
     const [conversation_id, setConversation_id] = useState<string>("");
     const messagesEndRef = useRef(null);
     const [isAnswering, setIsAnswering] = useState(false);
-
-    const [model, setModel] = useState(avaibleModels[2]);
+    const [avaibleModels, setAvaibleModels] = useState<Model[]>([]);
+    const [model, setModel] = useState<Model | null>(null);
     const [isUpgradeToProPopUpOpen, setIsUpgradeToProPopUpOpen] = useState<boolean>(false);
     const navigate = useNavigate();
     const [isMinimized, setIsMinimized] = useState<boolean>(false);
@@ -56,8 +56,17 @@ function ChatPage() {
     useEffect(() => {
         getUser();
         fetchConversations();
+        fetchModels();
     }, []);
 
+    const fetchModels = async () => {
+        let models = await getAllModels();
+        if (models && models.length > 0) {
+            console.log("Fetched models:", models);
+            setAvaibleModels(models);
+            setModel(models[0]); 
+        }
+    }
 
     const fetchConversations: () => Promise<void> = async () => {
         const { data: { session } } = await supabase.auth.getSession();
@@ -202,7 +211,7 @@ function ChatPage() {
     const handleSend = async () => {
         if (!prompt || !prompt.trim()) return;
 
-        if (model.id === avaibleModels[0].id) {
+        if (model?.name === "gemini-2.5-pro") {
             setIsUpgradeToProPopUpOpen(true);
             return;
         }
@@ -213,7 +222,7 @@ function ChatPage() {
 
                 const titlePrompt = `Write a short title 4-8 word about, return 1 concise phrase, avoid markdown styling : ${prompt}`;
 
-                const rawTitle: string = await runChat(titlePrompt, model.id);
+                const rawTitle: string = await runChat(titlePrompt, model?.name);
                 const chatTitle: string = safeToString(rawTitle);
                 const conversation: any = await createConversation(user_id, chatTitle);
                 convId = conversation?.[0]?.id ?? conversation?.id;
@@ -249,7 +258,7 @@ function ChatPage() {
             setIsAnswering(true);
             const history = toGeminiHistory(messages);
             const rawReply = await runChat("You are an helpful assistant, avoid svg, return content in markdown styled with header, bullet list, list, tables if needed prompt:"
-                + prompt, model.id, history);
+                + prompt, model?.name, history);
 
             const reply = safeToString(rawReply);
 

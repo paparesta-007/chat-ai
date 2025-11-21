@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import supabase from '../../library/supabaseclient';
 import getAllProviders from '../../services/apiProviders/getAllProvider.js'
 import TableApiIntegration from './TableApiIntegration';
+import { ArrowLeftIcon } from '@phosphor-icons/react/dist/ssr';
 const ApiIntegration = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [user_id, setUser_id] = useState<string | null>(null);

@@ -7,6 +7,7 @@ import supabase from '../../library/supabaseclient';
 import getSingleProvider from '../../services/apiProviders/getSingleProvider.js';
 import insertSingleProvider from '../../services/apiProviders/insertSingleProvider';
 import editSingleProvider from '../../services/apiProviders/editSingleProvider';
+import GoBack from '../../Components/GoBack';
 const ProviderModal = () => {
     const { providerName } = useParams();
     const [selectedTab, setSelectedTab] = useState<'overview' | 'add-integration'>('overview');
@@ -79,6 +80,7 @@ const ProviderModal = () => {
 
     return (
         <div className='flex flex-col gap-4 text-[var(--color-primary)]'>
+            <GoBack />
             <div className='flex items-center gap-2'>
                 <img src={`/img/providers/${provider.img}`}
                     className='rounded-md'
